@@ -19,7 +19,7 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
 
-export PATH="$HOME/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.emacs.d/bin"
+export PATH="$HOME/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.emacs.d/bin:/home/$USER/.local/bin/"
 
 export WORKSPACE="$HOME/workspace"
 export RISCV_PATH="/opt/riscv/"
@@ -132,3 +132,20 @@ fi
 
 # Disabling automatic widget re-binding
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+vv() {
+    findOutput=$(find . | ag -v '(vendor|node_modules|phpintel|debugbar|cache|.git/)' | peco)
+
+    if [ ! -z "$findOutput" ]
+    then
+        echo $findOutput
+        nvim $findOutput
+    fi
+}
+
+watch() {
+    echo "---- Running watch ----"
+    echo "Path to monitor '$0' \nCommand to run '$2'"
+    find . $0 2> /dev/null | grep -v '^.$' | entr sh -c $2
+}
+

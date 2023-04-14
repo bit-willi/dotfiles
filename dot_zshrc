@@ -1,5 +1,12 @@
 #!/usr/bin/env zsh
 
+ZSH_THEME="robbyrussell"
+
+plugins=(
+    git
+    zsh-autosuggestions
+)
+
 if [[ "$ZPROF" = true ]]; then
         zmodload zsh/zprof
 fi
@@ -53,3 +60,16 @@ fi
 # see: TRAMP does not connect to the remote host at
 # https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
+# initialise completions with ZSH's compinit
+autoload -Uz compinit
+compinit
+
+# opam configuration
+[[ ! -r /home/willian/.opam/opam-init/init.zsh ]] || source /home/willian/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# asdf configuration
+. /opt/asdf-vm/asdf.sh
+
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)

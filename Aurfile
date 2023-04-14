@@ -1,8 +1,6 @@
-antibody
 gruvbox-dark-gtk
 gruvbox-icon-theme
 gtk-theme-arc-gruvbox-git
-neovim-git
 numix-cursor-theme
 numix-icon-theme-git
 otf-inconsolata-dz
@@ -22,8 +20,11 @@ i3-autodisplay
 docker-rootless-extras-bin
 spotify
 mermaid-cli
-nerd-fonts-hack
 bitwarden-rofi-git
 nsxiv
-telegram-desktop-bin
 nordvpn-bin
+google-chrome
+asdf-vm
+visual-studio-code-insiders-bin
+displaylink
+bat

@@ -13,7 +13,7 @@ ifeq ($(host),Darwin)
 else
 	is_linux = 1
 
-	ifeq ($(command -v paru 2>),"/usr/local/bin/paru"))
+	ifeq ($(shell command -v paru 2> /dev/null),)
 		paru_installed := $(shell command -v paru 2> /dev/null)
 	else
 		paru_installed = 0

@@ -29,10 +29,10 @@ endif
 
 configure-linux:
 	@echo "Updating pacman.conf.."
-	sudo sed -i '/Color$/s/^#//g' /etc/pacman.conf
-	sudo sed -i '/TotalDownload$/s/^#//g' /etc/pacman.conf
-	sudo sed -i '/CheckSpace$/s/^#//g' /etc/pacman.conf
-	sudo sed -i '/VerbosePkgLists$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/Color$$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/TotalDownload$$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/CheckSpace$$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/VerbosePkgLists$$/s/^#//g' /etc/pacman.conf
 	sudo sed -i '/^#\[multilib\]/{N;s/#//g}' /etc/pacman.conf
 
 	@echo "Enable timedatectl and set up timezone"
@@ -42,7 +42,7 @@ configure-linux:
 	sudo ln -sf /usr/share/zoneinfo/Ameriaca/Sao_Paulo /etc/localtime
 
 	@echo "Setup locale"
-	sudo sed -i '/en_US.UTF-8$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/en_US.UTF-8$$/s/^#//g' /etc/pacman.conf
 	sudo locale-gen
 
 	@echo "Enable non-root access to dmesg"
@@ -52,7 +52,7 @@ configure-linux:
 	@echo "Updating geoclue.conf.."
 	redshift_line="\n[redshift]\nallowed=true\nsystem=false\nusers=\n"
 
-	grep -qF "[redshift]" "/etc/geoclue/geoclue.conf" || echo -e "$redshift_line" | sudo tee -a "/etc/geoclue/geoclue.conf"
+	grep -qF "[redshift]" "/etc/geoclue/geoclue.conf" || echo -e "$(redshift_line)" | sudo tee -a "/etc/geoclue/geoclue.conf"
 
 	@echo "Importing Spotify GPG key"
 	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -

@@ -21,5 +21,10 @@ if [[ -d "/Library/TeX/texbin" ]]; then
 	export PATH="$PATH:/Library/TeX/texbin"
 fi
 
+if (( $+commands[gcloud] )); then
+	source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+	source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+fi
+
 # completions
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"

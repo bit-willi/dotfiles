@@ -1,0 +1,61 @@
+{
+    "intelephense.format.enable": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+      "php"
+    ],
+    "languageserver": {
+        "ocaml-lsp": {
+            "command": "opam",
+            "args": ["config", "exec", "--", "ocamllsp"],
+            "filetypes": ["ocaml", "reason"]
+        },
+        "vhdltool": {
+            "command": "vhdl-tool",
+            "args": ["lsp"],
+            "filetypes": ["vhdl", "vdl"]
+        }
+    },
+    "python.analysis.stubPath": "/home/willian/Documents/Univali/digital_image_processign/2023-03-20/typings",
+    "diagnostic.virtualText": true,
+    "diagnostic.virtualTextCurrentLineOnly": false,
+    "cSpell.enabledLanguageIds": [
+      "asciidoc",
+      "c",
+      "cpp",
+      "csharp",
+      "css",
+      "en-us",
+      "en_us",
+      "git-commit",
+      "gitcommit",
+      "go",
+      "handlebars",
+      "haskell",
+      "html",
+      "jade",
+      "java",
+      "javascript",
+      "javascriptreact",
+      "json",
+      "jsonc",
+      "latex",
+      "less",
+      "markdown",
+      "php",
+      "plaintext",
+      "pt-br",
+      "pug",
+      "python",
+      "restructuredtext",
+      "rust",
+      "scala",
+      "scss",
+      "text",
+      "typescript",
+      "typescriptreact",
+      "vim",
+      "yaml",
+      "yml"
+    ]
+}
+

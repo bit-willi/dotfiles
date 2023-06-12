@@ -21,6 +21,7 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'kamailio/vim-kamailio-syntax'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'vim-vdebug/vdebug'
 Plug 'terroo/vim-auto-markdown'
@@ -35,8 +36,20 @@ Plug 'scrooloose/nerdcommenter' "commenter <++>
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug 'pappasam/papercolor-theme-slim'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'wakatime/vim-wakatime'
+Plug 'chriskempson/base16-vim'
+Plug 'ThePrimeagen/harpoon'
+Plug 'ThePrimeagen/vim-be-good'
+
+"Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'pappasam/papercolor-theme-slim'
+"Plug 'jwalton512/vim-blade'
+"Plug 'itchyny/lightline.vim'
+"Plug 'craigemery/vim-autotag'
+"Plug 'kebook-programacao-2/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+"Plug 'jvanja/vim-bootstrap3-snippets'
+"Plug 'jiangmiao/auto-pairs'
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -60,15 +73,14 @@ call plug#end()
 
 " Auto switch theme based on gnome color scheme
 let gnome_theme = system('gsettings get org.gnome.desktop.interface color-scheme')
+let base16colorspace=256 " Access colors present in 256 colorspace
 
 if stridx(gnome_theme, 'default') != -1
     set background=light
-    colorscheme PaperColorSlim
+    colorscheme base16-github
 else
-    "'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
-    let g:material_theme_style = 'darker'
-    let g:material_terminal_italics = 1
-    colorscheme material
+    set background=dark
+    colorscheme base16-material
 end
 
 let g:blamer_enabled = 1 " enable git blame
@@ -125,23 +137,21 @@ let g:coc_global_extensions = [
   "\ 'coc-spell-checker',
   \ ]
 
-" ================ Extra ===============
 
-" CocConfig:
-"{
-"    "languageserver": {
-"        "ocaml-lsp": {
-"            "command": "opam",
-"            "args": ["config", "exec", "--", "ocamllsp"],
-"            "filetypes": ["ocaml", "reason"]
-"        }
-"    },
-"    "diagnostic.virtualText": true,
-"    "diagnostic.virtualTextCurrentLineOnly": false
-"}
+" Harpoon
+"Mark file
+nnoremap <silent> <space>ha :<C-u>lua require("harpoon.mark").add_file()<cr>
+"Show file picker
+nnoremap <silent> <space>hh :<C-u>lua require("harpoon.ui").toggle_quick_menu()<cr>
+"Mark file
+nnoremap <silent> <space>hd :<C-u>lua require("harpoon.mark").rm_file()<cr>
+
+" ================ Extra ===============
 
 lua << EOF
 require('telescope').setup{
   file_ignore_patterns = { "^./.git/", "^node_modules/", "^vendor/" }
 }
+require("telescope").load_extension('harpoon')
 EOF
+

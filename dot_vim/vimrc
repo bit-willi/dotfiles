@@ -111,9 +111,9 @@ set wig+=.sass-cache,tmp
 set wildmode=longest:full,list:full
 
 " appearance
-colorscheme base16-gruvbox-dark-hard
-let base16colorspace=256 " Access colors present in 256 colorspace
-set background=dark
+"colorscheme base16-gruvbox-dark-hard
+"let base16colorspace=256 " Access colors present in 256 colorspace
+"set background=dark
 
 " statusline config from -> http://stackoverflow.com/a/5380230/6744969
 hi User1 ctermfg=16 ctermbg=234

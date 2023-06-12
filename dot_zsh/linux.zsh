@@ -2,6 +2,7 @@
 
 # fzf
 source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
 
 # wakatime
 export ZSH_WAKATIME_BIN="/usr/bin/wakatime"
@@ -16,4 +17,7 @@ export DEBUGINFOD_URLS="https://debuginfod.elfutils.org"
 export $(dbus-launch)
 
 # dpi
-export GDK_SCALE=2
+# export GDK_SCALE=2
+
+# alacritty
+export VBLANK_MODE=1

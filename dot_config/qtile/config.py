@@ -67,7 +67,7 @@ keys = [
     Key(
         [mod, "control"],
         "x",
-        lazy.spawn(f"sh {personal_bin}/lock.sh"),
+        lazy.spawn(f"sh {personal_bin}/lock"),
         desc="Lock screen",
     ),
     Key([mod], "d", lazy.spawn(f"rofi -show run"), desc="Spawn rofi launcher"),
@@ -99,8 +99,8 @@ groups = [
             "1",
             {
                 "layout": "max",
-                "spawn": ("google-chrome-stable",),
-                "matches": [Match(wm_class=["google-chrome"])],
+                "spawn": ("vivaldi-stable",),
+                "matches": [Match(wm_class=["vivaldi-stable"])],
             },
         ),
         (

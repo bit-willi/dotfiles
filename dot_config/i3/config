@@ -106,6 +106,12 @@ bindsym $mod+Shift+minus move scratchpad
 # show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
+# lock screen
+bindsym $mod+Ctrl+l exec i3lock
+
+# print screen
+bindsym Print exec flameshot gui
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -125,6 +131,21 @@ mode "resize" {
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
+
+# Arrow mode
+mode "arrow" {
+        # vim keybindings (hjkl = left, down, up, right)
+        bindsym --release h exec xdotool key --clearmodifiers Left
+        bindsym --release j exec xdotool key --clearmodifiers Down
+        bindsym --release k exec xdotool key --clearmodifiers Up
+        bindsym --release l exec xdotool key --clearmodifiers Right
+
+        # back to normal: Escape
+        bindsym Escape mode "default"
+        bindsym $mod+a mode "default"
+}
+
+bindsym --release $mod+a mode "arrow"
 
 # pulse
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +10%

@@ -118,7 +118,7 @@
    org-log-done 'time
    org-clock-persist 'history
    org-directory "~/workspace/org"
-   org-archive-location "archives/%s_archive::"
+   org-archive-location ".archives/%s_archive::"
    org-agenda-files (list org-directory)
    org-log-into-drawer t
    org-agenda-inhibit-startup t
@@ -238,7 +238,13 @@
           (org-roam-capture-templates
            (list (append (car org-roam-capture-templates)
                          '(:immediate-finish t)))))
-      (apply #'org-roam-node-insert args))))
+      (apply #'org-roam-node-insert args)))
+  (setq org-roam-dailies-directory "../journal/")
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+TITLE: %<%Y-%m-%d>\n")))))
 
 (after! (:or org org-roam)
   :defer t
@@ -253,6 +259,11 @@
       (with-current-buffer (find-file f)
         (when (s-contains? "SETUPFILE" (buffer-string))
           (org-hugo-export-wim-to-md)))))
+
+  (setq org-hugo-external-file-extensions-allowed-for-copying
+        '("jpg" "jpeg" "tiff" "png" "svg" "gif"
+          "mp4" "pdf" "odt" "doc" "ppt" "xls"
+          "docx" "pptx" "xlsx" "zip"))
 
   (remove-hook! 'find-file-hook #'+org-roam-open-buffer-maybe-h))
 

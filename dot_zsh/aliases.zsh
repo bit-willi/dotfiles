@@ -8,9 +8,13 @@ alias fucking='sudo'
 alias vi="vim"
 alias pip-all="pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U"
 alias lessf="less +F"
+alias at="tmux a -t 0"
+alias r="ranger"
+alias ls="exa"
+alias ll="exa -l --icons"
 alias cat="bat"
+alias bat="cat"
 alias network="bandwhich"
-alias yay="paru"
 alias ll="exa -l --icons"
 alias vhistory="history | peco"
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
@@ -28,6 +32,8 @@ alias mkdir-date='mkdir $(date +"%Y-%m-%d")'
 alias touch-date='touch $(date +"%Y-%m-%d").txt'
 alias c='clear'
 alias ocaml='rlwrap ocaml'
+alias bw-login='export BW_SESSION=$(bw unlock --raw); bw sync'
+alias \?='tldr'
 #alias tmux="TERM=xterm-256color tmux"
 
 alias c=clear

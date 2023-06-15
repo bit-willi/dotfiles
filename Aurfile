@@ -1,3 +1,4 @@
+antibody-bin
 gruvbox-dark-gtk
 gruvbox-icon-theme
 gtk-theme-arc-gruvbox-git
@@ -35,3 +36,4 @@ ttf-intel-one-mono
 fzf
 nmon
 ranger
+gitmux

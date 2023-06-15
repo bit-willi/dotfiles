@@ -267,19 +267,6 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-" Auto switch theme based on gnome color scheme
-let gnome_theme = system('gsettings get org.gnome.desktop.interface color-scheme')
-
-if stridx(gnome_theme, 'default') != -2
-    set background=light
-    colorscheme PaperColorSlim
-else
-    "'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
-    let g:material_theme_style = 'darker'
-    let g:material_terminal_italics = 0
-    colorscheme material
-end
-
 let g:blamer_enabled = 0 " enable git blame
 
 " Fuzzy configuration
@@ -343,22 +330,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-" ================ Extra ===============
-
-" CocConfig:
-"{
-"    "languageserver": {
-"        "ocaml-lsp": {
-"            "command": "opam",
-"            "args": ["config", "exec", "--", "ocamllsp"],
-"            "filetypes": ["ocaml", "reason"]
-"        }
-"    },
-"    "diagnostic.virtualText": true,
-"    "diagnostic.virtualTextCurrentLineOnly": false
-"}
-
-" ================ Keybindind and shortcuts ===============
+" ================ Keybindind and shortcuts ===============vimr
 
 if $XDG_SESSION_TYPE == 'x11'
     " Copy to clipboard x11
@@ -391,7 +363,7 @@ nnoremap <S-A-j> :<C-u>silent! move+<CR>==
 xnoremap <S-A-j> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
 nnoremap <C-b> :NERDTreeToggle<cr>
-nnoremap <c-p> :Files<cr>
+nnoremap <c-p> <cmd>Telescope live_grep<cr>
 nnoremap <s-m-p> :GFiles<cr>
 nnoremap <silent> <S-Tab> :call <SID>show_documentation()<cr>
 nnoremap <silent> <Esc><Esc> :noh<cr> :call clearmatches()<cr>

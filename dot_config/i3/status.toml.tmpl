@@ -1,21 +1,36 @@
+[[themes]]
 theme = "semi-native"
-icons = "awesome"
+
+#[[icons]]
+# icons = "awesome"
 
 [[block]]
 block = "disk_space"
 path = "/"
-alias = "/"
 info_type = "available"
-unit = "GB"
 interval = 20
 warning = 20.0
 alert = 10.0
+format = " $icon ROOT $available "
+format_alt = " $icon ROOT $available / $total "
+
+[[block]]
+block = "disk_space"
+path = "/home"
+info_type = "available"
+interval = 20
+warning = 20.0
+alert = 10.0
+format = " $icon HOME $available "
+format_alt = " $icon HOME $available / $total "
 
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "{mem_used}/{mem_total}({mem_used_percents})"
-format_swap = "{swap_used}/{swap_total}({swap_used_percents})"
+format = " $icon $mem_free.eng(w:3,u:B,p:M)/$mem_total.eng(w:3,u:B,p:M)($mem_used_percents.eng(w:2)) "
+format_alt = " $icon_swap $swap_free.eng(w:3,u:B,p:M)/$swap_total.eng(w:3,u:B,p:M)($swap_used_percents.eng(w:2)) "
+interval = 30
+warning_mem = 70
+critical_mem = 90
 
 [[block]]
 block = "cpu"
@@ -23,25 +38,15 @@ interval = 1
 
 [[block]]
 block = "load"
+format = " $icon $1m.eng(w:4) "
 interval = 1
-format = "{1m}"
 
 [[block]]
 block = "temperature"
-collapsed = false
+format = " $icon $max max "
+format_alt = " $icon $min min, $max max, $average avg "
 interval = 10
-format = "{min} min, {max} max, {average} avg"
 chip = "*-isa-*"
-driver = "sensors"
-
-[[block]]
-block = "docker"
-interval = 2
-format = "{running}/{total}"
-{{- if ne .chezmoi.os "darwin" }}
-socket_path = "/run/user/1000/docker.sock"
-{{- end }}
-
 
 [[block]]
 block = "sound"
@@ -49,22 +54,13 @@ block = "sound"
 [[block]]
 block = "backlight"
 
-[[block]]
-block = "github"
-
-[[block]]
-block = "maildir"
-interval = 60
-inboxes = ["/home/{{ .maildir }}/personal", "{{ .maildir}}/personal/inbox"]
-threshold_warning = 1
-threshold_critical = 10
-display_type = "new"
-
-[[block]]
-block = "battery"
-format = "{percentage} {time}"
+#[[block]]
+#block = "battery"
+#format = "{percentage} {time}"
 
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d/%m %R"
+[block.format]
+full = " $icon $timestamp.datetime(f:'%a %d/%m %R')"
+short = " $icon $timestamp.datetime(f:%R)"

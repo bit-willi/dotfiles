@@ -13,10 +13,10 @@ ifeq ($(host),Darwin)
 else
 	is_linux = 1
 
-	ifeq ($(shell command -v paru 2> /dev/null),)
-		paru_installed := $(shell command -v paru 2> /dev/null)
+	ifeq ($(shell command -v yay 2> /dev/null),)
+		yay_installed := $(shell command -v yay 2> /dev/null)
 	else
-		paru_installed = 0
+		yay_installed = 0
 	endif
 endif
 
@@ -66,7 +66,7 @@ configure-linux:
 
 	chaoticaur_lines="\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist"
 	grep -qF "[chaotic-aur]" "/etc/pacman.conf" \
-		|| echo -e "$chaoticaur_lines" | sudo tee -a "/etc/pacman.conf"
+		|| echo -e "$\chaoticaur_lines" | sudo tee -a "/etc/pacman.conf"
 
 configure-osx:
 	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -181,12 +181,12 @@ install-extra-dependencies:
 	if [[ $(is_linux) -eq 1 ]]; then \
 		sudo pacman -Syyu; \
 		sudo pacman -S --noconfirm --needed - <"$(PACMAN_BUNDLE_FILE)"; \
-		if [ $(paru_installed) -eq 0 ]; then \
-			git clone https://aur.archlinux.org/paru.git /tmp/paru; \
-			(cd /tmp/paru && makepkg -si --noconfirm --needed && rm -rf /tmp/paru); \
-			paru -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
+		if [ $(yay_installed) -eq 0 ]; then \
+			git clone https://aur.archlinux.org/yay.git /tmp/yay; \
+			(cd /tmp/yay && makepkg -si --noconfirm --needed && rm -rf /tmp/yay); \
+			yay -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
 		else \
-			paru -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
+			yay -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
 		fi; \
 	else \
                 brew update; \
@@ -195,9 +195,9 @@ install-extra-dependencies:
 
 install-required-dependencies:
 	if [[ $(is_linux) -eq 1 ]]; then \
-		sudo pacman -S chezmoi bitwarden-cli; \
+		sudo pacman -S chezmoi bitwarden-cli geoclue; \
 	else \
-		brew install chezmoi bitwarden-cli; \
+		brew install chezmoi bitwarden-cli geoclue; \
 	fi
 
 fix-permissions:

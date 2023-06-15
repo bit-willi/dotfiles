@@ -4,11 +4,11 @@
 
 set $mod Mod4
 
-font pango:Hack 7
+font pango:Hack 9
 
 floating_modifier $mod
 
-bindsym $mod+Return exec --no-startup-id $HOME/.bin/open-terminal.sh
+bindsym $mod+Return exec --no-startup-id $HOME/.bin/terminal
 #bindsym $mod+Return exec alacritty
 
 # kill focused window
@@ -158,7 +158,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id /usr/bin/xbacklight -inc 15
 
 bindsym $mod+r mode "resize"
 
-bindsym $mod+Shift+x exec ~/.bin/lock.sh
+bindsym $mod+Shift+x exec ~/.bin/lock
 bindsym $mod+F10 exec --no-startup-id /usr/bin/xfce4-screenshooter
 
 # Set gruvbox colorscheme
@@ -323,7 +323,7 @@ exec --no-startuo-is xinput set-prop "SYNA7DB5:01 06CB:CD41 Touchpad" "libinput 
 exec --no-startuo-is xrandr --output HDMI-1 --auto --right-of eDP-1
 
 bar {
-    font pango:Hack, FontAwesome 6
+    font pango:Hack, FontAwesome 7
     position top
     mode dock
     #status_command i3status

@@ -15,10 +15,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         bin=$(brew --prefix)/bin
 fi
 
-if [[ -x "$(command -v nvim)" ]]; then
-        export EDITOR=$bin/nvim
-fi
-
 if [[ -x "$(command -v emacs)" ]]; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
                 is_running="$(pgrep -x Emacs)"
@@ -31,6 +27,10 @@ if [[ -x "$(command -v emacs)" ]]; then
                 echo "Starting emacs daemon.."
                 $bin/emacs --daemon 2>/dev/null
         fi
+fi
+
+if [[ -x "$(command -v nvim)" ]]; then
+        export EDITOR=$bin/nvim
 fi
 
 eval $EDITOR '$@'

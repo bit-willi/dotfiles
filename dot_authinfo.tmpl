@@ -6,4 +6,3 @@ machine codestats.net password {{ (bitwarden "item" .bitwarden.codestats_api_key
 {{ else -}}
 machine codestats.net password {{ (bitwarden "item" .bitwarden.codestats_api_key_linux).login.password }}
 {{ end -}}
-machine {{ (index (bitwarden "item" .bitwarden.liberachat).login.uris 0).uri }} login seds password {{ (bitwarden "item" .bitwarden.liberachat).login.password }} port 6697

@@ -20,10 +20,10 @@ bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
 bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -32,10 +32,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
+bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-bindsym $mod+Shift+h move left
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -44,7 +44,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -315,12 +315,12 @@ mode "$mode_gaps_left" {
 exec_always --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec_always --no-startup-id exec feh --bg-scale --randomize ~/workspace/wallpapers/*.png
 exec --no-startup-id flameshot
-exec --no-startup-is nm-applet
+exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-is setxkbmap -layout us -variant intl
-exec --no-startuo-is xinput set-prop "SYNA7DB5:01 06CB:CD41 Touchpad" "libinput Tapping Enabled" 1
-exec --no-startuo-is xinput set-prop "SYNA7DB5:01 06CB:CD41 Touchpad" "libinput Natural Scrolling Enabled" 1
-exec --no-startuo-is xrandr --output HDMI-1 --auto --right-of eDP-1
+exec --no-startup-id setxkbmap -layout us -variant intl
+exec --no-startuo-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
+exec --no-startuo-is xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
+exec --no-startuo-id xrandr --output HDMI-1 --auto --right-of eDP-1
 
 bar {
     font pango:Hack, FontAwesome 7

@@ -144,6 +144,7 @@ HEROKU_AC_ZSH_SETUP_PATH=$HOME/.cache/heroku/autocomplete/zsh_setup &&
 	test -f $HEROKU_AC_ZSH_SETUP_PATH &&
 	source $HEROKU_AC_ZSH_SETUP_PATH
 
+# helper functions
 vv() {
     findOutput=$(find . | ag -v '(vendor|node_modules|phpintel|debugbar|cache|.git/)' | peco)
 
@@ -159,3 +160,16 @@ watch() {
     echo "Path to monitor '$0' \nCommand to run '$2'"
     find . $0 2> /dev/null | grep -v '^.$' | entr sh -c $2
 }
+
+# initialise completions with ZSH's compinit
+autoload -Uz compinit
+compinit
+
+# opam configuration
+[[ ! -r /home/willian/.opam/opam-init/init.zsh ]] || source /home/willian/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# asdf configuration
+. /opt/asdf-vm/asdf.sh
+
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)

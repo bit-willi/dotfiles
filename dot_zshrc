@@ -55,16 +55,3 @@ fi
 if [[ $TERM == "dumb" ]]; then
         unsetopt zle && PS1='$ ' && return
 fi
-
-# initialise completions with ZSH's compinit
-autoload -Uz compinit
-compinit
-
-# opam configuration
-[[ ! -r /home/willian/.opam/opam-init/init.zsh ]] || source /home/willian/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
-# asdf configuration
-. /opt/asdf-vm/asdf.sh
-
-# append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)

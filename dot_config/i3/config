@@ -107,7 +107,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # lock screen
-bindsym $mod+Ctrl+l exec i3lock
+bindsym $mod+Ctrl+l exec --no-startup-id $HOME/.bin/lock
 
 # print screen
 bindsym Print exec flameshot gui

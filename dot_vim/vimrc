@@ -250,13 +250,9 @@ if has("clipboard")
   endif
 endif
 
-" if $CODESTATS_API_KEY
-"   let g:codestats_api_key = '$CODESTATS_API_KEY'
-" endif
-
 " python 2 and 3 server
 let g:python_host_prog='/usr/bin/python2'
-let g:python3_host_prog='/home/willian/.asdf/shims/python'
+let g:python3_host_prog='/home/willian/.pyenv/shims/python'
 
 " True colors
 if (has('nvim'))
@@ -295,10 +291,10 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " Xdebug
-let g:vdebug_options= {
-\    "port" : 9002,
-\    "ide_key" : 'PHPSTORM',
-\}
+"let g:vdebug_options= {
+"\    "port" : 9002,
+"\    "ide_key" : 'PHPSTORM',
+"\}
 
 " Coc extensions
 let g:coc_global_extensions = [
@@ -350,7 +346,7 @@ else
     nnoremap <silent> <C-v> :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
 endif
 
-map <C-r> :source ~/.vimrc<cr>
+map <C-r> :source ~/.vim/vimrc<cr>
 
 map <C-s> :w<cr>
 map <C-z> :u<cr>
@@ -439,6 +435,28 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<cr>
 nnoremap <silent> <space>p  :<C-u>CocListResume<cr>
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
+"Mark file
+nnoremap <silent> <space>ha :<C-u>lua require("harpoon.mark").add_file()<cr>
+"Show file picker
+nnoremap <silent> <space>hh :<C-u>lua require("harpoon.ui").toggle_quick_menu()<cr>
+"Mark file
+nnoremap <silent> <space>hd :<C-u>lua require("harpoon.mark").rm_file()<cr>
+
+" ================ Plugins configuration  ========================
+
+" Auto switch theme based on gnome color scheme
+let gnome_theme = system('gsettings get org.gnome.desktop.interface color-scheme')
+let base16colorspace=256 " Access colors present in 256 colorspace
+
+if stridx(gnome_theme, 'default') != -1
+    set background=light
+    colorscheme base16-github
+else
+    set background=dark
+    colorscheme base16-material
+end
+
+let g:blamer_enabled = 1 " enable git blame
 
 " ================ Extra ===============
 
@@ -447,5 +465,6 @@ require'lspconfig'.pyright.setup{}
 require('telescope').setup{
   file_ignore_patterns = { "^./.git/", "^node_modules/", "^vendor/" }
 }
+require("telescope").load_extension('harpoon')
 EOF
 

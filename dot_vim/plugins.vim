@@ -36,6 +36,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'chriskempson/base16-vim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'ThePrimeagen/vim-be-good'
+Plug 'ThePrimeagen/refactoring.nvim'
+Plug 'juneedahamed/vc.vim'
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }

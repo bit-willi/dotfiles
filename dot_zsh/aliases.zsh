@@ -34,6 +34,8 @@ alias bw-login='export BW_SESSION=$(bw unlock --raw); bw sync'
 alias \?='tldr'
 alias c=clear
 alias sound='pulsemixer'
+alias resolv-lock='sudo chattr +i /etc/resolv.conf'
+alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
 #alias tmux="TERM=xterm-256color tmux"
 
 # less Colours
@@ -52,7 +54,7 @@ if (( ${+commands[exa]} )); then
     alias ls='exa'
     alias l='ls'
     alias ll='exa -l --icons'
-    alias lll='exa -l --icons | less'
+    alias lll='exa -l | less'
     alias lla='exa -la --icons'
     alias llt='exa -T --icons'
     alias llfu='exa -bghHliS --git'

@@ -364,10 +364,10 @@ nnoremap <c-p> <cmd>Telescope live_grep<cr>
 nnoremap <s-m-p> :GFiles<cr>
 nnoremap <silent> <S-Tab> :call <SID>show_documentation()<cr>
 nnoremap <silent> <Esc><Esc> :noh<cr> :call clearmatches()<cr>
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -376,10 +376,6 @@ inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 inoremap <silent><expr> <c-space> coc#refresh()
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
 nmap <silent> <C-]> <Plug>(coc-definition)
 nmap <silent> <C-LeftMouse> <Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)

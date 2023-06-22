@@ -252,7 +252,7 @@ endif
 
 " python 2 and 3 server
 let g:python_host_prog='/usr/bin/python2'
-let g:python3_host_prog='/home/willian/.pyenv/shims/python'
+let g:python3_host_prog='/home/willian/.pyenv/shims/python3'
 
 " True colors
 if (has('nvim'))

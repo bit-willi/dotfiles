@@ -18,7 +18,7 @@ neomutt
 msmtp
 tmuxinator
 i3-autodisplay
-docker-rootless-extras-bin
+docker-rootless-extras
 spotify
 mermaid-cli
 nerd-fonts-hack

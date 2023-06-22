@@ -110,11 +110,6 @@ set wig+=*.o,*.obj,*.pyc
 set wig+=.sass-cache,tmp
 set wildmode=longest:full,list:full
 
-" appearance
-"colorscheme base16-gruvbox-dark-hard
-"let base16colorspace=256 " Access colors present in 256 colorspace
-"set background=dark
-
 " statusline config from -> http://stackoverflow.com/a/5380230/6744969
 hi User1 ctermfg=16 ctermbg=234
 hi User2 ctermfg=196 ctermbg=234
@@ -450,7 +445,7 @@ if stridx(gnome_theme, 'default') != -1
     colorscheme base16-github
 else
     set background=dark
-    colorscheme base16-material
+    colorscheme base16-gruvbox-dark-hard
 end
 
 let g:blamer_enabled = 1 " enable git blame

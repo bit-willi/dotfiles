@@ -38,6 +38,7 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'ThePrimeagen/refactoring.nvim'
 Plug 'juneedahamed/vc.vim'
+Plug 'rust-lang/rust.vim'
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }

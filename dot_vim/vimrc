@@ -312,6 +312,7 @@ let g:coc_global_extensions = [
   \ 'coc-calc',
   \ 'coc-elixir',
   \ 'coc-pyright',
+  \ 'coc-rust-analyzer',
   "\ 'coc-ltex',
   "\ 'coc-reason',
   "\ 'coc-spell-checker',

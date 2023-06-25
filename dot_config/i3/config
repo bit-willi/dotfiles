@@ -313,7 +313,7 @@ mode "$mode_gaps_left" {
 
 # autostarts
 exec_always --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
-exec_always --no-startup-id exec feh --bg-scale --randomize ~/workspace/wallpapers/*.png
+exec_always --no-startup-id exec /usr/bin/watch -n 500 feh --randomize --bg-fill ~/Pictures/wallpapers  &>/dev/null
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3

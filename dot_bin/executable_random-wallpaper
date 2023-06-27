@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+PIDS=`pidof /usr/bin/watch`
+
+if [ "$PIDS" != "" ]
+then
+    kill -s HUP $(pidof /usr/bin/watch)
+fi
+
+/usr/bin/watch -n 120 feh --randomize --bg-fill ~/Pictures/wallpapers >/dev/null &

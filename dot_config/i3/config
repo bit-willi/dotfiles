@@ -313,14 +313,17 @@ mode "$mode_gaps_left" {
 
 # autostarts
 exec_always --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
-exec_always --no-startup-id exec /usr/bin/watch -n 500 feh --randomize --bg-fill ~/Pictures/wallpapers  &>/dev/null
+exec_always --no-startup-id $HOME/.bin/laptop-configure
+exec_always --no-startup-id $HOME/.bin/random-wallpaper
+exec --no-startup-id picom --config $HOME/.config/picom.conf &
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id setxkbmap -layout us -variant intl
-exec --no-startuo-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
-exec --no-startuo-is xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
-exec --no-startuo-id xrandr --output HDMI-1 --auto --right-of eDP-1
+exec --no-startup-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
+exec --no-startup-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
+exec --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
+
 
 bar {
     font pango:Hack, FontAwesome 7

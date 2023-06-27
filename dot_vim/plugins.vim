@@ -41,14 +41,14 @@ Plug 'juneedahamed/vc.vim'
 Plug 'rust-lang/rust.vim'
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-Plug 'deoplete-plugins/deoplete-lsp'
+"Plug 'deoplete-plugins/deoplete-lsp'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'

@@ -342,7 +342,7 @@ else
     nnoremap <silent> <C-v> :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
 endif
 
-map <C-r> :source ~/.vim/vimrc<cr>
+map <C-S-r> :source ~/.vim/vimrc<cr>
 
 map <C-s> :w<cr>
 map <C-z> :u<cr>

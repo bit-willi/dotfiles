@@ -103,7 +103,6 @@ if has('linebreak')
 endif
 
 " menu compilation
-
 set wildmenu                    " enhanced ed command completion
 set wildignore+=*.~             " ignore compiled objects and backups
 set wig+=*.o,*.obj,*.pyc
@@ -153,6 +152,7 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+" Set custom indent size
 autocmd Filetype javascript setlocal ts=2 sw=2
 autocmd Filetype vue setlocal ts=2 sw=2
 autocmd Filetype yaml setlocal ts=2 sw=2
@@ -164,6 +164,7 @@ autocmd Filetype blade setlocal ts=2 sw=2
 
 " neomake
 let g:neomake_open_list = 2 " open list automatically
+
 " enable linters
 call neomake#configure#automake('w', 500)
 
@@ -205,7 +206,6 @@ let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'python=py', 'c=c'
 
 " used as $x^2$, $$x^2$$, escapable as \$x\$ and \$\$x\$\$
 let g:vim_markdown_math = 1
-
 
 "" Rainbow Parentheses
 let g:rbpt_colorpairs = [
@@ -260,37 +260,6 @@ endif
 
 let g:blamer_enabled = 0 " enable git blame
 
-" Fuzzy configuration
-let g:fzf_preview_window = []
-
-let $FZF_DEFAULT_OPTS="--preview-window 'right:59%' --layout reverse --margin=0,0 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-
-let g:fzf_layout =
-\ { 'window':
-\ { 'width': -1.98, 'height': 0.7, 'yoffset': 0.94, 'border': 'rounded' }
-\ }
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Xdebug
-"let g:vdebug_options= {
-"\    "port" : 9002,
-"\    "ide_key" : 'PHPSTORM',
-"\}
-
 " Coc extensions
 let g:coc_global_extensions = [
   \ 'coc-snippets',
@@ -324,29 +293,26 @@ endfunction
 
 " ================ Keybindind and shortcuts ===============vimr
 
-if $XDG_SESSION_TYPE == 'x11'
-    " Copy to clipboard x11
-    vmap x "+c
-    vmap <C-c> "+y
-    vmap <C-x> "+c
-    vmap <C-v> c<ESC>"+p
-    imap <C-v> <ESC>"+pa
-else
-    " Copy to clipboard wayland
-    nnoremap <C-@> :call system("wl-copy", @")<cr>
-    xnoremap "+y y:call system("wl-copy", @")<cr>
-    nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
-    nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
-    "xnoremap <silent> <C-x> y:call system("wl-copy", @") y:'<,'>d<cr>
-    xnoremap <silent> <C-c> y:call system("wl-copy", @")<cr>
-    nnoremap <silent> <C-v> :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
-endif
+"if $XDG_SESSION_TYPE == 'x11'
+    "" Copy to clipboard x11
+    "vmap x "+c
+    "vmap <C-c> "+y
+    "vmap <C-x> "+c
+    "vmap <C-v> c<ESC>"+p
+    "imap <C-v> <ESC>"+pa
+"else
+    "" Copy to clipboard wayland
+    "nnoremap <C-@> :call system("wl-copy", @")<cr>
+    "xnoremap "+y y:call system("wl-copy", @")<cr>
+    "nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
+    "nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
+    ""xnoremap <silent> <C-x> y:call system("wl-copy", @") y:'<,'>d<cr>
+    "xnoremap <silent> <C-c> y:call system("wl-copy", @")<cr>
+    "nnoremap <silent> <C-v> :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
+"endif
 
 map <C-S-r> :source ~/.vim/vimrc<cr>
 
-map <C-s> :w<cr>
-map <C-z> :u<cr>
-map <C-q> :q<cr>
 
 " Move line Up or Down
 xnoremap <S-A-k>   :<C-u>silent! '<,'>move-2<CR>gv=gv
@@ -354,29 +320,30 @@ nnoremap <S-A-k>   :<C-u>silent! move-2<CR>==
 nnoremap <S-A-j> :<C-u>silent! move+<CR>==
 xnoremap <S-A-j> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
-nnoremap <C-b> :NERDTreeToggle<cr>
-nnoremap <c-p> <cmd>Telescope live_grep<cr>
-nnoremap <s-m-p> :GFiles<cr>
 nnoremap <silent> <S-Tab> :call <SID>show_documentation()<cr>
 nnoremap <silent> <Esc><Esc> :noh<cr> :call clearmatches()<cr>
+
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-inoremap <silent><expr> <c-space> coc#refresh()
+
 nmap <silent> <C-]> <Plug>(coc-definition)
-nmap <silent> <C-LeftMouse> <Plug>(coc-definition)
+
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
 nmap ++ <plug>NERDCommenterToggle
 vmap ++ <plug>NERDCommenterToggle
 
@@ -390,8 +357,6 @@ map tp :tabprevious<cr>
 
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-
-command! -nargs=1 GitFind !git grep -n '<args>'
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
@@ -407,6 +372,12 @@ endif
 nmap <leader>ac  <Plug>(coc-codeaction)
 "Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
+"Mark file
+nnoremap <leader>ha :<C-u>lua require("harpoon.mark").add_file()<cr>
+"Show file picker
+nnoremap <leader>hh :<C-u>lua require("harpoon.ui").toggle_quick_menu()<cr>
+"Mark file
+nnoremap <leader>hd :<C-u>lua require("harpoon.mark").rm_file()<cr>
 "Use K to show documentation in preview window
 nnoremap <silent> K :call  <SID>show_documentation()<cr>
 "Show all diagnostics
@@ -427,14 +398,6 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<cr>
 nnoremap <silent> <space>p  :<C-u>CocListResume<cr>
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
-"Mark file
-nnoremap <silent> <space>ha :<C-u>lua require("harpoon.mark").add_file()<cr>
-"Show file picker
-nnoremap <silent> <space>hh :<C-u>lua require("harpoon.ui").toggle_quick_menu()<cr>
-"Mark file
-nnoremap <silent> <space>hd :<C-u>lua require("harpoon.mark").rm_file()<cr>
-
-" ================ Plugins configuration  ========================
 
 " Auto switch theme based on gnome color scheme
 let gnome_theme = system('gsettings get org.gnome.desktop.interface color-scheme')
@@ -447,8 +410,6 @@ else
     set background=dark
     colorscheme base16-gruvbox-dark-hard
 end
-
-let g:blamer_enabled = 1 " enable git blame
 
 " ================ Extra ===============
 

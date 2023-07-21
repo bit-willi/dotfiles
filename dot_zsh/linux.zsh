@@ -17,7 +17,7 @@ export DEBUGINFOD_URLS="https://debuginfod.elfutils.org"
 export $(dbus-launch)
 
 # dpi
-# export GDK_SCALE=2
+# export GDK_SCALE=1
 
 # alacritty
 export VBLANK_MODE=1

@@ -23,7 +23,7 @@
     horizontal_padding = 16
     frame_width = 0
     offset = "70x120"
-    scale = 3
+    scale = 1
     stack_duplicates = yes
     show_indicators = yes
     icon_position = left

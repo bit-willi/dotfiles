@@ -2,7 +2,7 @@ configuration {
   terminal: "alacritty";
   font: "Hack 15";
   show-icons: true;
-  dpi: 177;
+  dpi: 95;
 
   timeout {
       action: "kb-cancel";

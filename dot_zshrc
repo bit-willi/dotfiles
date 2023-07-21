@@ -31,7 +31,7 @@ source $HOME/.zsh/gpg-agent.zsh
 
 # load base16 themes if on terminal
 if [[ -n $DISPLAY ]]; then
-        # base16 theme
+        #base16 theme
         #base16_gruvbox-dark-hard
 fi
 

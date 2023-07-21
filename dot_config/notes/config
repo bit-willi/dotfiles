@@ -1,4 +1,4 @@
-EDITOR=emacsclient
+EDITOR=nvim
 QUICKNOTE_FORMAT="%Y%m%d"
-NOTES_EXT="org"
-NOTES_DIRECTORY=~/workspace/org/journal
+NOTES_EXT="md"
+NOTES_DIRECTORY=~/.journal

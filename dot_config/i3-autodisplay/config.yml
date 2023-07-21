@@ -3,3 +3,5 @@ displays:
   - name: HDMI-1
     workspaces: [1]
     randr_extra_options: "--right-of eDP-1 --mode 1920x1080"
+  - name: eDP-1
+    workspaces: [0]

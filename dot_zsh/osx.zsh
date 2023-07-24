@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 # homebrew
-export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_VERBOSE_USING_DOTS=1
 
 if [[ $(arch) == 'arm64' ]]; then
@@ -9,6 +8,10 @@ if [[ $(arch) == 'arm64' ]]; then
 	# fzf
 	source /opt/homebrew/Cellar/fzf/*/shell/completion.zsh
 	source /opt/homebrew/Cellar/fzf/*/shell/key-bindings.zsh
+
+	if [[ -d "/opt/homebrew/opt/gnupg@2.2" ]]; then
+		export PATH="$PATH:/opt/homebrew/opt/gnupg@2.2/bin"
+	fi
 else
 	# fzf
 	source /usr/local/opt/fzf/shell/completion.zsh

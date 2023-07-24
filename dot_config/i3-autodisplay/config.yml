@@ -5,10 +5,10 @@ displays:
     workspaces: [1,2,3,4,5,6,7,8,9]
     randr_extra_options: "--right-of eDP-1 --mode 1920x1080"
   - name: eDP-1
-    workspaces: [0]
+    workspaces: [10]
   # Acer laptop
   - name: eDP1
-    workspaces: [0]
+    workspaces: [10]
   - name: HDMI1
     workspaces: [1,2,3,4,5,6,7,8,9]
     randr_extra_options: "--right-of eDP1 --mode 1920x1080"

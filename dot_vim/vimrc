@@ -355,6 +355,9 @@ map tt :tabnew<cr>
 map tn :tabnext<cr>
 map tp :tabprevious<cr>
 
+nnoremap <leader>sv <cmd>:split<cr>
+nnoremap <leader>sh <cmd>:vsplit<cr>
+
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 

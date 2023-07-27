@@ -102,6 +102,9 @@ if has('linebreak')
   endtry
 endif
 
+" disable newtr banner I to tmp enable
+let g:netrw_banner = 0
+
 " menu compilation
 set wildmenu                    " enhanced ed command completion
 set wildignore+=*.~             " ignore compiled objects and backups
@@ -332,6 +335,8 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+nnoremap <leader>fs <cmd>Explore<cr>
 
 inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"

@@ -316,42 +316,50 @@ endfunction
 
 map <C-S-r> :source ~/.vim/vimrc<cr>
 
-
 " Move line Up or Down
 xnoremap <S-A-k>   :<C-u>silent! '<,'>move-2<CR>gv=gv
 nnoremap <S-A-k>   :<C-u>silent! move-2<CR>==
 nnoremap <S-A-j> :<C-u>silent! move+<CR>==
 xnoremap <S-A-j> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
+" Lsp show docs
 nnoremap <silent> <S-Tab> :call <SID>show_documentation()<cr>
 nnoremap <silent> <Esc><Esc> :noh<cr> :call clearmatches()<cr>
 
+" Navigate between panels with C+hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Telescope shortcuts
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" Show newtr
 nnoremap <leader>fs <cmd>Explore<cr>
 
+" Show coc hover doc
 inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
+" Goto definition
 nmap <silent> <C-]> <Plug>(coc-definition)
 
+" Goto shortcuts
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Toogle comments
 nmap ++ <plug>NERDCommenterToggle
 vmap ++ <plug>NERDCommenterToggle
 
+" Tab navigation
 nnoremap <leader>tt :tabnew<cr>
 nnoremap <leader>tn :tabnext<cr>
 nnoremap <leader>tp :tabprevious<cr>
@@ -360,11 +368,16 @@ map tt :tabnew<cr>
 map tn :tabnext<cr>
 map tp :tabprevious<cr>
 
+" Split panel
 nnoremap <leader>sv <cmd>:split<cr>
 nnoremap <leader>sh <cmd>:vsplit<cr>
 
+" Format selected code block
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+
+" Delete without yank
+vmap D "_dd
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')

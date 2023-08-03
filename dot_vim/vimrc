@@ -316,7 +316,6 @@ endfunction
 
 map <C-S-r> :source ~/.vim/vimrc<cr>
 
-
 " Move line Up or Down
 xnoremap <S-A-k>   :<C-u>silent! '<,'>move-2<CR>gv=gv
 nnoremap <S-A-k>   :<C-u>silent! move-2<CR>==
@@ -331,10 +330,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>sf <cmd>Telescope find_files<cr>
+nnoremap <leader>sh <cmd>Telescope help_tags<cr>
+nnoremap <leader>sw <cmd>Telescope grep_string<cr>
+nnoremap <leader>sg <cmd>Telescope live_grep<cr>
+nnoremap <leader>sb <cmd>Telescope buffers<cr>
+nnoremap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 nnoremap <leader>fs <cmd>Explore<cr>
 
@@ -431,8 +432,8 @@ require('telescope').setup{
 
 require("telescope").load_extension('harpoon')
 
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'php' },
+require('nvim-treesitter.configs').setup({
+  ensure_installed = { 'vimdoc', 'vim', 'php' },
   auto_install = false,
   highlight = { enable = true },
   indent = { enable = true },
@@ -507,7 +508,5 @@ require('nvim-treesitter.configs').setup {
       show_help = '?',
     },
   }
-}
-
-require("mason").setup()
+})
 EOF

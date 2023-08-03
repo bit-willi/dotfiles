@@ -437,7 +437,7 @@ end
 lua << EOF
 require'lspconfig'.pyright.setup{}
 require('telescope').setup{
-  file_ignore_patterns = { "^./.git/", "^node_modules/", "^vendor/" }
+  file_ignore_patterns = { ".git/.*", "node%_modules/.*", "vendor/.*" }
 }
 require("telescope").load_extension('harpoon')
 require "nvim-treesitter.configs".setup {

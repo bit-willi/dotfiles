@@ -20,7 +20,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'kamailio/vim-kamailio-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'preservim/nerdtree'
 Plug 'vim-vdebug/vdebug'
 Plug 'terroo/vim-auto-markdown'
 Plug 'APZelos/blamer.nvim'
@@ -33,6 +32,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
 Plug 'chriskempson/base16-vim'
 Plug 'ThePrimeagen/harpoon'
@@ -42,20 +42,21 @@ Plug 'juneedahamed/vc.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/svnj.vim'
 
-if has('nvim')
-    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    "Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-"Plug 'deoplete-plugins/deoplete-lsp'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'folke/neodev.nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'j-hui/fidget.nvim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-"let g:deoplete#enable_at_startup = 1
 
 " Add plugins to &runtimepath
 call plug#end()

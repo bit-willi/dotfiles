@@ -29,6 +29,7 @@ Plug 'juneedahamed/vc.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/svnj.vim'
 Plug 'github/copilot.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 "Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
@@ -42,7 +43,6 @@ Plug 'github/copilot.vim'
 "Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 "Plug 'ThePrimeagen/vim-be-good'
 "Plug 'folke/which-key.nvim'
-"Plug 'editorconfig/editorconfig-vim'
 "Plug 'williamboman/mason.nvim'
 "Plug 'williamboman/mason-lspconfig.nvim'
 "Plug 'folke/neodev.nvim'

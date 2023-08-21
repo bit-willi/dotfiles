@@ -350,8 +350,8 @@ map tt :tabnew<cr>
 map tn :tabnext<cr>
 map tp :tabprevious<cr>
 
-nnoremap <leader>sv <cmd>:split<cr>
-nnoremap <leader>sh <cmd>:vsplit<cr>
+nnoremap <leader>sv <cmd>:vsplit<cr>
+nnoremap <leader>sh <cmd>split<cr>
 
 " Delete without yank
 vmap D "_dd<esc>

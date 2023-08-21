@@ -29,7 +29,6 @@ set expandtab " insert space character when tab is pressed
 set modelines=0
 set expandtab " helps with backspacing because of expandtab
 set textwidth=80
-set autoindent
 
 " options
 " opening a new file when the current buffer has unsaved changes causes files " to be hidden instead of closed.

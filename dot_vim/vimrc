@@ -19,12 +19,12 @@ set fileformats=unix,mac,dos " recognize file formats
 set backspace=indent,eol,start " make backspace work like most other apps
 
 " space > tabs
-set autoindent
+set autoinden
 set smartindent
 set smarttab
-set tabstop=4
 set shiftwidth=4
-set softtabstop=4
+set tabstop=8
+set softtabstop=0
 set expandtab " insert space character when tab is pressed
 set modelines=0
 set expandtab " helps with backspacing because of expandtab

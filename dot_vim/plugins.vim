@@ -42,6 +42,7 @@ Plug 'juneedahamed/vc.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/svnj.vim'
 Plug 'folke/which-key.nvim'
+Plug 'github/copilot.vim'
 
 "Plug 'williamboman/mason.nvim'
 "Plug 'williamboman/mason-lspconfig.nvim'

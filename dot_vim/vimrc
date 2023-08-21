@@ -165,6 +165,9 @@ autocmd Filetype blade setlocal ts=2 sw=2
 " plugs
 "
 
+" Copilot: disable by default
+let g:copilot_enabled = 0
+
 " neomake
 let g:neomake_open_list = 2 " open list automatically
 
@@ -351,7 +354,7 @@ map tn :tabnext<cr>
 map tp :tabprevious<cr>
 
 nnoremap <leader>sv <cmd>:vsplit<cr>
-nnoremap <leader>sh <cmd>split<cr>
+noremap <leader>sh <cmd>split<cr>
 
 " Delete without yank
 vmap D "_dd<esc>

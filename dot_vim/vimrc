@@ -19,7 +19,7 @@ set fileformats=unix,mac,dos " recognize file formats
 set backspace=indent,eol,start " make backspace work like most other apps
 
 " space > tabs
-set autoinden
+set autoindent
 set smartindent
 set smarttab
 set shiftwidth=4
@@ -399,7 +399,7 @@ vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(
 
 "inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 "inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
-"inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 nmap <silent> <C-]> <Plug>(coc-definition)
 

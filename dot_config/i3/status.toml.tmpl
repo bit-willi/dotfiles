@@ -5,9 +5,9 @@ theme = "semi-native"
 # icons = "awesome"
 
 [[block]]
-block = "custom"
-cycle = ["i3-gnome-pomodoro status"]
-interval = 1
+block = "pomodoro"
+notify_cmd = "notify-send '{msg}'"
+blocking_cmd = true
 
 [[block]]
 block = "disk_space"

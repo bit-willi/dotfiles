@@ -1,4 +1,4 @@
-" Ben Mezger
+" Willian de Souza
 " some configs from:
 " https://github.com/rstacruz/vim-opinion/
 
@@ -132,7 +132,7 @@ set statusline +=%4*\ %<%F%*            "full path
 set statusline +=%2*%m%*                "modified flag
 set statusline +=%1*\ \|%{&fo}\|        "display format-options
 set statusline +=%{FugitiveStatusline()} " git branch
-set statusline+=%{GitStatus()}
+set statusline +=%{GitStatus()}
 set statusline +=%1*%=%5l%*             "current line
 set statusline +=%2*/%L%*               "total lines
 set statusline +=%1*%4v\ %*             "virtual column number
@@ -188,12 +188,6 @@ augroup END
 set updatetime=250                  " . The delay is governed by vim's updatetime option
 let g:gitgutter_highlight_lines = 0 " highlight line
 
-"" incsearch.vim
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-"" vim-easy align
 " start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -265,57 +259,6 @@ endif
 
 let g:blamer_enabled = 0 " enable git blame
 
-" Coc extensions
-let g:coc_global_extensions = [
-  \ 'coc-snippets',
-  \ 'coc-prettier',
-  \ 'coc-pairs',
-  \ 'coc-eslint',
-  \ 'coc-json',
-  \ '@yaegassy/coc-intelephense',
-  \ 'coc-clangd',
-  \ 'coc-php-cs-fixer',
-  \ 'coc-tsserver',
-  \ 'coc-sql',
-  \ 'coc-java',
-  \ 'coc-calc',
-  \ 'coc-elixir',
-  \ 'coc-pyright',
-  \ 'coc-rust-analyzer',
-  "\ 'coc-ltex',
-  "\ 'coc-reason',
-  "\ 'coc-spell-checker',
-  \ ]
-
-" Show COC doc
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" ================ Keybindind and shortcuts ===============vimr
-
-"if $XDG_SESSION_TYPE == 'x11'
-    "" Copy to clipboard x11
-    "vmap x "+c
-    "vmap <C-c> "+y
-    "vmap <C-x> "+c
-    "vmap <C-v> c<ESC>"+p
-    "imap <C-v> <ESC>"+pa
-"else
-    "" Copy to clipboard wayland
-    "nnoremap <C-@> :call system("wl-copy", @")<cr>
-    "xnoremap "+y y:call system("wl-copy", @")<cr>
-    "nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
-    "nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
-    ""xnoremap <silent> <C-x> y:call system("wl-copy", @") y:'<,'>d<cr>
-    "xnoremap <silent> <C-c> y:call system("wl-copy", @")<cr>
-    "nnoremap <silent> <C-v> :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
-"endif
-
 map <C-S-r> :source ~/.vim/vimrc<cr>
 
 " Move line Up or Down
@@ -324,7 +267,6 @@ nnoremap <S-A-k>   :<C-u>silent! move-2<CR>==
 nnoremap <S-A-j> :<C-u>silent! move+<CR>==
 xnoremap <S-A-j> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
-nnoremap <silent> <S-Tab> :call <SID>show_documentation()<cr>
 nnoremap <silent> <Esc><Esc> :noh<cr> :call clearmatches()<cr>
 
 nnoremap <C-h> <C-w>h
@@ -365,52 +307,6 @@ nnoremap <leader>hh :<C-u>lua require("harpoon.ui").toggle_quick_menu()<cr>
 "Mark file
 nnoremap <leader>hd :<C-u>lua require("harpoon.mark").rm_file()<cr>
 
-"Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-"Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-"Use K to show documentation in preview window
-nnoremap <silent> K :call  <SID>show_documentation()<cr>
-"Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-"Show all diagnostics
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-"Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-"Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-"Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-"Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<cr>
-"Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<cr>
-"Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<cr>
-"Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-
-"inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
-"inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
-nmap <silent> <C-]> <Plug>(coc-definition)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 " Auto switch theme based on gnome color scheme
 let gnome_theme = system('gsettings get org.gnome.desktop.interface color-scheme')
 let base16colorspace=256 " Access colors present in 256 colorspace
@@ -433,6 +329,104 @@ require('telescope').setup{
 }
 
 require("telescope").load_extension('harpoon')
+
+require("mason").setup()
+require("mason-lspconfig").setup()
+
+local luasnip = require("luasnip")
+local cmp = require("cmp")
+local lspkind = require("lspkind")
+
+cmp.setup({
+	formatting = {
+		format = lspkind.cmp_format({
+			with_text = true, -- do not show text alongside icons
+			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+
+			-- The function below will be called before any actual modifications from lspkind
+			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+			before = function(entry, vim_item)
+				return vim_item
+			end,
+		}),
+	},
+
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+	mapping = {
+		["<C-p>"] = cmp.mapping.select_prev_item(),
+		["<C-n>"] = cmp.mapping.select_next_item(),
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.close(),
+		["<CR>"] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		}),
+		["<Tab>"] = function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end,
+		["<S-Tab>"] = function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end,
+	},
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+		{ name = "neorg" },
+	},
+})
+
+local on_attach = function(client, bufnr)
+	local function buf_set_keymap(...)
+		vim.api.nvim_buf_set_keymap(bufnr, ...)
+	end
+	local function buf_set_option(...)
+		vim.api.nvim_buf_set_option(bufnr, ...)
+	end
+
+	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+
+	local opts = { noremap = true, silent = true }
+
+	buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts) --> jumps to the definition of the symbol under the cursor
+	buf_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", opts) --> information about the symbol under the cursos in a floating window
+	buf_set_keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", opts) --> lists all the implementations for the symbol under the cursor in the quickfix window
+	buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.util.rename()<CR>", opts) --> renaname old_fname to new_fname
+	buf_set_keymap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opts) --> selects a code action available at the current cursor position
+	buf_set_keymap("n", "gr", ":lua vim.lsp.buf.references()<CR>", opts) --> lists all the references to the symbl under the cursor in the quickfix window
+	buf_set_keymap("n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>", opts)
+	buf_set_keymap("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", opts)
+	buf_set_keymap("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", opts)
+	buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>", opts)
+	buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.formatting()<CR>", opts) --> formats the current buffer
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+require("lspconfig")["jdtls"].setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = { 'vimdoc', 'vim', 'php' },

@@ -15,7 +15,6 @@ Plug 'kamailio/vim-kamailio-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'APZelos/blamer.nvim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'kylelaker/riscv.vim'
 Plug 'scrooloose/nerdcommenter' "commenter <++>
 Plug 'nvim-lua/plenary.nvim'
@@ -30,6 +29,14 @@ Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/svnj.vim'
 Plug 'github/copilot.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
+Plug 'onsails/lspkind.nvim'
 
 "Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
@@ -43,21 +50,14 @@ Plug 'editorconfig/editorconfig-vim'
 "Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 "Plug 'ThePrimeagen/vim-be-good'
 "Plug 'folke/which-key.nvim'
-"Plug 'williamboman/mason.nvim'
-"Plug 'williamboman/mason-lspconfig.nvim'
 "Plug 'folke/neodev.nvim'
-"Plug 'hrsh7th/cmp-nvim-lsp'
 "Plug 'hrsh7th/cmp-buffer'
 "Plug 'hrsh7th/cmp-path'
 "Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/nvim-cmp'
-"Plug 'L3MON4D3/LuaSnip'
 "Plug 'saadparwaiz1/cmp_luasnip'
 "Plug 'rafamadriz/friendly-snippets'
 "Plug 'j-hui/fidget.nvim'
-
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Add plugins to &runtimepath
 call plug#end()

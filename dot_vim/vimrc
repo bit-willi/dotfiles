@@ -167,23 +167,6 @@ autocmd Filetype blade setlocal ts=2 sw=2
 " Copilot: disable by default
 let g:copilot_enabled = 0
 
-" neomake
-let g:neomake_open_list = 2 " open list automatically
-
-" enable linters
-call neomake#configure#automake('w', 500)
-
-augroup my_neomake_qf
-    autocmd!
-    autocmd QuitPre * if &filetype !=# 'qf' | lclose | endif
-augroup END
-
-let g:neomake_python_enabled_makers = ['mypy', 'flake8']
-augroup my_custom_maker
-    au!
-    au Filetype *.py let b:neomake_python_enabled_makers = ['mypy']
-augroup END
-
 "" vim-gitgutter
 set updatetime=250                  " . The delay is governed by vim's updatetime option
 let g:gitgutter_highlight_lines = 0 " highlight line

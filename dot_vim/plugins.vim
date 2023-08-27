@@ -7,7 +7,6 @@ Plug 'haya14busa/incsearch.vim'                     " a better insearch
 Plug 'tpope/vim-eunuch'                             " helpers for UNIX
 Plug 'easymotion/vim-easymotion'                    " Vim motions on speed
 Plug 'luochen1990/rainbow'                          " Rainbow Parentheses Improved
-Plug 'neomake/neomake'                              " lint checker
 Plug 'Yggdroot/indentLine'                          " Display the indention levels with thin vertical line
 Plug 'wakatime/vim-wakatime'                        " Code tracking
 Plug 'neovim/nvim-lspconfig'
@@ -58,6 +57,7 @@ Plug 'onsails/lspkind.nvim'
 "Plug 'rafamadriz/friendly-snippets'
 "Plug 'j-hui/fidget.nvim'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neomake/neomake'                              " lint checker
 
 " Add plugins to &runtimepath
 call plug#end()

@@ -151,8 +151,6 @@ if [[ ${OSTYPE} == linux* ]]; then
     alias spotify="/usr/bin/spotify --force-device-scale-factor=1.0 $1"
 fi
 
-alias s="sudo"
-
 if (( $+commands[etckeeper] )); then
     alias etcs="sudo etckeeper vcs status"
     alias etca="sudo etckeeper vcs add ."

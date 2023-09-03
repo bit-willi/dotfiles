@@ -30,6 +30,7 @@ Plug 'github/copilot.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'christoomey/vim-tmux-navigator'
 
 "Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }

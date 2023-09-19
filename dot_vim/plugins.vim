@@ -31,6 +31,10 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-scripts/svnj.vim'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 
 "Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }

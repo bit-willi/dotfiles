@@ -384,7 +384,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local nvim_lsp = require('lspconfig')
 
-local servers = {'intelephense', 'jdtls'}
+local servers = {'intelephense', 'jdtls', 'eslint-lsp', 'vue-language-server'}
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({

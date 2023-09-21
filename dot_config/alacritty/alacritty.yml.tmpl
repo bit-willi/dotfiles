@@ -178,22 +178,13 @@ cursor:
 live_config_reload: true
 
 shell:
-  {{- if eq .chezmoi.os "darwin" }}
-  {{ if eq .chezmoi.arch "arm64" -}}
-  program: /opt/homebrew/bin/zsh
-  {{ else -}}
-  program: /usr/local/bin/zsh
-  {{ end -}}
+  program: /usr/bin/tmux
   args:
-    - -l
-    - -i
-    - -c
-    - "tmux attach -t main || tmux new -s main"
-  {{- else }}
-  program: /usr/bin/zsh
-  args:
-    - -l
-  {{- end }}
+    - new-session
+    - -A
+    - -D
+    - -s
+    - main
 
 enable_experimental_conpty_backend: false
 

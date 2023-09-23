@@ -149,6 +149,19 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+nnoremap { {zz
+nnoremap } }zz
+nnoremap N Nzz
+nnoremap n nzz
+nnoremap gg ggzz
+nnoremap <C-i> <C-i>zz
+nnoremap <C-o> <C-o>zz
+nnoremap % %zz
+nnoremap * *zz
+nnoremap # #zz
+
 " Disable arrow keys
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -183,6 +196,12 @@ let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'python=py', 'c=c'
 
 " used as $x^2$, $$x^2$$, escapable as \$x\$ and \$\$x\$\$
 let g:vim_markdown_math = 1
+
+" Disable ruby provider
+let g:loaded_ruby_provider = 0
+
+" Disable pearl provider
+let g:loaded_perl_provider = 0
 
 "" Rainbow Parentheses
 let g:rbpt_colorpairs = [
@@ -259,22 +278,22 @@ nnoremap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 nnoremap <leader>fs <cmd>Explore<cr>
 
-nmap ++ <plug>NERDCommenterToggle
-vmap ++ <plug>NERDCommenterToggle
+nnoremap ++ <plug>NERDCommenterToggle
+vnoremap ++ <plug>NERDCommenterToggle
 
 nnoremap <leader>tt :tabnew<cr>
 nnoremap <leader>tn :tabnext<cr>
 nnoremap <leader>tp :tabprevious<cr>
 
-map tt :tabnew<cr>
-map tn :tabnext<cr>
-map tp :tabprevious<cr>
+nnoremap tt :tabnew<cr>
+nnoremap tn :tabnext<cr>
+nnoremap tp :tabprevious<cr>
 
 nnoremap <leader>sv <cmd>vsplit<cr>
-noremap <leader>sh <cmd>split<cr>
+nnoremap <leader>sh <cmd>split<cr>
 
 " Delete without yank
-vmap D "_dd<esc>
+vnoremap D "_dd<esc>
 
 "Mark file
 nnoremap <leader>ha :<C-u>lua require("harpoon.mark").add_file()<cr>
@@ -384,7 +403,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local nvim_lsp = require('lspconfig')
 
-local servers = {'intelephense', 'jdtls', 'eslint-lsp', 'vue-language-server'}
+local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls'}
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
@@ -397,6 +416,19 @@ for _, lsp in ipairs(servers) do
             end,
     })
 end
+
+-- Vue lsp cant be on above array...
+nvim_lsp['vls'].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = function(fname)
+            return nvim_lsp.util.root_pattern(
+                'build.gradle', 'pom.xml', '.git'
+            )(fname) or vim.fn.getcwd()
+        end,
+        filetypes = {'vue'},
+        cmd = {'vls'}
+})
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = { 'vimdoc', 'vim', 'php' },

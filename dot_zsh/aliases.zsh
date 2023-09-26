@@ -13,7 +13,7 @@ alias r="ranger"
 alias cat="bat"
 alias bat="cat"
 alias network="sudo bandwhich"
-alias ll="exa -l --icons"
+alias ll="eza -l --icons"
 alias vhistory="history | peco"
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
 alias shouldideploytoday="curl -s https://shouldideploy.today/api\?tz\=UTC | jq -r '.message'"
@@ -49,15 +49,15 @@ if [[ ${PAGER} == 'less' ]]; then
     (( ! ${+LESS_TERMCAP_us} )) && export LESS_TERMCAP_us=$'\E[1;32m'   # Begins underline.
 fi
 
-# if exa exist, alias to ls
-if (( ${+commands[exa]} )); then
-    alias ls='exa'
+# if eza exist, alias to ls
+if (( ${+commands[eza]} )); then
+    alias ls='eza'
     alias l='ls'
-    alias ll='exa -l --icons'
-    alias lll='exa -l | less'
-    alias lla='exa -la --icons'
-    alias llt='exa -T --icons'
-    alias llfu='exa -bghHliS --git'
+    alias ll='eza -l --icons'
+    alias lll='eza -l | less'
+    alias lla='eza -la --icons'
+    alias llt='eza -T --icons'
+    alias llfu='eza -bghHliS --git'
 else
     alias l='ls -1A'         # Lists in one column, hidden files.
     alias ll='ls -lh'        # Lists human readable sizes.

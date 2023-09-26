@@ -29,7 +29,7 @@ docker-compose
 dunst
 e2fsprogs
 efibootmgr
-exa
+eza
 fakeroot
 fasd
 fd

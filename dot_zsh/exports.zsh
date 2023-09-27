@@ -146,19 +146,75 @@ HEROKU_AC_ZSH_SETUP_PATH=$HOME/.cache/heroku/autocomplete/zsh_setup &&
 
 # helper functions
 vv() {
-    findOutput=$(find . | ag -v '(vendor|node_modules|phpintel|debugbar|cache|.git/)' | peco)
-
-    if [ ! -z "$findOutput" ]
-    then
-        echo $findOutput
-        nvim $findOutput
-    fi
+	findOutput=$(find . | ag -v '(vendor|node_modules|phpintel|debugbar|cache|.git/)' | peco)
+	if [ ! -z "$findOutput" ]
+	then
+		echo $findOutput
+		editor $findOutput
+	fi
 }
 
 watch() {
-    echo "---- Running watch ----"
-    echo "Path to monitor '$0' \nCommand to run '$2'"
-    find . $0 2> /dev/null | grep -v '^.$' | entr sh -c $2
+	echo "---- Running watch ----"
+	echo "Path to monitor '$0' \nCommand to run '$2'"
+	find . $0 2> /dev/null | grep -v '^.$' | entr sh -c $2
+}
+
+watchfile() {
+	local git immediate
+	declare -a args
+	while (( $# > 0 )) && [[ $1 != -- ]]; do
+		case "$1" in
+			--git)
+				git=yes
+				;;
+			-i)
+				immediate=yes
+				;;
+			*)
+				args+=("$1")
+				;;
+		esac
+		shift
+	done
+	shift
+	if (( $# == 0 )); then
+		echo >&2 "usage: watchfile [-i] FILE... -- CMD..."
+		return 1
+	fi
+	if [[ $immediate ]]; then
+		"$@"
+	fi
+	_wait() {
+		if [[ $git ]]; then
+			find . -mindepth 1 -name .git -prune -o -execdir git check-ignore -q {} \; -prune -o -print0 | xargs -x0 inotifywait -e modify -e attrib -e close_write -rq
+		else
+			inotifywait -e modify -e attrib -e close_write --exclude '\.git' -rq "${args[@]}"
+		fi
+	}
+	while _wait "${args[@]}"; do
+		echo >&2 ">> Executing ${*@Q}"
+		"$@"
+	done
+}
+
+man() {
+	GROFF_NO_SGR=1 \
+	LESS_TERMCAP_md=$'\e[1;32m' \
+	LESS_TERMCAP_me=$'\e[22;39m' \
+	LESS_TERMCAP_so=$'\e[1;37;44m' \
+	LESS_TERMCAP_se=$'\e[22;39;49m' \
+	LESS_TERMCAP_us=$'\e[3;33m' \
+	LESS_TERMCAP_ue=$'\e[23;39m' \
+	command man "$@"
+}
+
+mkcd() {
+	mkdir -p "$1" && cd "$1"
+}
+
+open() {
+	xdg-open "$1" &>/dev/null
 }
 
 # initialise completions with ZSH's compinit

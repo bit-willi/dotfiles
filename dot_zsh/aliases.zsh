@@ -36,6 +36,8 @@ alias c=clear
 alias sound='pulsemixer'
 alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
+alias dnd-on='pkill -xu $EUID -USR1 dunst'
+alias dnd-off='pkill -xu $EUID -USR2 dunst'
 #alias tmux="TERM=xterm-256color tmux"
 
 # less Colours

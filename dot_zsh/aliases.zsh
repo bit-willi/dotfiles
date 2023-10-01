@@ -38,6 +38,7 @@ alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
 alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
+alias cl='clear; l'
 #alias tmux="TERM=xterm-256color tmux"
 
 # less Colours
@@ -110,6 +111,10 @@ alias .....="cd ../../../../"
 
 if [ -f "$HOME/.emacs.d/bin/doom" ]; then
     alias doom="$HOME/.emacs.d/bin/doom"
+fi
+
+if [ -f "$HOME/.config/emacs/bin/doom" ]; then
+    alias doom="$HOME/.config/emacs/bin/doom"
 fi
 
 dotfiles-update() { cd "$HOME/dotfiles" && ./install.sh; }

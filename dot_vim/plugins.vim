@@ -15,8 +15,6 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 Plug 'onsails/lspkind.nvim'
 Plug 'kamailio/vim-kamailio-syntax'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'APZelos/blamer.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -37,6 +35,7 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
 Plug 'nvim-neorg/neorg'
 Plug 'dhruvasagar/vim-zoom'
+Plug 'tjdevries/express_line.nvim'
 
 "Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
@@ -65,6 +64,8 @@ Plug 'dhruvasagar/vim-zoom'
 "Plug 'kylelaker/riscv.vim'
 "Plug 'ThePrimeagen/refactoring.nvim'
 "Plug 'vim-scripts/svnj.vim'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 
 " Add plugins to &runtimepath
 call plug#end()

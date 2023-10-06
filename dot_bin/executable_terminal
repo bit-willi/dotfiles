@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 CMD="kitty"
 
+# Check if there is GPU support
+if [[ $(command -v optirun 2>/dev/null) != "" ]]
+then
+    CMD="optirun kitty"
+fi
+
 ACTIVE_WINDOW=$(xdotool getactivewindow)
 ACTIVE_WM_CLASS=$(xprop -id $ACTIVE_WINDOW | grep WM_CLASS)
+
 if [[ $ACTIVE_WM_CLASS == *"Alacritty"* ]]
 then
     # Get PID. If _NET_WM_PID isn't set, bail.

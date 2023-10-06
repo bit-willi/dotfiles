@@ -319,11 +319,6 @@ exec_always --no-startup-id $HOME/.bin/random-wallpaper
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id setxkbmap -layout us -variant intl
-exec --no-startup-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
-exec --no-startup-id xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
-exec --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
-
 
 bar {
     font pango:Hack, FontAwesome 7

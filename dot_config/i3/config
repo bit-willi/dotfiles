@@ -312,10 +312,10 @@ mode "$mode_gaps_left" {
 }
 
 # autostarts
-# exec --no-startup-id picom --config $HOME/.config/picom.conf &
-exec_always --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
-exec_always --no-startup-id $HOME/.bin/laptop-configure
-exec_always --no-startup-id $HOME/.bin/random-wallpaper
+exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
+exec --no-startup-id $HOME/.bin/laptop-configure
+exec --no-startup-id $HOME/.bin/random-wallpaper
+exec --no-startup-id picom --config $HOME/.config/picom.conf &
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3

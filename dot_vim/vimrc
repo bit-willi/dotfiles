@@ -403,7 +403,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local nvim_lsp = require('lspconfig')
 
-local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls'}
+local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls', 'sqlls'}
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
@@ -429,6 +429,7 @@ nvim_lsp['vls'].setup({
         filetypes = {'vue'},
         cmd = {'vls'}
 })
+
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = { 'vimdoc', 'vim', 'php' },

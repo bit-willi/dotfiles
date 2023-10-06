@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CMD="alacritty"
+CMD="kitty"
 
 ACTIVE_WINDOW=$(xdotool getactivewindow)
 ACTIVE_WM_CLASS=$(xprop -id $ACTIVE_WINDOW | grep WM_CLASS)

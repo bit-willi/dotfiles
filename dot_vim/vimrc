@@ -430,6 +430,11 @@ nvim_lsp['vls'].setup({
         cmd = {'vls'}
 })
 
+require('neorg').setup {
+    load = {
+        ["core.defaults"] = {}
+    }
+}
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = { 'vimdoc', 'vim', 'php' },

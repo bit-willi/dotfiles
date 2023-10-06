@@ -1,4 +1,4 @@
 EDITOR=nvim
 QUICKNOTE_FORMAT="%Y%m%d"
-NOTES_EXT="md"
+NOTES_EXT="norg"
 NOTES_DIRECTORY=~/.journal

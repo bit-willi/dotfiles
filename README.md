@@ -26,7 +26,7 @@ chezmoi apply` for applying the minimal version.
 #### Install with chezmoi
 
 ```shell
-SECRETS_OFF=1 chezmoi init https://github.com/benmezger/dotfiles.git -S ~/dotfiles
+SECRETS_OFF=1 chezmoi init https://github.com/bit-willi/dotfiles.git -S ~/dotfiles
 ```
 
 #### Minimal version
@@ -46,7 +46,7 @@ The minimal version installs only the essentials.
 - dircolors
 
 ```shell
-SECRETS_OFF=1 DOTFILES_MINIMAL=1 chezmoi init https://github.com/benmezger/dotfiles.git -S ~/dotfiles
+SECRETS_OFF=1 DOTFILES_MINIMAL=1 chezmoi init https://github.com/bit-willi/dotfiles.git -S ~/dotfiles
 ```
 
 #### Makefile

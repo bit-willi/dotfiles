@@ -237,3 +237,7 @@ flameshot
 pulsemixer
 kdeconnect
 seahorse
+tree-sitter
+tree-sitter-cli
+luarocks
+julia

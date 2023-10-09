@@ -54,3 +54,5 @@ fi
 if [[ $TERM == "dumb" ]]; then
         unsetopt zle && PS1='$ ' && return
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

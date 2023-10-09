@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(notes ls | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    read -p "New note name: " selected
+fi
+
+echo $selected
+tmux neww notes o $selected

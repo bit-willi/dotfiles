@@ -24,3 +24,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "%", "%zz")
 vim.keymap.set("n", "*", "*zz")
 vim.keymap.set("n", "#", "#zz")
+
+-- Move line Up or Down with Shift + (j/k) in visual mode
+vim.keymap.set("v", "<S-j>", ":<C-u>silent! '<,'>move+<CR>gv=gv")
+vim.keymap.set("v", "<S-k>", ":<C-u>silent! '<,'>move-2<CR>gv=gv")

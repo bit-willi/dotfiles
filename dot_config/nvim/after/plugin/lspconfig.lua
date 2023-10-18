@@ -1,4 +1,4 @@
-local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls', 'sqlls', 'pylsp'}
+local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls', 'sqlls', 'pylsp', 'clangd'}
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)

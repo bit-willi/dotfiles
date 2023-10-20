@@ -39,6 +39,7 @@ alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
 alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
 alias cl='clear; l'
+alias journal='cd ~/.journal'
 #alias tmux="TERM=xterm-256color tmux"
 
 # less Colours
@@ -86,12 +87,6 @@ fi
 
 alias editor='$EDITOR'
 alias v='vim'
-
-if (( $+commands[pacman] )); then
-    alias pacall='sudo pacman -Syyu'
-    alias paci='sudo pacman -S'
-    alias pacrdeps='sudo pacman -Rsn'
-fi
 
 # Django
 alias drunser='python manage.py runserver'
@@ -184,6 +179,9 @@ if (( $+commands[pacman] )); then
 	alias pacro='paclo && sudo pacman -Rns $(pacman -Qtdq)' # remove orphans
 	alias pacc='pacman -Scc'    # clean cache
 	alias paclf='pacman -Ql'   # list files
+	alias pacall='sudo pacman -Syyu'
+	alias paci='sudo pacman -S'
+	alias pacrdeps='sudo pacman -Rsn'
 fi
 
 alias ptrypyenv="poetry env use $(pyenv which python)"

@@ -37,3 +37,7 @@ chown
 make
 cut
 parallel
+gdb
+svn
+iptables
+tcpdump

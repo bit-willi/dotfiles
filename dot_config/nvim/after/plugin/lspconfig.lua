@@ -12,17 +12,17 @@ local on_attach = function(client, bufnr)
 
     local opts = { noremap = true, silent = true }
 
-    buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts, { desc = "Jumps to the definition of the symbol under the cursor" })
-    buf_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", opts, { desc = "Information about the symbol under the cursos in a floating window" })
-    buf_set_keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", opts, { desc = "Lists all the implementations for the symbol under the cursor in the quickfix window" })
-    buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.util.rename()<CR>", opts, { desc = "Renaname old_fname to new_fname" })
-    buf_set_keymap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opts, { desc = "Selects a code action available at the current cursor position" })
-    buf_set_keymap("n", "gr", ":lua vim.lsp.buf.references()<CR>", opts, { desc = "Lists all the references to the symbl under the cursor in the quickfix window" })
-    buf_set_keymap("n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>",  opts, { desc = "Open diagnostic floating window" })
-    buf_set_keymap("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>",  opts, { desc = "Goto previous diagnostic" })
-    buf_set_keymap("n", "]d", ":lua vim.diagnostic.goto_next()<CR>",  opts, { desc = "Goto next diagnostic" })
-    buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>",  opts, { desc = "Open list with diagnostic" })
-    buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.formatting()<CR>", opts, { desc = "Formats the current buffer" })
+    buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true, desc = "Jumps to the definition of the symbol under the cursor" })
+    buf_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true, desc = "Information about the symbol under the cursos in a floating window" })
+    buf_set_keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true, silent = true, desc = "Lists all the implementations for the symbol under the cursor in the quickfix window" })
+    buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.util.rename()<CR>", { noremap = true, silent = true, desc = "Renaname old_fname to new_fname" })
+    buf_set_keymap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true, desc = "Selects a code action available at the current cursor position" })
+    buf_set_keymap("n", "gr", ":lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true, desc = "Lists all the references to the symbl under the cursor in the quickfix window" })
+    buf_set_keymap("n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>",  { noremap = true, silent = true, desc = "Open diagnostic floating window" })
+    buf_set_keymap("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>",  { noremap = true, silent = true, desc = "Goto previous diagnostic" })
+    buf_set_keymap("n", "]d", ":lua vim.diagnostic.goto_next()<CR>",  { noremap = true, silent = true, desc = "Goto next diagnostic" })
+    buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>",  { noremap = true, silent = true, desc = "Open list with diagnostic" })
+    buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true, desc = "Formats the current buffer" })
 end
 
 root_dir = function(fname)

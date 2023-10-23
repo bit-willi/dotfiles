@@ -40,6 +40,7 @@ alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
 alias cl='clear; l'
 alias journal='cd ~/.journal'
+alias files='pcmanfm'
 #alias tmux="TERM=xterm-256color tmux"
 
 # less Colours

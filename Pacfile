@@ -241,3 +241,5 @@ tree-sitter
 tree-sitter-cli
 luarocks
 julia
+libffi
+qmk

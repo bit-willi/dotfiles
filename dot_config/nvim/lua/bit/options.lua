@@ -60,10 +60,6 @@ opt.breakindent = true
 opt.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 opt.linebreak = true
 
-opt.foldmethod = "marker"
-opt.foldlevel = 0
-opt.modelines = 1
-
 opt.belloff = "all" -- Just turn the dang bell off
 
 opt.clipboard = "unnamedplus"
@@ -105,7 +101,15 @@ opt.signcolumn = "yes"
 opt.termguicolors = true
 
 -- Colors
-vim.o.background = "dark" -- or "light" for light mode
+opt.background = "dark" -- or "light" for light mode
 
 -- Set color to 80 column
 opt.colorcolumn = "80"
+
+-- Folding
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldmethod = "expr"
+opt.foldcolumn = "1"
+opt.foldlevelstart = 99
+opt.foldlevel = 0
+opt.modelines = 1

@@ -113,3 +113,6 @@ opt.foldcolumn = "1"
 opt.foldlevelstart = 99
 opt.foldlevel = 0
 opt.modelines = 1
+
+-- Show invisible chars
+opt.list = true

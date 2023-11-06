@@ -114,5 +114,8 @@ opt.foldlevelstart = 99
 opt.foldlevel = 0
 opt.modelines = 1
 
--- Show invisible chars
-opt.list = true
+-- set path+=**
+opt.path:append = "**"
+
+-- Recursive index project set path+=**
+vim.cmd("set path+=**")

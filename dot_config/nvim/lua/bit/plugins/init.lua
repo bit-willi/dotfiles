@@ -40,4 +40,5 @@ return {
     "dhruvasagar/vim-table-mode",
     "godlygeek/tabular",
     "preservim/vim-markdown",
+    "tpope/vim-eunuch"
 }

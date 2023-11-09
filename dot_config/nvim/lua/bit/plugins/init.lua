@@ -37,5 +37,7 @@ return {
     "tjdevries/express_line.nvim",
     { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true },
     { dir = "~/Documents/Projects/Random/ryak" },
-    "dhruvasagar/vim-table-mode"
+    "dhruvasagar/vim-table-mode",
+    "godlygeek/tabular",
+    "preservim/vim-markdown",
 }

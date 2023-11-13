@@ -109,7 +109,7 @@ opt.colorcolumn = "80"
 -- Folding
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldmethod = "expr"
-opt.foldcolumn = "1"
+--opt.foldcolumn = "1"
 opt.foldlevelstart = 99
 opt.foldlevel = 0
 opt.modelines = 1

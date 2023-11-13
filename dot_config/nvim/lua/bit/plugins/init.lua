@@ -41,4 +41,5 @@ return {
     { dir = "~/Documents/Projects/Random/ryak" },
     "godlygeek/tabular",
     "preservim/vim-markdown",
+    "folke/todo-comments.nvim"
 }

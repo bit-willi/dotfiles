@@ -56,3 +56,6 @@ if [[ $TERM == "dumb" ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# use grc output colors
+[[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh

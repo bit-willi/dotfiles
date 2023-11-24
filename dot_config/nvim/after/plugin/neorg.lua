@@ -1,5 +1,5 @@
-require('neorg').setup {
-    load = {
-        ["core.defaults"] = {}
-    }
-}
+--require('neorg').setup {
+    --load = {
+        --["core.defaults"] = {}
+    --}
+--}

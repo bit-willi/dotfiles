@@ -17,6 +17,9 @@ if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
   # Pause notifications
   pkill -xu $EUID -USR1 dunst
 
+  # Mute sounds
+  amixer set Master mute
+
   # Prevent i3lock from inheriting a copy of the lock fd
   i3lock "${i3lock_options[@]}" {XSS_SLEEP_LOCK_FD}<&-
 
@@ -30,9 +33,17 @@ if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
   # Unpause notifications
   pkill -xu $EUID -USR2 dunst
 else
+  # Pause notifications
   trap kill_and_unpause_notifications TERM INT
   pkill -xu $EUID -USR1 dunst
+
+  # Mute sounds
+  amixer set Master mute >/dev/null
+
+  # Lock
   i3lock -n "${i3lock_options[@]}" &
   wait
+
+  # Unpause notifications
   pkill -xu $EUID -USR2 dunst
 fi

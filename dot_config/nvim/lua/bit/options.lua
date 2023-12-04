@@ -49,7 +49,7 @@ set_cursorline("FileType", false, "TelescopePrompt")
 -- Tabs
 opt.autoindent = true
 opt.cindent = true
-opt.wrap = true
+opt.wrap = false
 
 opt.tabstop = 4
 opt.shiftwidth = 4

@@ -1,31 +1,103 @@
 return {
-    "tpope/vim-fugitive",
-    "wakatime/vim-wakatime",
-    "scrooloose/nerdcommenter",
-    "neovim/nvim-lspconfig",
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
-    "nvim-treesitter/nvim-treesitter",
-    "nvim-treesitter/playground",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/nvim-cmp",
-    "L3MON4D3/LuaSnip",
-    "onsails/lspkind.nvim",
-    "kamailio/vim-kamailio-syntax",
-    "ThePrimeagen/harpoon",
-    "github/copilot.vim",
-    { "junegunn/fzf", build = "./install --all" },
-    { "junegunn/fzf.vim" },
-    "christoomey/vim-tmux-navigator",
-    "vim-scripts/svnj.vim",
-    "tjdevries/express_line.nvim",
-    { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true },
-    { dir = "~/Documents/Projects/Random/ryak" },
-    "godlygeek/tabular",
-    "airblade/vim-gitgutter",
-    "folke/todo-comments.nvim"
+    {
+        "tjdevries/express_line.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000 ,
+        config = true,
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "godlygeek/tabular",
+        cmd = "Tabularize"
+    },
+    {
+        "nvim-lua/plenary.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "airblade/vim-gitgutter",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "ThePrimeagen/harpoon",
+        keys = {"<leader>hh", "<leader>hd", "<leader>ha"}
+    },
+    {
+        "scrooloose/nerdcommenter",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "williamboman/mason.nvim",
+        cmd = {"Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate", "MasonLog"},
+    },
+    {
+        "onsails/lspkind.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "nvim-treesitter/playground",
+        cmd = "TSPlaygroundToggle",
+    },
+    {
+        "kamailio/vim-kamailio-syntax",
+        ft = "kamailio",
+    },
+    {
+        "wakatime/vim-wakatime",
+        event = "InsertEnter",
+    },
+    {
+        "github/copilot.vim",
+        event = "InsertEnter",
+    },
+    {
+        "christoomey/vim-tmux-navigator",
+        event= "VeryLazy"
+    },
+    {
+        "folke/todo-comments.nvim",
+        event= "VeryLazy"
+    },
+    {
+        "tpope/vim-fugitive",
+        cmd = "Git",
+    },
+    {
+        "L3MON4D3/LuaSnip",
+        event = "InsertEnter"
+    },
+    {
+        "nvim-telescope/telescope.nvim",
+        cmd = "Telescope"
+    },
+    {
+        "hrsh7th/cmp-nvim-lsp",
+        event = "InsertEnter"
+    },
+    {
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter"
+    },
+    {
+        "vim-scripts/svnj.vim",
+        event= "VeryLazy"
+    },
+
     --"preservim/vim-markdown",
     --"tpope/vim-git",
     --"tpope/vim-eunuch",
@@ -42,4 +114,6 @@ return {
     --"kristijanhusak/vim-dadbod-completion",
     --"dhruvasagar/vim-zoom",
     --"dhruvasagar/vim-table-mode",
+    --{ "junegunn/fzf", build = "./install --all" },
+    --{ "junegunn/fzf.vim" },
 }

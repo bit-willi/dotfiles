@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+selected=`cat ~/.elv-servers | cut -d'|' -f1 | fzf`
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+command=`grep $selected ~/.elv-servers | cut -d'|' -f2`
+
+eval $command

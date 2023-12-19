@@ -95,9 +95,12 @@ return {
     },
     {
         "vim-scripts/svnj.vim",
-        event= "VeryLazy"
+        event = "VeryLazy"
     },
-
+    {
+        "tpope/vim-dispatch",
+        event = "VeryLazy"
+    },
     --"preservim/vim-markdown",
     --"tpope/vim-git",
     --"tpope/vim-eunuch",

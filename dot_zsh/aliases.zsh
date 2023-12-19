@@ -185,5 +185,3 @@ if (( $+commands[pacman] )); then
 	alias paci='sudo pacman -S'
 	alias pacrdeps='sudo pacman -Rsn'
 fi
-
-alias ptrypyenv="poetry env use $(pyenv which python)"

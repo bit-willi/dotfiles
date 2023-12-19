@@ -64,30 +64,6 @@ if [ -f "$HOME/.env-secrets" ]; then
 	source "$HOME/.env-secrets"
 fi
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-. $(pyenv root)/completions/pyenv.zsh
-
-pyenv() {
-	local command
-	command="${1:-}"
-	if [ "$#" -gt 0 ]; then
-		shift
-	fi
-
-	case "$command" in
-		activate | deactivate | rehash | shell)
-			eval "$(pyenv "sh-$command" "$@")"
-			;;
-		*)
-			command pyenv "$command" "$@"
-			;;
-	esac
-}
-
 if [ -f "$HOME/.poetry/bin/poetry" ]; then
 	export PATH="$HOME/.poetry/bin:${PATH}"
 fi

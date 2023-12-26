@@ -101,22 +101,8 @@ return {
         "tpope/vim-dispatch",
         event = "VeryLazy"
     },
-    --"preservim/vim-markdown",
-    --"tpope/vim-git",
-    --"tpope/vim-eunuch",
-    --"tpope/vim-dadbod",
-    --"luochen1990/rainbow",
-    --"Yggdroot/indentLine",
-    --"nvim-neorg/neorg",
-    --"APZelos/blamer.nvim",
-    --"chriskempson/base16-vim",
-    --"juneedahamed/vc.vim",
-    --"rust-lang/rust.vim",
-    --"editorconfig/editorconfig-vim",
-    --"kristijanhusak/vim-dadbod-ui",
-    --"kristijanhusak/vim-dadbod-completion",
-    --"dhruvasagar/vim-zoom",
-    --"dhruvasagar/vim-table-mode",
-    --{ "junegunn/fzf", build = "./install --all" },
-    --{ "junegunn/fzf.vim" },
+    {
+        "dhruvasagar/vim-table-mode",
+        cmd = "TableModeEnable"
+    }
 }

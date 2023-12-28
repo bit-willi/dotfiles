@@ -86,10 +86,6 @@ return {
         cmd = "Telescope"
     },
     {
-        "hrsh7th/cmp-nvim-lsp",
-        event = "InsertEnter"
-    },
-    {
         "hrsh7th/nvim-cmp",
         event = "InsertEnter"
     },
@@ -104,5 +100,8 @@ return {
     {
         "dhruvasagar/vim-table-mode",
         cmd = "TableModeEnable"
-    }
+    },
+    {
+        "hrsh7th/cmp-nvim-lsp",
+    },
 }

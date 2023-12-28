@@ -7,6 +7,7 @@ if status is-interactive
     set -U fish_greeting ""
 
     source $HOME/.config/fish/aliases.fish
+    source $HOME/.config/fish/git.fish
     source /etc/grc.fish
 
     set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"

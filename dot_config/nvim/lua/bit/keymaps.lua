@@ -29,8 +29,8 @@ vim.keymap.set("n", "#", "#zz")
 vim.keymap.set("v", "<S-j>", ":<C-u>silent! '<,'>move+<CR>gv=gv")
 vim.keymap.set("v", "<S-k>", ":<C-u>silent! '<,'>move-2<CR>gv=gv")
 
--- Disable arrow keys
-vim.keymap.set("n", "<Up>", "<NOP>")
-vim.keymap.set("n", "<Down>", "<NOP>")
-vim.keymap.set("n", "<Left>", "<NOP>")
-vim.keymap.set("n", "<Right>", "<NOP>")
+-- Resize splits with arrows
+vim.keymap.set("n", "<left>", "<cmd>vertical resize +5<cr>", {silent = true})
+vim.keymap.set("n", "<right>", "<cmd>vertical resize -5<cr>", {silent = true})
+vim.keymap.set("n", "<up>", "<cmd>resize +5<cr>", {silent = true})
+vim.keymap.set("n", "<down>", "<cmd>resize -5<cr>", {silent = true})

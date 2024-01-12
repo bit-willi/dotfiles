@@ -5,6 +5,10 @@ theme = "semi-native"
 # icons = "awesome"
 
 [[block]]
+block = "custom"
+command="echo -n 'MODE ' && optimus-manager --print-mode | cut -d' ' -f5"
+
+[[block]]
 block = "disk_space"
 path = "/"
 info_type = "available"

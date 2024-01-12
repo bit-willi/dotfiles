@@ -16,4 +16,6 @@ if status is-interactive
     source $HOME/.local/share/nvim/lazy/fzf/shell/key-bindings.fish
 
     source $HOME/.asdf/asdf.fish
+
+    source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 end

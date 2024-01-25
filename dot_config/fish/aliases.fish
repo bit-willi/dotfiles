@@ -63,7 +63,12 @@ else
     alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
 end
 
-
+# if nvim exists, aliast to vim
 if type -q nvim
     alias vim="nvim"
+end
+
+# Awrit dont works under tmux, so i need to spawn a new kitty instance.
+function awrit
+    kitty sh -c "awrit $argv" 2>/dev/null
 end

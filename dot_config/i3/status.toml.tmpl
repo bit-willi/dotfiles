@@ -1,12 +1,13 @@
-[[themes]]
-theme = "semi-native"
+[icons]
+icons = "awesome5"
 
-#[[icons]]
-# icons = "awesome"
+[[themes]]
+theme = "gruvbox-dark"
 
 [[block]]
 block = "custom"
-command="echo -n 'MODE ' && optimus-manager --print-mode | cut -d' ' -f5"
+command="echo -n '\uf26c ' && optimus-manager --print-mode | cut -d' ' -f5"
+format="{ $icon|} $text.pango-str() "
 
 [[block]]
 block = "disk_space"

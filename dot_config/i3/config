@@ -321,7 +321,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
 
 bar {
-    font pango:Hack, FontAwesome 7
+    font pango:Hack, FontAwesome 8
     position top
     mode dock
     #status_command i3status

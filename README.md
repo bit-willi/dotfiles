@@ -14,39 +14,13 @@ account ¯\_(ツ)_/¯.
 The following environment variables can be set to configure chezmoi when
 applying changed:
 
-- `ASK`: Set to `1` if you want to enable chezmoi prompt
 - `SECRETS_OFF`: Set to `1` to enable Bitwarden (uses my personal secrets set in
   `.chezmoi.yaml`)
-- `DOTFILES_MINIMAL`: Set to `1` if you want to install the minimal version
-- `WORKCONF`: Set to `1` to enable work configuration (work email, etc)
-
-For example: `ASK=1 chezmoi apply` to enable prompt or `DOTFILES_MINIMAL=1
-chezmoi apply` for applying the minimal version.
 
 #### Install with chezmoi
 
 ```shell
 SECRETS_OFF=1 chezmoi init https://github.com/bit-willi/dotfiles.git -S ~/dotfiles
-```
-
-#### Minimal version
-
-The minimal version installs only the essentials.
-
-- zsh
-- git
-- vim
-- emacs
-- tmux
-- curl
-- alacritty
-- neovim
-- user-dirs
-- editorconfig
-- dircolors
-
-```shell
-SECRETS_OFF=1 DOTFILES_MINIMAL=1 chezmoi init https://github.com/bit-willi/dotfiles.git -S ~/dotfiles
 ```
 
 #### Makefile
@@ -57,12 +31,7 @@ install dependencies.
 ``` shell
 make apply or make all
 make fix-permissions
-make install-required-dependencies
 make install-extra-dependencies
-make install-pyenv
-make install-go-dependencies
-make install git-dependencies
-make configure-osx
 make configure-linux
 ```
 
@@ -103,21 +72,17 @@ export I3RS_GITHUB_TOKEN="your-github-token"
 
 ## Screenshots
 
-### OSX
-
-![](./static/osx-screenshot.png)
-
 ### Archlinux
 
 ![](./static/arch-screenshot.png)
 
-### Weechat IRC
+### Desktop
 
-![](./static/weechat.png)
+![](./static/home.png)
 
-### Emacs
+### Vim
 
-![](./static/emacs.png)
+![](./static/vim.png)
 
 ## Contributing
 

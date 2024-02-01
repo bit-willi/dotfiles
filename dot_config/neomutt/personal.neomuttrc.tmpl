@@ -11,6 +11,7 @@ set use_from = yes
 {{- if .secrets }}
 set smtp_pass = $my_pass
 set smtp_url=smtps://$my_user@{{ .smtp_host }}
+set ssl_starttls = yes
 set ssl_force_tls = yes
 {{- end }}
 
@@ -30,19 +31,20 @@ unset move # gmail handles that
 
 unvirtual-mailboxes *
 set virtual_spoolfile = yes
-set nm_default_url = "notmuch:///Users/seds/mail/personal"
-virtual-mailboxes "unread" "notmuch://?query=tag:unread and tag:me"
+set nm_default_url = "notmuch:///home/willian/mail/personal"
+virtual-mailboxes "unread" "notmuch://?query=tag:new"
 virtual-mailboxes "inbox" "notmuch://?query=tag:inbox"
-virtual-mailboxes "archives" "notmuch://?query=tag:archived"
 virtual-mailboxes "sent" "notmuch://?query=tag:sent"
-virtual-mailboxes "me" "notmuch://?query=tag:me"
 virtual-mailboxes "trash" "notmuch://?query=tag:deleted"
-virtual-mailboxes "linux" "notmuch://?query=tag:linux-kernel"
-virtual-mailboxes "linux-rv" "notmuch://?query=tag:linux-rv"
-virtual-mailboxes "university" "notmuch://?query=tag:university"
-virtual-mailboxes "emacs" "notmuch://?query=tag:emacs"
-virtual-mailboxes "lwn" "notmuch://?query=tag:lwn"
-virtual-mailboxes "drafts" "notmuch://?query=tag:draft"
-virtual-mailboxes "flagged" "notmuch://?query=tag:flagged"
-virtual-mailboxes "lists" "notmuch://?query=tag:list"
-virtual-mailboxes "newsfeed" "notmuch://?query=tag:newsfeed"
+virtual-mailboxes "updates" "notmuch://?query=tag:updates"
+virtual-mailboxes "forums" "notmuch://?query=tag:forums"
+virtual-mailboxes "promotions" "notmuch://?query=tag:promotions"
+virtual-mailboxes "important" "notmuch://?query=tag:important"
+virtual-mailboxes "social" "notmuch://?query=tag:social"
+virtual-mailboxes "personal" "notmuch://?query=tag:personal"
+virtual-mailboxes "php-internals" "notmuch://?query=tag:php-internals"
+virtual-mailboxes "ocaml" "notmuch://?query=tag:ocaml-github"
+virtual-mailboxes "univali" "notmuch://?query=tag:univali"
+virtual-mailboxes "linux" "notmuch://?query=tag:linux"
+virtual-mailboxes "archive" "notmuch://?query=!tag:inbox"
+virtual-mailboxes "spam" "notmuch://?query=tag:spam"

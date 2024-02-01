@@ -1,9 +1,5 @@
-set editor = `echo \$EDITOR`
-{{- if eq .chezmoi.os "darwin" }}
-set sendmail = "/usr/local/bin/msmtp"
-{{- else }}
-set sendmail = "/usr/bin/msmtp"
-{{- end }}
+set editor = "nvim"
+set sendmail = "gmi send -t -C /home/willian/mail/personal"
 
 set wait_key = no
 set timeout = 3
@@ -54,16 +50,15 @@ source ./gruvbox-powerline.neomuttrc
 
 # Folder hooks
 folder-hook 'personal.neomuttrc' 'source ~/.config/neomutt/personal.neomuttrc'
-folder-hook 'work.neomuttrc' 'source ~/.config/neomutt/work.neomuttrc'
+#folder-hook 'work.neomuttrc' 'source ~/.config/neomutt/work.neomuttrc'
 
 # default account
 source ./personal.neomuttrc
 
 # Macros for switching accounts
 macro index <f2> '<sync-mailbox><enter-command>source ~/.config/neomutt/personal.neomuttrc<enter><change-folder>!<enter>'
-macro index <f3> '<sync-mailbox><enter-command>source ~/.config/neomutt/work.neomuttrc<enter><change-folder>!<enter>'
-macro index S "<shell-escape>syncmail<enter>" "run syncmail"
-
+#macro index <f3> '<sync-mailbox><enter-command>source ~/.config/neomutt/work.neomuttrc<enter><change-folder>!<enter>'
+macro index S "<shell-escape>cd ~/mail/personal; gmi sync<enter>" "run lieer to sync email@gmail.com"
 set sidebar_visible
 set sidebar_short_path
 set sidebar_folder_indent
@@ -89,20 +84,22 @@ folder-hook . 'set read_inc=1000'
 unset help
 
 bind index,pager @ compose-to-sender
-#source ./vim-keys.rc
+source ./vim-keys.rc
 
 bind index,pager \CP sidebar-prev  # Ctrl-Shift-P - Previous Mailbox
 bind index,pager \CN sidebar-next  # Ctrl-Shift-N - Next Mailbox
 bind index,pager \CB sidebar-toggle-visible # Use 'B' to switch the Sidebar on and off
 bind index,pager \CO sidebar-open  # Ctrl-Shift-O - Open Highlighted Mailbox
 bind index,pager \CF vfolder-from-query
+macro index,pager \CU "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+macro attach,compose \CU "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 
 # notmuch
 bind index,pager - modify-labels
 macro index,pager ! "<modify-labels>!unread\n" "Toggle the 'unread' tag"
-macro index A "<modify-labels>+archived -unread -inbox<enter>" "Archive message"
+macro index A "<modify-labels>-unread -inbox<enter>" "Archive message"
+macro index a "<modify-labels>+inbox<enter>" "Unarchive message"
 macro index D "<modify-labels>+deleted -unread -inbox -archived<enter>" "Delete message"
-macro index d "<modify-labels>+deleted -unread -inbox -archived<enter>" "Delete message"
 macro index c "<change-vfolder>?" "Change to vfolder overview"
 macro index \\\\ "<vfolder-from-query>" "Search mailbox"
 

@@ -41,3 +41,5 @@ rclone-browser
 mkinitcpio-firmware
 warpd
 timeshift-autosnap
+lieer-git
+urlscan

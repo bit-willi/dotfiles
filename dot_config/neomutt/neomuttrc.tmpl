@@ -1,5 +1,5 @@
 set editor = "nvim"
-set sendmail = "gmi send -t -C /home/willian/mail/personal"
+set sendmail = "gmi send -t -C {{ .maildir }}/personal"
 
 set wait_key = no
 set timeout = 3
@@ -92,8 +92,8 @@ bind index,pager \CN sidebar-next  # Ctrl-Shift-N - Next Mailbox
 bind index,pager \CB sidebar-toggle-visible # Use 'B' to switch the Sidebar on and off
 bind index,pager \CO sidebar-open  # Ctrl-Shift-O - Open Highlighted Mailbox
 bind index,pager \CF vfolder-from-query
-macro index,pager \CU "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
-macro attach,compose \CU "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+macro index,pager u "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+macro attach,compose u "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 
 # notmuch
 bind index,pager - modify-labels

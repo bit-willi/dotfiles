@@ -1,6 +1,6 @@
 -- Helpers to make life happy
 vim.keymap.set("n", "<leader>fs", vim.cmd.Ex)
-vim.keymap.set("n", "<Esc><Esc>", ":noh<cr> :call clearmatches()<cr>" )
+vim.keymap.set("n", "<Esc><Esc>", ":noh<cr> :noh<cr>" )
 
 -- Easy tabs
 vim.keymap.set("n", "<leader>tt", ":tabnew<cr>")

@@ -1,19 +1,8 @@
 set my_user={{ .email }}
 
-{{- if .secrets }}
-set my_pass={{ (bitwarden "item" .bitwarden.personal_mail).login.password }}
-{{- end }}
-
 set realname = {{ .name | quote }}
 set from = {{ .email }}
 set use_from = yes
-
-{{- if .secrets }}
-set smtp_pass = $my_pass
-set smtp_url=smtps://$my_user@{{ .smtp_host }}
-set ssl_starttls = yes
-set ssl_force_tls = yes
-{{- end }}
 
 set folder = "{{ .maildir }}/personal"
 set mbox_type = "Maildir"

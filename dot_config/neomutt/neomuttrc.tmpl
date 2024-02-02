@@ -59,6 +59,7 @@ source ./personal.neomuttrc
 macro index <f2> '<sync-mailbox><enter-command>source ~/.config/neomutt/personal.neomuttrc<enter><change-folder>!<enter>'
 #macro index <f3> '<sync-mailbox><enter-command>source ~/.config/neomutt/work.neomuttrc<enter><change-folder>!<enter>'
 macro index S "<shell-escape>cd ~/mail/personal; gmi sync<enter>" "run lieer to sync email@gmail.com"
+macro index s "<shell-escape>cd ~/mail/personal; gmi pull<enter>" "run lieer to pull email@gmail.com"
 set sidebar_visible
 set sidebar_short_path
 set sidebar_folder_indent

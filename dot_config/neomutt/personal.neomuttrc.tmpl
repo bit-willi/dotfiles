@@ -21,7 +21,7 @@ unset move # gmail handles that
 unvirtual-mailboxes *
 set virtual_spoolfile = yes
 set nm_default_url = "notmuch:///home/willian/mail/personal"
-virtual-mailboxes "inbox" "notmuch://?query=tag:inbox"
+virtual-mailboxes "inbox" "notmuch://?query=tag:inbox and to:{{ .email }} or cc:{{ .email }}"
 virtual-mailboxes "sent" "notmuch://?query=tag:sent"
 virtual-mailboxes "trash" "notmuch://?query=tag:deleted"
 virtual-mailboxes "updates" "notmuch://?query=tag:updates"

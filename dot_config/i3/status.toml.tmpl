@@ -66,7 +66,7 @@ format = " $icon $percentage $time "
 [[block]]
 block = "custom"
 interval=300
-command="echo -n '\uf0e0 ' &&  notmuch count 'tag:inbox' && sh -c 'cd /home/willian/mail/personal/; gmi pull>/dev/null'"
+command="echo -n '\uf0e0 ' &&  notmuch count 'tag:inbox and to:{{ .email }} or cc:{{ .email }}' && sh -c 'cd {{ .maildir }}/personal/; gmi pull>/dev/null'"
 format="{ $icon|} $text.pango-str() "
 
 [[block]]

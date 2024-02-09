@@ -1,7 +1,5 @@
 # i3 config file (v4)
-#
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
 
 font pango:Hack 9
@@ -9,7 +7,6 @@ font pango:Hack 9
 floating_modifier $mod
 
 bindsym $mod+Return exec --no-startup-id $HOME/.bin/terminal
-#bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -42,9 +39,6 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-
-# split in horizontal orientation
-# bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -95,14 +89,17 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
+
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # scratchpad
 # make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
+
 # show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
@@ -174,19 +171,20 @@ set $darkgray #1d2021
 
 # blue gruvbox
 # class                 border|backgr|text|indicator|child_border
-client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused          $blue $blue $darkgray $purple $blue
 client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
 client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $red
 
-new_window none
+hide_edge_borders none
+new_window pixel 1
 
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
 
 # Activate smart borders (always)
 smart_gaps on
 
-gaps inner 5
+gaps inner 3
 gaps outer 0
 
 # modify gaps at run time
@@ -226,6 +224,7 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_inner" {
         bindsym plus  gaps inner current plus 5
         bindsym minus gaps inner current minus 5
@@ -238,6 +237,7 @@ mode "$mode_gaps_inner" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_horiz" {
         bindsym plus  gaps horizontal current plus 5
         bindsym minus gaps horizontal current minus 5
@@ -250,6 +250,7 @@ mode "$mode_gaps_horiz" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_verti" {
         bindsym plus  gaps vertical current plus 5
         bindsym minus gaps vertical current minus 5
@@ -262,6 +263,7 @@ mode "$mode_gaps_verti" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_top" {
         bindsym plus  gaps top current plus 5
         bindsym minus gaps top current minus 5
@@ -274,6 +276,7 @@ mode "$mode_gaps_top" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_right" {
         bindsym plus  gaps right current plus 5
         bindsym minus gaps right current minus 5
@@ -286,6 +289,7 @@ mode "$mode_gaps_right" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_bottom" {
         bindsym plus  gaps bottom current plus 5
         bindsym minus gaps bottom current minus 5
@@ -298,6 +302,7 @@ mode "$mode_gaps_bottom" {
         bindsym Return mode "$mode_gaps"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_left" {
         bindsym plus  gaps left current plus 5
         bindsym minus gaps left current minus 5
@@ -321,7 +326,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
 
 bar {
-    font pango:Hack, FontAwesome 8
+    font pango:Hack, FontAwesome 9
     position top
     mode dock
     #status_command i3status

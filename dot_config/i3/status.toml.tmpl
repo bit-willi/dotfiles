@@ -6,6 +6,12 @@ theme = "gruvbox-dark"
 
 [[block]]
 block = "custom"
+interval = 1
+command = "echo -n '\uf11c ' && xset q | grep 'Caps Lock' | cut -d':' -f3 | grep -c 'on' | sed -e 's/1/A/;s/0/a/'"
+format="{ $icon|} $text.pango-str() "
+
+[[block]]
+block = "custom"
 command="echo -n '\uf26c ' && optimus-manager --print-mode | cut -d' ' -f5"
 format="{ $icon|} $text.pango-str() "
 
@@ -65,9 +71,12 @@ format = " $icon $percentage $time "
 
 [[block]]
 block = "custom"
-interval=300
-command="echo -n '\uf0e0 ' &&  notmuch count 'tag:inbox and to:{{ .email }} or cc:{{ .email }}' && sh -c 'cd {{ .maildir }}/personal/; gmi pull>/dev/null'"
-format="{ $icon|} $text.pango-str() "
+interval = 60
+command = "echo -n '\uf0e0 ' &&  notmuch count 'tag:inbox and to:willian.souza.ti@gmail.com or cc:willian.souza.ti@gmail.com'"
+format = "{ $icon|} $text.pango-str() "
+[[block.click]]
+button = "left"
+cmd = "cd ~/mail/personal; gmi pull"
 
 [[block]]
 block = "time"

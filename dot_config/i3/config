@@ -16,6 +16,9 @@ bindsym $mod+d exec --no-startup-id bash -c "rofi -show drun"
 bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
 bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
 
+# run warpd grid
+bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down

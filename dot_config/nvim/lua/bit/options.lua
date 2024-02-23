@@ -56,6 +56,11 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  pattern = {"makefile"},
+  command = "set noet",
+})
+
 opt.breakindent = true
 opt.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 opt.linebreak = true

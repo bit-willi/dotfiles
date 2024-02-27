@@ -57,7 +57,7 @@ opt.softtabstop = 4
 opt.expandtab = true
 
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"makefile"},
+  pattern = {"makefile", "Makefile"},
   command = "set noet",
 })
 

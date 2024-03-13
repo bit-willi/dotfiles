@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+
+import os
+import random
+import time as timer
+import xml.etree.ElementTree as ET
+
+from datetime import datetime, date, time, timedelta
+
+dynamic_wallpaper_path = "/usr/share/backgrounds/Dynamic_Wallpapers"
+
+def set_wallpaper(path):
+    path = path.replace(" ", "\\ ")
+    print("Setting wallpaper: " + path)
+    os.system("feh --randomize --bg-fill " + path + " 2>/dev/null")
+
+def get_wallpapers():
+    print("Getting wallpapers")
+    wallpapers = os.popen("ls " + dynamic_wallpaper_path + "/*.xml 2>/dev/null").read().split("\n")
+    return wallpapers
+
+def pick_random_wallpaper(wallpapers):
+    print("Picking random wallpaper")
+    return random.choice(wallpapers)
+
+def handle_wallpaper(wallpaper_xml):
+    print("Handling wallpaper: " + wallpaper_xml)
+    background = ET.parse(wallpaper_xml).getroot()
+    time_start = background.find("starttime")
+
+    d = date.today()
+    t = time(int(time_start.find("hour").text), int(time_start.find("minute").text), int(time_start.find("second").text))
+    start_time = datetime.combine(d, t)
+
+    print("Reference start time: " + str(start_time))
+
+    for child in background:
+        if child.tag == "static":
+            duration = child.find("duration").text
+            from_path = child.find("file").text
+            to_path = None
+        elif child.tag == "transition":
+            duration = child.find("duration").text
+            from_path = child.find("from").text
+            to_path = child.find("to").text
+        else:
+            continue
+
+        now = datetime.now()
+        start_time += timedelta(seconds=float(duration))
+        diff_seconds = (start_time-now).total_seconds()
+
+        print("From: " + from_path)
+        print("Now: " + str(now))
+        print("Node start time: " + str(start_time))
+        print("Diff: " + str(diff_seconds))
+        print("\n")
+
+        if (diff_seconds <= 0):
+            continue
+
+        if (to_path != None):
+            set_wallpaper(from_path)
+            print("Duration: " + str(diff_seconds/2))
+            timer.sleep(float(diff_seconds)/2)
+
+            set_wallpaper(to_path)
+            print("Duration: " + str(diff_seconds/2))
+            timer.sleep(float(diff_seconds)/2)
+            continue
+
+        set_wallpaper(from_path)
+        print("Duration: " + str(diff_seconds))
+        timer.sleep(float(diff_seconds))
+
+def main():
+    wallpapers = get_wallpapers()
+
+    if len(wallpapers) == 1 and wallpapers[0] == "":
+        print("No dynamic wallpapers found")
+        exit(0)
+
+    while True:
+        wallpaper_xml = pick_random_wallpaper(wallpapers)
+        handle_wallpaper(wallpaper_xml)
+
+if __name__ == '__main__':
+    main()

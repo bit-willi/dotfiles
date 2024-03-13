@@ -102,6 +102,10 @@ return {
         cmd = "TableModeEnable"
     },
     {
+        "APZelos/blamer.nvim",
+        cmd = "BlamerToggle"
+    },
+    {
         "hrsh7th/cmp-nvim-lsp",
     },
     {

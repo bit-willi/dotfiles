@@ -37,8 +37,7 @@ def pick_wallpaper(wallpapers, name):
     print("Picking wallpaper with name like " + name)
     return chosen
 
-def handle_wallpaper(wallpaper_xml):
-    print("Handling wallpaper: " + wallpaper_xml)
+def get_wallpaper_data(wallpaper_xml):
     background = ET.parse(wallpaper_xml).getroot()
     time_start = background.find("starttime")
 
@@ -46,7 +45,7 @@ def handle_wallpaper(wallpaper_xml):
     t = time(int(time_start.find("hour").text), int(time_start.find("minute").text), int(time_start.find("second").text))
     start_time = datetime.combine(d, t)
 
-    print("Reference start time: " + str(start_time))
+    map = {}
 
     for child in background:
         if child.tag == "static":
@@ -60,32 +59,48 @@ def handle_wallpaper(wallpaper_xml):
         else:
             continue
 
-        now = datetime.now()
-        start_time += timedelta(seconds=float(duration))
-        diff_seconds = (start_time-now).total_seconds()
-
-        print("From: " + from_path)
-        print("Now: " + str(now))
-        print("Node start time: " + str(start_time))
-        print("Diff: " + str(diff_seconds))
-        print("\n")
-
-        if (diff_seconds <= 0):
-            continue
-
         if (to_path != None):
-            set_wallpaper(from_path)
-            print("Duration: " + str(diff_seconds/2))
-            timer.sleep(float(diff_seconds)/2)
+            start_time += timedelta(seconds=float(duration)/2)
+            map[str(start_time)] = {"file": from_path, "start_time": start_time}
 
-            set_wallpaper(to_path)
-            print("Duration: " + str(diff_seconds/2))
-            timer.sleep(float(diff_seconds)/2)
+            start_time += timedelta(seconds=float(duration)/2)
+            map[str(start_time)] = {"file": to_path, "start_time": start_time}
+
             continue
 
-        set_wallpaper(from_path)
-        print("Duration: " + str(diff_seconds))
-        timer.sleep(float(diff_seconds))
+        start_time += timedelta(seconds=float(duration))
+        map[str(start_time)] = {"file": from_path, "start_time": start_time}
+
+    return map
+
+def handle_wallpaper(wallpaper_dict):
+    print("Handling wallpaper")
+
+    selected = None
+
+    now = datetime.now()
+
+    current = None
+    next = None
+
+    for key, struct in wallpaper_dict.items():
+        key = datetime.fromisoformat(key)
+
+        if (now >= key):
+            current = wallpaper_dict[str(key)]
+            continue
+
+        if (now <= key):
+            next = wallpaper_dict[str(key)]
+            break
+
+    eta = (next['start_time']-now).total_seconds()
+    set_wallpaper(current['file'])
+
+    print("ETA: " + str(eta))
+    print("Next wallpaper: " + str(next['start_time']))
+
+    timer.sleep(eta)
 
 def list_available_wallpapars(list):
     if (list == False):
@@ -128,8 +143,8 @@ def main():
 
     while True:
         wallpaper_xml = pick_wallpaper(wallpapers, args.name)
-        print(wallpaper_xml)
-        handle_wallpaper(wallpaper_xml)
+        wallpaper_data = get_wallpaper_data(wallpaper_xml)
+        handle_wallpaper(wallpaper_data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Handle xml dynamic wallpapers")
@@ -168,4 +183,5 @@ if __name__ == '__main__':
 
     ensure_required_binaries_are_installed()
     ensure_required_python_deps()
+
     main()

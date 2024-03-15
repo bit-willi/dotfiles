@@ -87,6 +87,21 @@ def handle_wallpaper(wallpaper_xml):
         print("Duration: " + str(diff_seconds))
         timer.sleep(float(diff_seconds))
 
+def list_available_wallpapars(list):
+    if (list == False):
+        return
+
+    wallpapers = get_wallpapers()
+
+    for  wallpaper in wallpapers:
+        wallpaper = wallpaper.split('/')
+        wallpaper = wallpaper[len(wallpaper)-1]
+        wallpaper = wallpaper.split('.')
+        print(wallpaper[0])
+
+    exit(0)
+
+
 def ensure_required_binaries_are_installed():
     has_find = os.popen("command -v find 2>/dev/null").read()
     has_feh = os.popen("command -v feh 2>/dev/null").read()
@@ -140,7 +155,16 @@ if __name__ == '__main__':
         help="Name of wallpaper to be searched in list"
     )
 
+    parser.add_argument(
+        "--list",
+        default=False,
+        action='store_true',
+        help="Show all available xml"
+    )
+
     args = parser.parse_args()
+
+    list_available_wallpapars(args.list)
 
     ensure_required_binaries_are_installed()
     ensure_required_python_deps()

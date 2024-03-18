@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+selected_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
+
+mode='prefer-dark'
+
+if [ "$selected_theme" == "'prefer-dark'" ]; then
+        mode="prefer-light"
+fi
+
+echo "Theme:" $mode
+
+gsettings set org.gnome.desktop.interface color-scheme $mode

@@ -26,7 +26,7 @@ R = function(name)
   return require(name)
 end
 
-local function spread(template)
+spread = function(template)
     local result = {}
     for key, value in pairs(template) do
         result[key] = value
@@ -39,3 +39,13 @@ local function spread(template)
         return result
     end
 end
+
+stridx = function(str, substr)
+    return string.find(str, substr, 1, true) ~= nil
+end
+
+-- Get OS theme
+local handle = io.popen("gsettings get org.gnome.desktop.interface color-scheme")
+local gnome_theme = handle:read("*a")  -- Read the output of the command
+handle:close()
+GNOME_THEME = gnome_theme:gsub("\n$", "")

@@ -1,4 +1,4 @@
-require("gruvbox").setup({
+local setup = {
     terminal_colors = true, -- add neovim terminal colors
     undercurl = true,
     underline = true,
@@ -21,6 +21,12 @@ require("gruvbox").setup({
     overrides = {},
     dim_inactive = false,
     transparent_mode = true,
-})
+};
 
+-- Check if 'light' is found in gnome_theme
+if stridx(GNOME_THEME, 'light') then
+    setup.transparent_mode = false
+end
+
+require("gruvbox").setup(setup)
 vim.cmd("colorscheme gruvbox")

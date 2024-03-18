@@ -106,7 +106,11 @@ opt.signcolumn = "yes"
 opt.termguicolors = true
 
 -- Colors
-opt.background = "dark" -- or "light" for light mode
+if stridx(GNOME_THEME, 'light') then
+    opt.background = "light" -- or "light" for light mode
+else
+    opt.background = "dark" -- or "light" for light mode
+end
 
 -- Set color to 80 column
 opt.colorcolumn = "80"

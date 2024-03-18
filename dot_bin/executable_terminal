@@ -11,7 +11,7 @@ selected_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 mode="gruvbox_dark.conf"
 
-if [ "$selected_theme" == "'prefer-dark'" ]; then
+if [ "$selected_theme" == "'prefer-light'" ]; then
         mode="gruvbox_light.conf"
 fi
 

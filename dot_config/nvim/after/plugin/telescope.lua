@@ -1,4 +1,5 @@
 local actions = require("telescope.actions")
+local action_layout = require "telescope.actions.layout"
 
 require("telescope").setup{
     defaults = {
@@ -8,6 +9,8 @@ require("telescope").setup{
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            ["<M-p>"] = action_layout.toggle_preview,
+            ["<M-m>"] = action_layout.toggle_mirror,
             ['<esc>'] = actions.close
           },
         },

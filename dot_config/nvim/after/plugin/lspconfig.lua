@@ -1,4 +1,5 @@
 local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls', 'sqlls', 'pylsp', 'clangd', 'ocamllsp'}
+local telescope_mapper = require "bit.telescope.mappings"
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
@@ -23,6 +24,11 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "]d", ":lua vim.diagnostic.goto_next()<CR>",  { noremap = true, silent = true, desc = "Goto next diagnostic" })
     buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>",  { noremap = true, silent = true, desc = "Open list with diagnostic" })
     buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true, desc = "Formats the current buffer" })
+
+    telescope_mapper("gr", "lsp_references", nil, true)
+    telescope_mapper("gI", "lsp_implementations", nil, true)
+    telescope_mapper("<space>wd", "lsp_document_symbols", { ignore_filename = true }, true)
+    telescope_mapper("<space>ww", "lsp_dynamic_workspace_symbols", { ignore_filename = true }, true)
 end
 
 root_dir = function(fname)

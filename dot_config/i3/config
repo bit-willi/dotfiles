@@ -103,6 +103,9 @@ bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'Do you reall
 # make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
+# toogle theme (light/dark)
+bindsym $mod+Shift+d exec ~/.bin/switch-theme
+
 # show the first scratchpad window
 bindsym $mod+minus scratchpad show
 

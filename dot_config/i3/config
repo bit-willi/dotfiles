@@ -330,6 +330,8 @@ exec --no-startup-id picom --config $HOME/.config/picom.conf &
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id warpd
+exec --no-startup-id systemctl --user start xsettingsd
 
 bar {
     font pango:Hack, FontAwesome 9

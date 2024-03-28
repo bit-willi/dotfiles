@@ -2,18 +2,23 @@
 
 selected_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
 
-mode='prefer-dark'
-gtk_theme='gruvbox-dark-gtk'
+mode="prefer-dark"
+gtk_theme="gruvbox-dark-gtk"
+kitty_theme="Gruvbox Dark"
+vim_theme="dark"
 
 if [ "$selected_theme" == "'prefer-dark'" ]; then
         mode="prefer-light"
-        gtk_theme='gruvbox-light-gtk'
+        gtk_theme="gruvbox-light-gtk"
+        kitty_theme="Gruvbox Light"
+        vim_theme="dark"
 fi
 
 echo "Theme:" $mode
 
 gsettings set org.gnome.desktop.interface color-scheme $mode
-#kitty +kitten themes --reload-in=all '$kitty_theme'
-
+kitty +kitten themes --reload-in=all $kitty_theme
 echo "Net/ThemeName \"$gtk_theme\"" > $HOME/.xsettingsd
+echo "set background=$vim_theme" > $HOME/.nvim.color
+
 killall -HUP xsettingsd

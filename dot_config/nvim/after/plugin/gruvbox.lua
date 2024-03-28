@@ -24,9 +24,9 @@ local setup = {
 };
 
 -- Check if 'light' is found in gnome_theme
-if stridx(GNOME_THEME, 'light') then
-    setup.transparent_mode = false
-end
+--if stridx(GNOME_THEME, 'light') then
+    --setup.transparent_mode = false
+--end
 
 require("gruvbox").setup(setup)
 vim.cmd("colorscheme gruvbox")

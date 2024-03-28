@@ -9,10 +9,11 @@ fi
 
 selected_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
 
-mode="gruvbox_dark.conf"
+kitty_theme="Gruvbox Dark"
 
 if [ "$selected_theme" == "'prefer-light'" ]; then
-        mode="gruvbox_light.conf"
+        kitty_theme="Gruvbox Light"
 fi
 
-$CMD -o include="~/.config/kitty/kitty-themes/themes/"$mode
+kitty +kitten themes --reload-in=all $kitty_theme
+$CMD

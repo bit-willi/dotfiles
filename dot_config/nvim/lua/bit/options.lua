@@ -112,6 +112,27 @@ else
     opt.background = "dark" -- or "light" for light mode
 end
 
+local color_file = vim.fn.expand('~/.nvim.color')
+
+local function reload()
+    vim.cmd("source " .. color_file)
+end
+
+local w = vim.loop.new_fs_event()
+local on_change
+local function watch_file(fname)
+    w:start(fname, {}, vim.schedule_wrap(on_change))
+end
+on_change = function()
+    print('hello');
+    reload()
+    w:stop()
+    watch_file(color_file)
+end
+
+watch_file(color_file)
+reload()
+
 -- Set color to 80 column
 opt.colorcolumn = "80"
 

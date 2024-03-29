@@ -16,9 +16,6 @@ bindsym $mod+d exec --no-startup-id bash -c "rofi -show drun"
 bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
 bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
 
-# run warpd grid
-bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
-
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -323,14 +320,10 @@ mode "$mode_gaps_left" {
 }
 
 # autostarts
-exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec --no-startup-id $HOME/.bin/laptop-configure
 exec --no-startup-id $HOME/.bin/random-wallpaper
-exec --no-startup-id picom --config $HOME/.config/picom.conf &
-exec --no-startup-id flameshot
-exec --no-startup-id nm-applet
+exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id warpd
 exec --no-startup-id systemctl --user start xsettingsd
 
 bar {

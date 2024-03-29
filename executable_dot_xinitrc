@@ -27,14 +27,12 @@ isavailable picom && picom --config ~/.config/picom.conf &
 isavailable nm-applet && nm-applet &
 isavailable xautolock && xautolock -time 10 -locker ~/.bin/lock &
 isavailable dunst && dunst -config ~/.config/dunst/dunstrc &
-isavailable xss-lock && xss-lock -- ~/.bin/lock &
-isavailable unclutter && unclutter &
 isavailable libinput-gestures-setup && libinput-gestures-setup start &
 isavailable blueman-applet && blueman-applet &
-isavailable solaar && solaar --window hide &
 isavailable setxkbmap && setxkbmap -option caps:escape &
 isavailable xbindkeys && xbindkeys &
-isavailable conky && conky --daemonize &
+isavailable flameshot && flameshot &
+isavailable warpd && warpd &
 
 start_nordvpn() {
     while ! ping -c 1 -W 1 8.8.8.8; do                                                                                                                                                    [I]
@@ -51,18 +49,13 @@ isavailable nordvpn && nordvpn account | grep -v "You are not logged in" && star
 bash $HOME/.bin/lightsOn.sh &
 /usr/lib/geoclue-2.0/demos/agent &
 
-# XPS
-# set touchpad speed
-isavailable xinput && xinput --set-prop \
-    "DLL0945:00 04F3:311C Touchpad"  \
-    "libinput Accel Speed" 0.6  &
-
+# Dell Inspiron 7560
 # enable natural scrolling
-isavailable xinput && xinput --set-prop \
-    "DLL0945:00 04F3:311C Touchpad"  \
+isavailable xinput && xinput set-prop \
+    "DELL0782:00 06CB:7E92 Touchpad" \
     "libinput Natural Scrolling Enabled" 1 &
 
 # enable tapping
 isavailable xinput && xinput --set-prop \
-    "DLL0945:00 04F3:311C Touchpad"  \
+    "DELL0782:00 06CB:7E92 Touchpad" \
     "libinput Tapping Enabled" 1 &

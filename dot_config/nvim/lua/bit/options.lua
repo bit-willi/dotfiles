@@ -106,7 +106,7 @@ opt.signcolumn = "yes"
 opt.termguicolors = true
 
 -- Colors
-if stridx(GNOME_THEME, 'light') then
+if stridx(THEME, 'light') then
     opt.background = "light" -- or "light" for light mode
 else
     opt.background = "dark" -- or "light" for light mode

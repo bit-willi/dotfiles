@@ -45,7 +45,7 @@ stridx = function(str, substr)
 end
 
 -- Get OS theme
-local handle = io.popen("gsettings get org.gnome.desktop.interface color-scheme")
-local gnome_theme = handle:read("*a")  -- Read the output of the command
+local handle = io.popen("cat $HOME/.xsettingsd")
+local theme = handle:read("*a")  -- Read the output of the command
 handle:close()
-GNOME_THEME = gnome_theme:gsub("\n$", "")
+THEME = theme:gsub("\n$", "")

@@ -4,78 +4,78 @@
 ###########################
 
 # Decrease brightness
-"xbacklight -dec 10"
-  XF86MonBrightnessDown
+#"xbacklight -dec 10"
+  #XF86MonBrightnessDown
 
 # Increase brightness
-"xbacklight -inc 10"
-  XF86MonBrightnessUp
+#"xbacklight -inc 10"
+  #XF86MonBrightnessUp
 
 # Increase volume
-"pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo +5%"
-  XF86AudioRaiseVolume
+#"pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo +5%"
+  #XF86AudioRaiseVolume
 
 # Decrease volume
-"pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo -5%"
-  XF86AudioLowerVolume
+#"pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo -5%"
+  #XF86AudioLowerVolume
 
 # Mute
-"pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle"
-  XF86AudioMute
+#"pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle"
+  #XF86AudioMute
 
 # play/pause
-"pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle"
-  XF86AudioPlay
+#"pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle"
+  #XF86AudioPlay
 
 # rofi
-"rofi -show window"
-  m:0x40 + c:39
-  Mod4 + s
+#"rofi -show window"
+  #m:0x40 + c:39
+  #Mod4 + s
 
-"rofi -run-command '/bin/zsh -c -i {cmd}' -show run"
-  m:0x40 + c:40
-  Mod4 + d
+#"rofi -run-command '/bin/zsh -c -i {cmd}' -show run"
+  #m:0x40 + c:40
+  #Mod4 + d
 
-"rofi -modi 'clipboard:greenclip print' -show"
-  m:0x40 + c:33
-  Mod4 + p
+#"rofi -modi 'clipboard:greenclip print' -show"
+  #m:0x40 + c:33
+  #Mod4 + p
 
-"rofi -run-command '/bin/zsh -c -i {cmd}' -show combi"
-  m:0x41 + c:38
-  Shift + Mod4 + a
+#"rofi -run-command '/bin/zsh -c -i {cmd}' -show combi"
+  #m:0x41 + c:38
+  #Shift + Mod4 + a
 
-"bwmenu"
-  m:0x41 + c:56
-  Shift + Mod4 + b
+#"bwmenu"
+  #m:0x41 + c:56
+  #Shift + Mod4 + b
 
-"rofi -show calc -modi calc -no-show-match -no-sort"
-  m:0x41 + c:54
-  Shift + Mod4 + c
+#"rofi -show calc -modi calc -no-show-match -no-sort"
+  #m:0x41 + c:54
+  #Shift + Mod4 + c
 
-"rofi -show emoji -modi emoji"
-  m:0x41 + c:26
-  Shift + Mod4 + e
+#"rofi -show emoji -modi emoji"
+  #m:0x41 + c:26
+  #Shift + Mod4 + e
 
-"rofi -show p -modi p:~/.bin/rofi-power"
-  m:0x41 + c:33
-  Shift + Mod4 + p
+#"rofi -show p -modi p:~/.bin/rofi-power"
+  #m:0x41 + c:33
+  #Shift + Mod4 + p
 
-"~/.bin/lock"
-  m:0x41 + c:53
-  Shift + Mod4 + x
+#"~/.bin/lock"
+  #m:0x41 + c:53
+  #Shift + Mod4 + x
 
-"rofi -show filebrowser"
-  m:0x41 + c:41
-  Shift + Mod4 + f
+#"rofi -show filebrowser"
+  #m:0x41 + c:41
+  #Shift + Mod4 + f
 
-"~/.bin/rofi-nordvpn"
-  m:0x41 + c:55
-  Shift + Mod4 + v
+#"~/.bin/rofi-nordvpn"
+  #m:0x41 + c:55
+  #Shift + Mod4 + v
 
-"emacsclient -c -a '' --eval '(notmuch)'"
-  m:0x0 + c:96
-  F12
+#"emacsclient -c -a '' --eval '(notmuch)'"
+  #m:0x0 + c:96
+  #F12
 
-"rofi -show drun"
-  m:0x40 + c:38
-  Mod4 + a
+#"rofi -show drun"
+  #m:0x40 + c:38
+  #Mod4 + a

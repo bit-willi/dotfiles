@@ -14,7 +14,7 @@ xset r rate 180 40
 xrandr --dpi 125.37
 
 # run xrdb
-[[ -f $HOME/.Xresources ]] && xrdb -load $HOME/.Xresources
+[[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
 
 # run urxvt daemon
 [[ -z "$(pidof urxvtd)" ]] && urxvtd --quiet --opendisplay --fork
@@ -34,19 +34,19 @@ isavailable xbindkeys && xbindkeys &
 isavailable flameshot && flameshot &
 isavailable warpd && warpd &
 
-start_nordvpn() {
-    while ! ping -c 1 -W 1 8.8.8.8; do                                                                                                                                                    [I]
-        echo "Waiting for 8.8.8.8 - network interface might be down..."
-        sleep 1
-    done
+#start_nordvpn() {
+    #while ! ping -c 1 -W 1 8.8.8.8; do                                                                                                                                                    [I]
+        #echo "Waiting for 8.8.8.8 - network interface might be down..."
+        #sleep 1
+    #done
 
-    nordvpn connect
-}
+    #nordvpn connect
+#}
 
-isavailable nordvpn && nordvpn account | grep -v "You are not logged in" && start_nordvpn &
+#isavailable nordvpn && nordvpn account | grep -v "You are not logged in" && start_nordvpn &
 
+#bash $HOME/.bin/lightsOn.sh &
 
-bash $HOME/.bin/lightsOn.sh &
 /usr/lib/geoclue-2.0/demos/agent &
 
 # Dell Inspiron 7560
@@ -59,3 +59,12 @@ isavailable xinput && xinput set-prop \
 isavailable xinput && xinput --set-prop \
     "DELL0782:00 06CB:7E92 Touchpad" \
     "libinput Tapping Enabled" 1 &
+
+
+# start some nice programs
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi

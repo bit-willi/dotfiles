@@ -90,10 +90,6 @@ return {
         event = "InsertEnter"
     },
     {
-        "vim-scripts/svnj.vim",
-        event = "VeryLazy"
-    },
-    {
         "tpope/vim-dispatch",
         event = "VeryLazy"
     },

@@ -73,6 +73,13 @@ def get_wallpaper_data(wallpaper_xml):
 
     return map
 
+def dump_wallpaper_data(wallpaper_dict):
+    for key, struct in wallpaper_dict.items():
+        print("KEY -> " + key)
+        for prop, value in struct.items():
+            print("\t" + prop + " -> " + str(value))
+        print("")
+
 def handle_wallpaper(wallpaper_dict):
     print("Handling wallpaper")
 
@@ -95,10 +102,16 @@ def handle_wallpaper(wallpaper_dict):
             break
 
     eta = (next['start_time']-now).total_seconds()
-    set_wallpaper(current['file'])
 
     print("ETA: " + str(eta))
+    print("Now: " + str(now))
     print("Next wallpaper: " + str(next['start_time']))
+
+    if (current == None):
+        print("There are no wallpapers to current time.")
+        return
+
+    set_wallpaper(current['file'])
 
     timer.sleep(eta)
 

@@ -1,0 +1,146 @@
+live_config_reload = true
+
+[bell]
+animation = "EaseOutExpo"
+color = "0xffffff"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[[colors.indexed_colors]]
+color = "0xfe8019"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xd65d0e"
+index = 17
+
+[[colors.indexed_colors]]
+color = "0x3c3836"
+index = 18
+
+[[colors.indexed_colors]]
+color = "0x504945"
+index = 19
+
+[[colors.indexed_colors]]
+color = "0xbdae93"
+index = 20
+
+[[colors.indexed_colors]]
+color = "0xebdbb2"
+index = 21
+
+[colors.bright]
+black = "0x665c54"
+blue = "0x83a598"
+cyan = "0x8ec07c"
+green = "0xb8bb26"
+magenta = "0xd3869b"
+red = "0xfb4934"
+white = "0xfbf1c7"
+yellow = "0xfabd2f"
+
+[colors.cursor]
+cursor = "0xd5c4a1"
+text = "0x1d2021"
+
+[colors.normal]
+black = "0x1d2021"
+blue = "0x83a598"
+cyan = "0x8ec07c"
+green = "0xb8bb26"
+magenta = "0xd3869b"
+red = "0xfb4934"
+white = "0xd5c4a1"
+yellow = "0xfabd2f"
+
+[colors.primary]
+background = "0x1d2021"
+foreground = "0xd5c4a1"
+
+[cursor]
+style = "Underline"
+unfocused_hollow = true
+
+[debug]
+persistent_logging = true
+render_timer = false
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 9
+
+[font.bold]
+family = "IntelOne Mono"
+style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "IntelOne Mono"
+style = "Italic"
+
+[font.normal]
+family = "IntelOne Mono"
+
+[font.offset]
+x = 0
+y = 0
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[scrolling]
+history = 99999
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[shell]
+{{- if eq .chezmoi.os "darwin" }}
+    {{ if eq .chezmoi.arch "arm64" -}}
+        program = "/opt/homebrew/bin/fish"
+    {{ else -}}
+        program = "/usr/local/bin/fish"
+    {{ end -}}
+
+    args = ["-l"]
+{{- else }}
+    args = ["-l"]
+    program = "/usr/bin/fish"
+{{- end }}
+
+[window]
+decorations = "full"
+dynamic_padding = false
+dynamic_title = true
+opacity = 1
+startup_mode = "Windowed"
+
+{{- if eq .chezmoi.os "darwin" }}
+startup_mode = "Fullscreen"
+option_as_alt = OnlyLeft
+{{- else }}
+startup_mode = "Windowed"
+dynamic_title = true
+{{- end }}
+
+[window.dimensions]
+columns = 0
+lines = 0
+
+[window.padding]
+x = 2
+y = 2

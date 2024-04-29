@@ -23,4 +23,3 @@ echo "set background=$vim_theme" > $HOME/.nvim.color
 
 killall -HUP xsettingsd
 
-

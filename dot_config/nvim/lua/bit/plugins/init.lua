@@ -134,5 +134,9 @@ return {
             "nvim-treesitter/nvim-treesitter",
         },
         opts = {}
+    },
+    {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        keys = {"<leader>l"}
     }
 }

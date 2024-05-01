@@ -14,7 +14,12 @@ require("telescope").setup{
             ['<esc>'] = actions.close
           },
         },
-        preview = false
+        preview = true,
+        path_display = {
+            filename_first = {
+                reverse_directories = false
+            }
+        }
     }
 }
 

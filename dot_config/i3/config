@@ -336,8 +336,8 @@ bar {
         separator #666666
         background $bg
         statusline $yellow
-        focused_workspace    $aqua $aqua $darkgray
-        inactive_workspace   $darkgray $darkgray $yellow
+        focused_workspace    $blue $blue $darkgray
+        inactive_workspace   $darkgray $darkgray $white
         active_workspace     $darkgray $darkgray $yellow
         urgent_workspace     $red $red $bg
     }

@@ -7,7 +7,6 @@ numix-icon-theme-git
 otf-inconsolata-dz
 polybar
 siji-git
-slack-desktop
 ttf-symbola
 xinit-xsession
 rofi-greenclip
@@ -24,11 +23,7 @@ mermaid-cli
 nerd-fonts-git
 bitwarden-rofi-git
 nsxiv
-nordvpn-bin
-google-chrome
 asdf-vm
-visual-studio-code-insiders-bin
-displaylink
 bat
 tldr
 xdotool

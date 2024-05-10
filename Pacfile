@@ -247,3 +247,4 @@ proxychains
 scrcpy
 android-tools
 python-poetry
+python-pipx

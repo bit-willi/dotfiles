@@ -66,8 +66,10 @@ block = "sound"
 block = "backlight"
 
 [[block]]
-block = "battery"
-format = " $icon $percentage $time "
+block = "custom"
+command="~/.bin/battery-stats"
+interval = 10
+format="{ $icon| } $text.pango-str() "
 
 [[block]]
 block = "custom"

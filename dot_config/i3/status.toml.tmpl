@@ -6,12 +6,6 @@ theme = "gruvbox-dark"
 
 [[block]]
 block = "custom"
-interval = 1
-command = "echo -n '\uf11c ' && xset q | grep 'Caps Lock' | cut -d':' -f3 | grep -c 'on' | sed -e 's/1/A/;s/0/a/'"
-format="{ $icon|} $text.pango-str() "
-
-[[block]]
-block = "custom"
 command="echo -n '\uf26c ' && optimus-manager --print-mode | cut -d' ' -f5"
 format="{ $icon|} $text.pango-str() "
 

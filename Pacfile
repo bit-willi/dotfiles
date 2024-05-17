@@ -249,3 +249,4 @@ android-tools
 python-poetry
 python-pipx
 syncthing
+sshfs

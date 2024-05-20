@@ -138,5 +138,9 @@ return {
     {
         "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
         keys = {"<leader>l"}
+    },
+    {
+        "brenoprata10/nvim-highlight-colors",
+        event = { "BufReadPre", "BufNewFile" },
     }
 }

@@ -325,6 +325,7 @@ exec --no-startup-id $HOME/.bin/random-wallpaper
 exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id systemctl --user start xsettingsd
+exec --no-startup-id unclutter --user start xsettingsd
 
 bar {
     font pango:Hack, FontAwesome 8

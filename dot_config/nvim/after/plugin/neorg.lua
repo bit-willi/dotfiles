@@ -9,5 +9,6 @@ require("neorg").setup {
                 },
             },
         },
+        ["core.export"] = {}
     },
 }

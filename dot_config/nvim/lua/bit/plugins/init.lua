@@ -141,5 +141,11 @@ return {
     {
         "brenoprata10/nvim-highlight-colors",
         event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "michaelb/sniprun",
+        branch = "master",
+        build = "sh install.sh",
+        event = { "BufReadPre", "BufNewFile" },
     }
 }

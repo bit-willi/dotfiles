@@ -1,11 +1,19 @@
 /* Globals */
-:root {
-  --sfwindow: #1d2021;
-  --sfsecondary: #282828;
+@media (prefers-color-scheme: dark) {
+    :root {
+      --sfwindow: #1d2021;
+      --sfsecondary: #282828;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+      --sfwindow: #fbf1ca;
+      --sfsecondary: #ebdbb2;
+    }
 }
 
 /* Urlbar View */
-
 .urlbarView {
   display: none !important;
 }
@@ -46,7 +54,7 @@
 
 /* Make tabs smaller */
 .tabbrowser-tab {
-  max-height: 27px;
+  max-height: 26px;
 }
 
 /* Tabs elements  */
@@ -169,5 +177,5 @@ toolbarbutton.bookmark-item:not(.subviewbutton) {
 #tabbrowser-tabpanels,
 browser[type=content-primary],
 browser[type=content] > html {
-  background: #282828 !important;
+  background: var(--sfsecondary) !important;
 }

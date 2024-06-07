@@ -29,7 +29,7 @@ alias cl='clear; l'
 alias journal='cd ~/.journal'
 alias files='pcmanfm'
 alias grc='/usr/bin/grc'
-
+alias blog="cd ~/Documents/codes/personal/blog"
 
 alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'

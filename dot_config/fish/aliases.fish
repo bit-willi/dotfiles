@@ -67,7 +67,3 @@ end
 function awrit
     kitty sh -c "awrit $argv" 2>/dev/null
 end
-
-function tmux-pair
-    kitty sh -c "tmux -S /var/tmux/pair"& 2>/dev/null
-end

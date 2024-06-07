@@ -147,5 +147,10 @@ return {
         branch = "master",
         build = "sh install.sh",
         event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
     }
 }

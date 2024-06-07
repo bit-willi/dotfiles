@@ -1,8 +1,13 @@
 set my_user={{ .email }}
+set my_pass="{{ (bitwarden "item" .bitwarden.google_app_key).login.password }}"
 
 set realname = {{ .name | quote }}
 set from = {{ .email }}
 set use_from = yes
+
+set smtp_pass = $my_pass
+set smtp_url=smtps://$my_user@smtp.gmail.com
+set ssl_force_tls = yes
 
 set folder = "{{ .maildir }}/personal"
 set mbox_type = "Maildir"

@@ -66,15 +66,6 @@ interval = 10
 format="{ $icon| } $text.pango-str() "
 
 [[block]]
-block = "custom"
-interval = 60
-command = "echo -n '\uf0e0 ' &&  notmuch count 'tag:inbox and to:willian.souza.ti@gmail.com or cc:willian.souza.ti@gmail.com'"
-format = "{ $icon|} $text.pango-str() "
-[[block.click]]
-button = "left"
-cmd = "cd ~/mail/personal; gmi pull"
-
-[[block]]
 block = "time"
 interval = 60
 [block.format]

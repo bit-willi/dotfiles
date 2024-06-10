@@ -35,9 +35,6 @@ configure-linux:
 	sudo sed -i '/VerbosePkgLists$$/s/^#//g' /etc/pacman.conf
 	sudo sed -i '/^#\[multilib\]/{N;s/#//g}' /etc/pacman.conf
 
-	@echo "Setting up kitty themes"
-	git clone --depth 1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
-
 	@echo "Enable timedatectl and set up timezone"
 	sudo timedatectl set-timezone America/Sao_Paulo
 	sudo timedatectl set-ntp 1

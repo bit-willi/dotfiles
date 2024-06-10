@@ -138,12 +138,6 @@ configure-osx:
 	sudo systemsetup setusingnetworktime on
 
 install-git-dependencies:
-	if [[ -f "$(HOME)/.vim/autoload/plug.vim" && -x `command -v nvim` ]]; then \
-		pip install neovim
-		nvim +PlugInstall +qall --headless; \
-		nvim +UpdateRemotePlugins +qall --headless; \
-	fi
-
 	if [[ ! -f "$(HOME)/.emacs.d/bin/doom" ]]; then \
 		git clone --depth 1 https://github.com/hlissner/doom-emacs "$(HOME)/.emacs.d"; \
 		"$(HOME)/.emacs.d/bin/doom" install -!; \

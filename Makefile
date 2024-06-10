@@ -193,6 +193,10 @@ install-required-dependencies:
 		brew install chezmoi bitwarden-cli geoclue; \
 	fi
 
+enable-gnome-keyring:
+	systemctl --user enable gcr-ssh-agent.socket
+	systemctl --user start gcr-ssh-agent.socket
+
 fix-permissions:
 	@echo "Fixing GnuPG permissions"
 	chown -R $(USER) ~/.gnupg/
@@ -207,3 +211,6 @@ apply: install-required-dependencies
 	bw login || true
 	chezmoi apply -v
 	$(MAKE) fix-permissions
+
+full: configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies
+

@@ -17,11 +17,5 @@ if status is-interactive
     source /opt/asdf-vm/asdf.fish
 
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
-
-    if test -z "$SSH_AGENT_PID"
-        eval "$(ssh-agent -c)" >/dev/null
-        set -x SSH_AUTH_SOCK $SSH_AUTH_SOCK
-        set -x SSH_AGENT_PID $SSH_AGENT_PID
-    end
 end
 

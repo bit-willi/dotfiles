@@ -250,3 +250,5 @@ python-pipx
 syncthing
 sshfs
 obs-studio
+bluez
+bluez-utils

@@ -14,7 +14,7 @@ if status is-interactive
 
     set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"
 
-    source $HOME/.asdf/asdf.fish
+    source /opt/asdf-vm/asdf.fish
 
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 end

@@ -23,7 +23,9 @@ return {
     },
     {
         "ThePrimeagen/harpoon",
-        keys = {"<leader>hh", "<leader>hd", "<leader>ha"}
+        keys = {"<leader>hh", "<leader>hd", "<leader>ha"},
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" }
     },
     {
         "scrooloose/nerdcommenter",

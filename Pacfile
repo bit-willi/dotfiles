@@ -255,3 +255,6 @@ bluez-utils
 nvidia
 gcr-4
 unrar
+re2c
+postgresql
+libzip

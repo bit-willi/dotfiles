@@ -197,6 +197,15 @@ enable-gnome-keyring:
 	systemctl --user enable gcr-ssh-agent.socket
 	systemctl --user start gcr-ssh-agent.socket
 
+install-windevine-ungoogle-chromium:
+	if [[ ! -f "/usr/lib/chromium/WidevineCdm" ]]; then \
+		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
+		ar x /tmp/google-chrome-stable_current_amd64.deb --output=/tmp;\
+		cd /tmp && tar -xvf /tmp/data.tar.xz 2>/dev/null; \
+		sudo rm -rf /usr/lib/chromium/WidevineCdm/; \
+		sudo mv /tmp/opt/google/chrome/WidevineCdm/ /usr/lib/chromium/; \
+	fi
+
 fix-permissions:
 	@echo "Fixing GnuPG permissions"
 	chown -R $(USER) ~/.gnupg/
@@ -212,5 +221,5 @@ apply: install-required-dependencies
 	chezmoi apply -v
 	$(MAKE) fix-permissions
 
-full: configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies
+full: configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogle-chromium
 

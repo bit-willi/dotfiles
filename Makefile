@@ -140,9 +140,9 @@ configure-osx:
 install-git-dependencies:
 	if [[ ! -f "$(HOME)/.emacs.d/bin/doom" ]]; then \
 		git clone --depth 1 https://github.com/doomemacs/doomemacs "$(HOME)/.config/emacs"; \
-		"$(HOME)/.config/emacs/bin/doom" install;\
+		"$(HOME)/.config/emacs/bin/doom" install -!;\
 	else \
-		"$(HOME)/.config/emacs/bin/doom" sync;\
+		"$(HOME)/.config/emacs/bin/doom" sync -!;\
 	fi
 
 	if [[ ! -f "usr/local/bin/notes" ]]; then \

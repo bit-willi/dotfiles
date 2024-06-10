@@ -1,4 +1,4 @@
-local servers = {'intelephense', 'jdtls', 'tsserver', 'lua_ls', 'sqlls', 'pylsp', 'clangd', 'ocamllsp'}
+local servers = {'phpactor', 'jdtls', 'tsserver', 'lua_ls', 'sqlls', 'pylsp', 'clangd', 'ocamllsp'}
 local telescope_mapper = require "bit.telescope.mappings"
 
 local on_attach = function(client, bufnr)

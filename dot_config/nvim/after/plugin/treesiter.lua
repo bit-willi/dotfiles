@@ -14,7 +14,8 @@ require('nvim-treesitter.configs').setup({
         "typescript",
         "vim",
         "vimdoc",
-        "php"
+        "php",
+        "lua",
     },
     auto_install = false,
     highlight = { enable = true },

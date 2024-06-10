@@ -1,5 +1,5 @@
 alias init-completion="rm -f $HOME/.zcompdump; compinit"
-alias dotfiles="cd ~/dotfiles"
+alias dotfiles="cd ~/.dotfiles"
 alias fucking='sudo'
 alias pip-all="pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U"
 alias lessf="less +F"
@@ -12,6 +12,7 @@ alias vhistory="history | peco"
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
 alias shouldideploytoday="curl -s https://shouldideploy.today/api\?tz\=UTC | jq -r '.message'"
 alias at="tmux a -t 0"
+alias bw-export='export BW_SESSION=$(bw unlock | grep "export BW" |  cut -d"=" -f2 | tr -d "\"")'
 
 alias i3-brightness-1="xrandr --output eDP-1 --brightness"
 alias i3-brightness-2="xrandr --output HDMI-1 --brightness"

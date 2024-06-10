@@ -2,10 +2,6 @@ antibody-bin
 gruvbox-dark-gtk
 gruvbox-icon-theme
 gtk-theme-arc-gruvbox-git
-numix-cursor-theme
-numix-icon-theme-git
-otf-inconsolata-dz
-polybar
 siji-git
 ttf-symbola
 xinit-xsession
@@ -18,7 +14,6 @@ msmtp
 tmuxinator
 i3-autodisplay
 docker-rootless-extras
-spotify
 mermaid-cli
 nerd-fonts-git
 bitwarden-rofi-git
@@ -38,6 +33,6 @@ warpd
 timeshift-autosnap
 lieer-git
 urlscan
-librewolf
+librewolf-bin
 vieb-bin
 ungoogled-chromium-bin

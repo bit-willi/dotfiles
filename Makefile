@@ -176,7 +176,6 @@ install-pyenv:
 		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.11.0; \
 	fi
 
-	eval `pyenv init -)`
 	pip install --upgrade -r scripts/requirements.txt
 
 
@@ -187,9 +186,9 @@ install-extra-dependencies:
 		if [ $(yay_installed) -eq 0 ]; then \
 			git clone https://aur.archlinux.org/yay.git /tmp/yay; \
 			(cd /tmp/yay && makepkg -si --noconfirm --needed && rm -rf /tmp/yay); \
-			yay -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
+			yay -S --noconfirm --needed - <"$(AUR_BUNDLE_FILE)"; \
 		else \
-			yay -S --noconfirm --nouseask --needed - <"$(AUR_BUNDLE_FILE)"; \
+			yay -S --noconfirm --needed - <"$(AUR_BUNDLE_FILE)"; \
 		fi; \
 	else \
                 brew update; \

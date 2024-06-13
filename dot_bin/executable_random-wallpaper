@@ -6,4 +6,4 @@ then
     kill -s HUP $(pidof /usr/bin/watch)
 fi
 
-/usr/bin/watch -n 120 feh --randomize --bg-fill ~/Pictures/wallpapers >/dev/null &
+/usr/bin/watch -n 120 feh --randomize --bg-fill "$1" >/dev/null &

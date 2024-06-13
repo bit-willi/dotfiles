@@ -145,8 +145,10 @@ function pomo_msg {
     # work or break block.  This requires a Pomodoro session to
     # have already been started...
     [[ -e "$POMO" ]] || return 1
+
     pomo_update
     running=$(pomo_stat)
+
     while true; do
         left=$(( WORK_TIME*60 - running ))
         work=true
@@ -166,6 +168,7 @@ function pomo_msg {
         $work || { [[ $stat -lt $running ]] && break; }
         running=$stat
     done
+
     if [[ $(( stat - running - left )) -le 1 ]]; then
         if $work; then
             $MSG_CALLBACK 0  # end of work block
@@ -173,6 +176,7 @@ function pomo_msg {
             $MSG_CALLBACK 1  # end of break block
         fi
     fi
+
     return 0
 }
 
@@ -190,6 +194,7 @@ function pomo_notify {
 
 function pomo_msg_callback {
     block_type=$1
+
     if [[ $block_type -eq 0 ]]; then
         msg='End of a work period. Time for a break!'
     elif [[ $block_type -eq 1 ]]; then
@@ -198,7 +203,12 @@ function pomo_msg_callback {
         echo "Unknown block type"
         exit 1
     fi
+
     send_msg "$msg"
+
+    if [[ $SHOULD_BEEP -eq 1 ]]; then
+        beep 500 900
+    fi
 }
 
 function send_msg {
@@ -209,6 +219,14 @@ function send_msg {
     else
         echo "${1}"
     fi
+}
+
+#--- Helpers ---
+function beep() {
+  ( \speaker-test --frequency $1 --test sine -c2 )&
+  pid=$!
+  \sleep 0.${2}s
+  \kill -9 $pid
 }
 
 #--- Help ---
@@ -262,12 +280,14 @@ POMO_FILE
     period (mostly using timestamps).  Multiple Pomodoro timers can be run by
     using different files.  Default: \$HOME/.local/share/pomo.
 POMO_WORK_TIME
-    Duration of the work period in minutes.  Default: 25.
+    Duration of the work period in minutes.  Default: 60.
 POMO_BREAK_TIME
-    Duration of the break period in minutes.  Default: 5.
+    Duration of the break period in minutes.  Default: 10.
 POMO_MSG_CALLBACK
    Function to call at the end of a period, with argument of 0 for end of a
    work period and 1 for the end of a break period. Default: pomo_msg_callback.
+POMO_SHOULD_BEEP
+   Should beep with notify?
 
 Environment variables other than POMO_CONFIG can also be set in POMO_CONFIG,
 which is sourced if it exists.
@@ -306,6 +326,7 @@ POMO=${POMO_FILE:-"$HOME/.local/share/pomo"}
 WORK_TIME=${POMO_WORK_TIME:-60}
 BREAK_TIME=${POMO_BREAK_TIME:-10}
 MSG_CALLBACK=${POMO_MSG_CALLBACK:-pomo_msg_callback}
+SHOULD_BEEP=${POMO_SHOULD_BEEP:0}
 
 #--- Run! ---
 

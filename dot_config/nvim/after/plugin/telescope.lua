@@ -1,5 +1,6 @@
 local actions = require("telescope.actions")
 local action_layout = require "telescope.actions.layout"
+local action_state = require('telescope.actions.state')
 
 require("telescope").setup{
     defaults = {
@@ -21,6 +22,20 @@ require("telescope").setup{
             }
         }
     }
+}
+
+require'telescope.builtin'.buffers{
+    attach_mappings = function(prompt_bufnr, map)
+        local delete_buf = function()
+            local selection = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
+            vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+        end
+
+        map('i', '<c-u>', delete_buf)
+
+        return true
+    end
 }
 
 require("telescope").load_extension("harpoon")

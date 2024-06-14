@@ -24,20 +24,6 @@ require("telescope").setup{
     }
 }
 
-require'telescope.builtin'.buffers{
-    attach_mappings = function(prompt_bufnr, map)
-        local delete_buf = function()
-            local selection = action_state.get_selected_entry()
-            actions.close(prompt_bufnr)
-            vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-        end
-
-        map('i', '<c-u>', delete_buf)
-
-        return true
-    end
-}
-
 require("telescope").load_extension("harpoon")
 
 vim.keymap.set("n", "<leader>sf",  require("telescope.builtin").find_files, { desc = "Search files in cwd" })

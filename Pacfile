@@ -159,7 +159,6 @@ isync
 notmuch
 xdotool
 git-lfs
-picom
 calc
 python-notify2
 rclone

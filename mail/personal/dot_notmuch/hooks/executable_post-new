@@ -1,4 +1,0 @@
-#!/bin/sh
-
-afew --tag --new -v
-afew --new --move-mails -v

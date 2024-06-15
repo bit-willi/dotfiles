@@ -1,9 +1,0 @@
-[Unit]
-Description=Syncmail service
-
-[Service]
-Type=oneshot
-ExecStart=zsh -c -i poetry run task syncmail
-
-[Install]
-WantedBy=default.target

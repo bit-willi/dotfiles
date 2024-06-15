@@ -92,6 +92,7 @@ net-tools
 netctl
 network-manager-applet
 networkmanager-qt
+networkmanager-l2tp
 nmap
 noto-fonts
 openssh
@@ -174,7 +175,6 @@ w3m
 gist
 wmctrl
 acpi_call
-discord
 xclip
 redshift
 htop
@@ -200,7 +200,6 @@ rofi-emoji
 noto-fonts-emoji
 etckeeper
 usbguard
-conky
 gnuplot
 tcl
 wireguard-tools
@@ -208,7 +207,6 @@ libgnome-keyring
 pipewire-pulse
 opensc
 ccid
-wl-clipboard
 peco
 rlwrap
 curl
@@ -258,6 +256,5 @@ re2c
 postgresql
 libzip
 wget
-networkmanager-l2tp
 gimp
 gnu-netcat

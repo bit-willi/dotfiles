@@ -2,7 +2,7 @@
 
 rm -f /tmp/screenshot.png /tmp/screenshotblur.png
 scrot /tmp/screenshot.png
-convert /tmp/screenshot.png -scale 10% -scale 1000% /tmp/screenshotblur.png
+magick /tmp/screenshot.png -scale 10% -scale 1000% /tmp/screenshotblur.png
 
 i3lock_options=(--image /tmp/screenshotblur.png --tiling --show-failed-attempts)
 
@@ -11,15 +11,18 @@ kill_and_unpause_notifications() {
   pkill -xu $EUID -USR2 dunst
 }
 
+trap kill_and_unpause_notifications TERM INT
+
+# Pause notifications
+pkill -xu $EUID -USR1 dunst
+
+# Pause media
+playerctl -a pause
+
+# Mute sounds
+pactl set-sink-mute 0 on
+
 if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
-  trap kill_and_unpause_notifications TERM INT
-
-  # Pause notifications
-  pkill -xu $EUID -USR1 dunst
-
-  # Mute sounds
-  amixer set Master mute
-
   # Prevent i3lock from inheriting a copy of the lock fd
   i3lock "${i3lock_options[@]}" {XSS_SLEEP_LOCK_FD}<&-
 
@@ -29,21 +32,11 @@ if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
   while pkill -xu $EUID -0 i3lock; do
     sleep 0.5
   done
-
-  # Unpause notifications
-  pkill -xu $EUID -USR2 dunst
 else
-  # Pause notifications
-  trap kill_and_unpause_notifications TERM INT
-  pkill -xu $EUID -USR1 dunst
-
-  # Mute sounds
-  amixer set Master mute >/dev/null
-
   # Lock
   i3lock -n "${i3lock_options[@]}" &
   wait
-
-  # Unpause notifications
-  pkill -xu $EUID -USR2 dunst
 fi
+
+# Unpause notifications
+pkill -xu $EUID -USR2 dunst

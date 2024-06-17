@@ -54,9 +54,6 @@ configure-linux:
 
 	grep -qF "[redshift]" "/etc/geoclue/geoclue.conf" || echo -e "$(redshift_line)" | sudo tee -a "/etc/geoclue/geoclue.conf"
 
-	@echo "Importing Spotify GPG key"
-	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -
-
 	@echo "Importing Chaotic AUR"
 	sudo pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
 	sudo pacman-key --lsign-key FBA220DFC880C036

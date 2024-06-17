@@ -54,17 +54,6 @@ configure-linux:
 
 	grep -qF "[redshift]" "/etc/geoclue/geoclue.conf" || echo -e "$(redshift_line)" | sudo tee -a "/etc/geoclue/geoclue.conf"
 
-	@echo "Importing Chaotic AUR"
-	sudo pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
-	sudo pacman-key --lsign-key FBA220DFC880C036
-	sudo pacman -U --noconfirm \
-		'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-		'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-
-	chaoticaur_lines="\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist"
-	grep -qF "[chaotic-aur]" "/etc/pacman.conf" \
-		|| echo -e "$\chaoticaur_lines" | sudo tee -a "/etc/pacman.conf"
-
 configure-osx:
 	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 

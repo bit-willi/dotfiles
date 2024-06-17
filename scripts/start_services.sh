@@ -57,11 +57,21 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	systemctl --user enable greenclip.service
 	systemctl --user restart greenclip.service
 
-	# ansi --green "Setting up r2e"
-	# systemctl --user enable r2e.timer
-	# systemctl --user restart r2e.timer
-
 	ansi --green "Setting up battery notifier"
 	systemctl --user enable battery-notifier.timer
 	systemctl --user restart battery-notifier.timer
+
+	ansi --green "Setting up zram"
+	sudo sh -c "echo 'ALGORITHM=zstd' > /etc/default/zramd"
+	sudo sh -c "echo 'MAX_SIZE=4096' >> /etc/default/zramd"
+	sudo systemctl enable --now zramd
+
+	ansi --green "Setting up earlyoom"
+	sudo systemctl enable --now earlyoom
+
+	ansi --green "Setting up syncthing"
+	systemctl --user start syncthing.service
+
+	ansi --green "Setting up tlp"
+	sudo systemctl start tlp.service
 fi

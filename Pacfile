@@ -261,3 +261,5 @@ gnu-netcat
 playerctl
 mpv
 evince
+zathura
+zathura-pdf-mupdf

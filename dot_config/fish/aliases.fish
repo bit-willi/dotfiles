@@ -4,7 +4,6 @@ alias fucking='sudo'
 alias pip-all="pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U"
 alias lessf="less +F"
 alias at="tmux a -t main"
-alias r="ranger"
 alias cat="bat"
 alias bat="cat"
 alias network="sudo bandwhich"

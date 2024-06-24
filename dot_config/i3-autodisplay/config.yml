@@ -1,14 +1,14 @@
 # from: https://github.com/lpicanco/i3-autodisplay
 displays:
-  # Dell laptop
-  - name: HDMI-1
-    workspaces: [1,2,3,4,5,6,7,8,9]
-    randr_extra_options: "--right-of eDP-1 --mode 1920x1080"
+  # Intel
   - name: eDP-1
-    workspaces: [10]
-  # Acer laptop
-  - name: eDP1
-    workspaces: [10]
-  - name: HDMI1
-    workspaces: [1,2,3,4,5,6,7,8,9]
-    randr_extra_options: "--left-of eDP1 --mode 1920x1080"
+    workspaces: [1]
+  - name: HDMI-1
+    workspaces: [2,3,4,5,6,7,8,9,10]
+    randr_extra_options: "--right-of eDP-1 --mode 1920x1080"
+  # Nvidia
+  - name: eDP-1-1
+    workspaces: [1]
+  - name: HDMI-1-1
+    workspaces: [2,3,4,5,6,7,8,9,10]
+    randr_extra_options: "--right-of eDP-1-1 --mode 1920x1080"

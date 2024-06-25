@@ -128,7 +128,7 @@ return {
         version = "*", -- Pin Neorg to the latest stable release
     },
     {
-        "luckasRanarison/nvim-devdocs",
+        dir = "~/documents/codes/personal/nvim-devdocs",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope.nvim",

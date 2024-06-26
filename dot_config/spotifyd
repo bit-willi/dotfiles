@@ -1,0 +1,5 @@
+[global]
+username = "{{ (index (bitwarden "item" .bitwarden.spotify).fields 0).value }}"
+password = "{{ (bitwarden "item" .bitwarden.spotify).login.password }}"
+backend = "pulseaudio"
+device_name = "spotifyd"

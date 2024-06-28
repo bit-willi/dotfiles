@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+PIDS=`pidof /usr/bin/watch`
+
+if [ "$PIDS" != "" ]
+then
+    kill -s HUP $(pidof /usr/bin/watch)
+fi
+
+magick -size 32x32 xc:black /tmp/blank.png
+feh --bg-fill /tmp/blank.png >/dev/null &

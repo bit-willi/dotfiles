@@ -22,3 +22,8 @@ require("neorg").setup({
         }
     },
 })
+
+vim.api.nvim_create_autocmd({"Filetype"}, {
+  pattern = {"neorg"},
+  command = "setlocal ts=2 sw=2",
+})

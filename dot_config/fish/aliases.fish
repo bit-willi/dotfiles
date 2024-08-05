@@ -36,6 +36,8 @@ alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
 alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
 
+alias ta='tmux new-session -A -D -s main'
+
 # if eza exist, alias to ls
 if type -q eza
     alias ls='eza'

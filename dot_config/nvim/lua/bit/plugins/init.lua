@@ -120,6 +120,16 @@ return {
         "vhyrro/luarocks.nvim",
         priority = 1000,
         config = true,
+        opts = {
+            rocks = { "magick" },
+        },
+    },
+    {
+        "3rd/image.nvim",
+        dependencies = { "luarocks.nvim" },
+        config = function()
+            -- ...
+        end
     },
     {
         "nvim-neorg/neorg",

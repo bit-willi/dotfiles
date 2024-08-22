@@ -33,6 +33,7 @@ isavailable setxkbmap && setxkbmap -option caps:escape &
 isavailable xbindkeys && xbindkeys &
 isavailable flameshot && flameshot &
 isavailable warpd && warpd &
+isavailable gxkb && gxkb &
 isavailable unclutter && unclutter -idle 2 -jitter 2 -root &
 
 #start_nordvpn() {

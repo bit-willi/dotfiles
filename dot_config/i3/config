@@ -320,7 +320,6 @@ mode "$mode_gaps_left" {
 }
 
 # autostarts
-exec --no-startup-id $HOME/.bin/laptop-configure
 exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec --no-startup-id systemctl --user start xsettingsd
 

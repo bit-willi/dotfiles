@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 CMD="kitty"
 
-# Check if there is GPU support
-if [[ $(command -v optirun 2>/dev/null) != "" ]]
-then
-    CMD="optirun kitty"
-fi
-
-selected_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
+selected_theme=$(cat ~/.xsettingsd)
 
 kitty_theme="Gruvbox Dark"
 
-if [ "$selected_theme" == "'prefer-light'" ]; then
+if [ "$selected_theme" == 'Net/ThemeName "gruvbox-light-gtk"' ]; then
         kitty_theme="Gruvbox Light"
 fi
 

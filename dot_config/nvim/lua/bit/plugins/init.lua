@@ -81,7 +81,9 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
-        event = "InsertEnter"
+        dependencies = { "rafamadriz/friendly-snippets" }, -- https://github.com/rafamadriz/friendly-snippets
+        event = { "BufReadPre", "BufNewFile" },
+        build = "make install_jsregexp"
     },
     {
         "nvim-telescope/telescope.nvim",

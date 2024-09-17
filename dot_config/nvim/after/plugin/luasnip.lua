@@ -75,18 +75,29 @@ local date_input = function(args, snip, old_state, fmt)
 	return sn(nil, i(1, os.date(fmt)))
 end
 
-require("luasnip.loaders.from_vscode").lazy_load()
-
--- snippets are added via ls.add_snippets(filetype, snippets[, opts]), where
--- opts may specify the `type` of the snippets ("snippets" or "autosnippets",
--- for snippets that should expand directly after the trigger is typed).
---
--- opts can also specify a key. By passing an unique key to each add_snippets, it's possible to reload snippets by
--- re-`:luafile`ing the file in which they are defined (eg. this one).
-ls.add_snippets("all", {}, {
-        key = "all",
+ls.add_snippets("norg", {
+        -- Create a new day into journal
+	s(
+		"day",
+		fmt("** {time}\n - TODOs\n -- {}", {
+                    i(2, "Task"),
+                    time = date_input()
+		})
+	),
+        -- Create a new time box into journal
+	s(
+		"time-box",
+		fmt("- {}:{} - xx/10:\n-- {}", {
+			i(1, "Hour"),
+			i(2, "Minute"),
+			i(3, "Task"),
+		})
+	),
+}, {
+	key = "norg",
 })
 
+require("luasnip.loaders.from_vscode").lazy_load()
 ls.filetype_extend("php", { "phpdoc" })
 
 vim.keymap.set({"i"}, "<C-k>", function() ls.expand() end, {silent = true})
@@ -98,4 +109,5 @@ vim.keymap.set({"i", "s"}, "<C-e>", function()
 	end
 end, {silent = true})
 vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/bit/.config/nvim/after/plugin/luasnip.lua<CR>")
+
 

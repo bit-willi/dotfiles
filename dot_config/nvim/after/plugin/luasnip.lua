@@ -75,6 +75,76 @@ local date_input = function(args, snip, old_state, fmt)
 	return sn(nil, i(1, os.date(fmt)))
 end
 
+-- Dinamicaly build php doc block
+local function phpdocsnip(args, _, old_state)
+    local nodes = {
+        t({ "/**", " * " }),
+        i(1, "A short description"),
+        t({ "", "" }),
+    }
+
+    -- Table to store dynamic nodes for each parameter and return type.
+    local param_nodes = {}
+
+    -- Retain user input from previous snippet expansions if old_state is available.
+    if old_state then
+        nodes[2] = i(1, old_state.descr:get_text())
+    end
+    param_nodes.descr = nodes[2]
+
+    -- Handle parameters and types.
+    local insert = 2
+    for _, arg in ipairs(vim.split(args[2][1], ", ", true)) do
+        local arg_parts = vim.split(arg, " ")
+        local arg_type = arg_parts[1] or "mixed"
+        local arg_name = arg_parts[2] or arg_parts[1]
+
+        if arg_name then
+            local inode
+            if old_state and old_state[arg_name] then
+                inode = i(insert, old_state["arg" .. arg_name]:get_text())
+            else
+                inode = i(insert)
+            end
+
+            -- Generate the @param docblock for each argument.
+            vim.list_extend(
+                nodes,
+                { t({ " * @param " .. arg_type .. " " .. arg_name .. " " }), inode, t({ "", "" }) }
+            )
+            param_nodes["arg" .. arg_name] = inode
+            insert = insert + 1
+        end
+    end
+
+    -- Handle return type.
+    local return_type = args[1][1] or "void"
+    if return_type ~= "void" then
+        local inode
+        if old_state and old_state.ret then
+            inode = i(insert, old_state.ret:get_text())
+        else
+            inode = i(insert)
+        end
+
+        -- Generate the @return docblock.
+        vim.list_extend(
+            nodes,
+            { t({ " * ", " * @return " .. return_type .. " " }), inode, t({ "", "" }) }
+        )
+        param_nodes.ret = inode
+        insert = insert + 1
+    end
+
+    -- Close the docblock.
+    vim.list_extend(nodes, { t({ " */" }) })
+
+    -- Create the snippet.
+    local snip = sn(nil, nodes)
+    snip.old_state = param_nodes
+    return snip
+end
+
 ls.add_snippets("norg", {
         -- Create a new day into journal
 	s(
@@ -97,6 +167,39 @@ ls.add_snippets("norg", {
 	key = "norg",
 })
 
+-- Add snippets for PHP functions.
+ls.add_snippets("php", {
+    s("fn", {
+        d(5, phpdocsnip, { 4, 3 }), -- Dynamically generates the docblock.
+        t({ "", "" }),
+        c(1, {
+            t(""),
+            t("public "),
+            t("private "),
+            t("protected ")
+        }),
+        t("function "),
+        i(2, "functionName"), -- Placeholder for function name.
+        t("("),
+        i(3),                 -- Placeholder for function parameters.
+        t("): "),
+        -- Add the return type handling here:
+        c(4, {
+            t("void"),         -- Default return type (you can change it based on context).
+            t("int"),
+            t("string"),
+            t("bool"),
+            t("array"),
+            i(nil, "mixed"),  -- Editable placeholder for custom return type.
+        }),
+        t({ "", "{", "\t" }),
+        i(0),
+        t({ "", "}" }),
+    }),
+}, {
+    key = "php",
+})
+
 require("luasnip.loaders.from_vscode").lazy_load()
 ls.filetype_extend("php", { "phpdoc" })
 
@@ -109,5 +212,4 @@ vim.keymap.set({"i", "s"}, "<C-e>", function()
 	end
 end, {silent = true})
 vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/bit/.config/nvim/after/plugin/luasnip.lua<CR>")
-
 

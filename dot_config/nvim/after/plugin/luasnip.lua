@@ -155,14 +155,15 @@ ls.add_snippets("norg", {
 		})
 	),
         -- Create a new time box into journal
-	s(
-		"time-box",
-		fmt("- {}:{} - xx/10:\n-- {}", {
-			i(1, "Hour"),
-			i(2, "Minute"),
-			i(3, "Task"),
-		})
-	),
+	s("timebox", {
+		t("- "),
+		d(1, date_input, {}, { user_args = { "%H" } }),
+                t(":"),
+		d(2, date_input, {}, { user_args = { "%M" } }),
+                t(" - xx/10:"),
+                t({"\t", " -- "}),
+                i(3, "TASK"),
+	}),
 }, {
 	key = "norg",
 })
@@ -212,4 +213,3 @@ vim.keymap.set({"i", "s"}, "<C-e>", function()
 	end
 end, {silent = true})
 vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/bit/.config/nvim/after/plugin/luasnip.lua<CR>")
-

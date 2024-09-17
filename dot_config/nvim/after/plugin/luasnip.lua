@@ -81,6 +81,7 @@ local function phpdocsnip(args, _, old_state)
         t({ "/**", " * " }),
         i(1, "A short description"),
         t({ "", "" }),
+        t({ " *", "" }),
     }
 
     -- Table to store dynamic nodes for each parameter and return type.
@@ -110,7 +111,7 @@ local function phpdocsnip(args, _, old_state)
             -- Generate the @param docblock for each argument.
             vim.list_extend(
                 nodes,
-                { t({ " * @param " .. arg_type .. " " .. arg_name .. " " }), inode, t({ "", "" }) }
+                { t({ " * @param " .. arg_type .. " " .. arg_name }), inode, t({ "", "" }) }
             )
             param_nodes["arg" .. arg_name] = inode
             insert = insert + 1
@@ -186,12 +187,12 @@ ls.add_snippets("php", {
         t("): "),
         -- Add the return type handling here:
         c(4, {
+            i(nil, "mixed"),  -- Editable placeholder for custom return type.
             t("void"),         -- Default return type (you can change it based on context).
             t("int"),
             t("string"),
             t("bool"),
             t("array"),
-            i(nil, "mixed"),  -- Editable placeholder for custom return type.
         }),
         t({ "", "{", "\t" }),
         i(0),
@@ -213,3 +214,4 @@ vim.keymap.set({"i", "s"}, "<C-e>", function()
 	end
 end, {silent = true})
 vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/bit/.config/nvim/after/plugin/luasnip.lua<CR>")
+

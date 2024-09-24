@@ -207,5 +207,5 @@ apply: install-required-dependencies
 	chezmoi apply -v
 	$(MAKE) fix-permissions
 
-full: install-required-dependencies configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium
+full: install-required-dependencies configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-gnome-keyring
 

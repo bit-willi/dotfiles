@@ -207,5 +207,5 @@ apply: install-required-dependencies
 	chezmoi apply -v
 	$(MAKE) fix-permissions
 
-full: configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogle-chromium
+full: install-required-dependencies configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogle-chromium
 

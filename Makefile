@@ -183,7 +183,7 @@ enable-gnome-keyring:
 	systemctl --user enable gcr-ssh-agent.socket
 	systemctl --user start gcr-ssh-agent.socket
 
-install-windevine-ungoogle-chromium:
+install-windevine-ungoogled-chromium:
 	if [[ ! -f "/usr/lib/chromium/WidevineCdm" ]]; then \
 		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
 		ar x /tmp/google-chrome-stable_current_amd64.deb --output=/tmp;\
@@ -207,5 +207,5 @@ apply: install-required-dependencies
 	chezmoi apply -v
 	$(MAKE) fix-permissions
 
-full: install-required-dependencies configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogle-chromium
+full: install-required-dependencies configure-linux apply install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium
 

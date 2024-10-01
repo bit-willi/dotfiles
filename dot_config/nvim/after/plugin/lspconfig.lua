@@ -1,4 +1,4 @@
-local servers = {'phpactor', 'jdtls', 'ts_ls', 'lua_ls', 'sqlls', 'pylsp', 'clangd', 'ocamllsp'}
+local servers = {'phpactor', 'jdtls', 'ts_ls', 'lua_ls', 'sqls', 'pylsp', 'clangd', 'ocamllsp'}
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)

@@ -308,7 +308,5 @@ keymap = [
 ]
 
 [[manager.prepend_keymap]]
-on  = [ "y" ]
-run = [ "yank", '''
-	shell --confirm 'echo "$@" | xclip -i -selection clipboard -t text/uri-list'
-''' ]
+on = "<C-y>"
+run = ["plugin system-clipboard"]

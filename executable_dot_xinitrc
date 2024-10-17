@@ -31,7 +31,6 @@ isavailable libinput-gestures-setup && libinput-gestures-setup start &
 isavailable blueman-applet && blueman-applet &
 isavailable setxkbmap && setxkbmap -option caps:escape &
 isavailable xbindkeys && xbindkeys &
-isavailable flameshot && flameshot &
 isavailable warpd && warpd &
 isavailable gxkb && gxkb &
 isavailable unclutter && unclutter -idle 2 -jitter 2 -root &

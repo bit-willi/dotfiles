@@ -13,11 +13,7 @@ require("neorg").setup({
         ["core.export"] = {},
         ["core.export.markdown"] = {
             config = {
-                public = {
-                    export_dir = "~/.journal/posts",
-                },
                 extensions = "all",
-                export_dir = "~/Documents/codes/personal/blog/_posts"
             }
         }
     },
@@ -26,4 +22,16 @@ require("neorg").setup({
 vim.api.nvim_create_autocmd({"Filetype"}, {
   pattern = {"neorg"},
   command = "setlocal ts=2 sw=2",
+})
+-- Publish blog posts
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "public/*.norg",
+    callback = function()
+        local filepath = vim.fn.expand("%:p")
+        if string.match(filepath, "/public/") then
+            local filename = vim.fn.expand("%:t:r") .. ".md"
+            local destination = '{{ (index (bitwarden "item" .bitwarden.nvim).fields 1).value }}' .. filename
+            vim.cmd('Neorg export to-file ' .. destination)
+        end
+    end,
 })

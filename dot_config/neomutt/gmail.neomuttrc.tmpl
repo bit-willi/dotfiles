@@ -1,0 +1,30 @@
+set realname = {{ .name | quote }}
+set my_user={{ (bitwarden "item" .bitwarden.gmail_mail).login.username }}
+set my_pass="{{ (bitwarden "item" .bitwarden.google_app_key).login.password }}"
+
+set smtp_url = "smtp://$my_user:$my_pass@{{ .gmail.smtp_host }}:{{ .gmail.smtp_port }}/"
+set smtp_pass = $my_pass
+set imap_user = $my_user
+set imap_pass = $my_pass
+
+set envelope_from = yes
+set from = $my_user
+set use_from = yes
+
+set ssl_force_tls = yes
+set folder = "imaps://{{ .gmail.imap_host }}:{{ .gmail.imap_port }}"
+set mbox_type = "Maildir"
+set spoolfile = +inbox
+set header_cache = ~/.cache/mutt/personal/headers
+set message_cachedir= ~/.cache/mutt/personal/bodies
+set signature = "~/.config/neomutt/signature-short.personal"
+set trash='trash'
+
+unset record
+unset move # gmail handles that
+
+# Gmail folders
+folder-hook imaps://{{ .gmail.imap_host }} 'unset mail_check; set sort=threads; set mail_check=5'
+
+# Ensure all subscribed IMAP folders show up
+set imap_check_subscribed

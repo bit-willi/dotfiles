@@ -12,100 +12,65 @@
 {{- $secrets = false -}}
 {{- end -}}
 
-{{- if (env "DOTFILES_MINIMAL") -}}
-{{- $minimal = true -}}
-{{- $secrets = false -}}
-{{- end }}
-
 {{- if (env "WORKCONF") -}}
 {{- $workconf = true -}}
 {{- end -}}
 
 {{- $name := "Willian de Souza" -}}
-{{- $email := "willian.souza.ti@gmail.com" -}}
+{{- $gmail_email := "willian.souza.ti@gmail.com" -}}
 {{- $hostname := "bit" -}}
 {{- $gpg_keyid := "0x7357E344D6C3C795" -}}
 {{- $github_user := "bit-willi" -}}
 {{- $maildir := "mail" -}}
 
-{{- $personal_smtp_host := "smtp.gmail.com" -}}
-{{- $personal_smtp_port := 587 -}}
-{{- $personal_imap_host := "imap.gmail.com" -}}
-{{- $personal_imap_port := 443 -}}
+{{- $email := "me@bitwilli.com" -}}
+{{- $personal_smtp_host := "smtp.hostinger.com" -}}
+{{- $personal_smtp_port := 465 -}}
+{{- $personal_imap_host := "imap.hostinger.com" -}}
+{{- $personal_imap_port := 993 -}}
 
-{{- $work_email := "willian.souza@elevensoft.dev" -}}
+{{- $gmail_smtp_host := "smtp.gmail.com" -}}
+{{- $gmail_smtp_port := 465 -}}
+{{- $gmail_imap_host := "imap.hostinger.com" -}}
+{{- $gmail_imap_port := 993 -}}
+
 {{- $work_smtp_host := "smtp.hostinger.com" -}}
 {{- $work_smtp_port := 465 -}}
 {{- $work_imap_host := "imap.hostinger.com" -}}
 {{- $work_imap_port := 993 -}}
-
-{{- $podcast_opml := "https://www.listennotes.com/listen/podcast-list-McKCI8sZ0v2/opml/" -}}
-
-{{- if (env "ASK") }}
-{{- $minimal = promptBool "minimal" -}}
-{{- $workconf = promptBool "work config" -}}
-
-{{- if $minimal -}}
-{{- $secrets = false -}}
-{{- else }}
-{{- $secrets = promptBool "secrets" -}}
-{{- end }}
-
-{{- $name := promptString "full name" -}}
-{{- $email := promptString "personal email" -}}
-{{- $maildir := promptString "maildir" -}}
-{{- $hostname := promptString "computer hostname" -}}
-{{- $gpg_keyid := promptString "PGP key id" -}}
-{{- $github_user := promptString "github username" -}}
-
-{{- if not $minimal -}}
-{{- $personal_smtp_host := promptString "personal email's smtp host" -}}
-{{- $personal_smtp_port := promptInt "personal email's smtp port" -}}
-{{- $personal_imap_host := promptString "personal email's imap host" -}}
-{{- $personal_imap_port := promptInt "personal email's imap port" -}}
-
-{{- $work_email := promptString "work email" -}}
-{{- $work_smtp_host := promptString "work email's smtp host" -}}
-{{- $work_smtp_port := promptString "work email's smtp port" -}}
-{{- $work_imap_host := promptString "work email's imap host" -}}
-{{- $work_imap_port := promptString "work email's imap port" -}}
-
-{{- $podcast_opml := promptString "podcast opml url" -}}
-{{- end -}}
-{{- end -}}
 
 sourceDir: {{ .chezmoi.sourceDir }}
 
 data:
   secrets: {{ $secrets }}
   headless: {{ $headless }}
-  minimal: {{ $minimal }}
-  email: {{ $email }}
-  name: {{ $name }}
   hostname: {{ $hostname }}
   gpg_keyid: {{ $gpg_keyid }}
   github_user: {{ $github_user }}
   workconf: {{ $workconf }}
   maildir: {{ joinPath (printf "%v" .chezmoi.homeDir) $maildir }}
-{{- if not $minimal }}
+  name: {{ $name }}
+  email: {{ $email }}
   smtp_host: {{ $personal_smtp_host }}
   smtp_port: {{ $personal_smtp_port }}
   imap_host: {{ $personal_imap_host }}
   imap_port: {{ $personal_imap_port }}
-  podcast_opml: {{ $podcast_opml }}
+  gmail:
+    imap_host: {{ $gmail_imap_host }}
+    imap_port: {{ $gmail_imap_port }}
+    smtp_host: {{ $gmail_smtp_host }}
+    smtp_port: {{ $gmail_smtp_port }}
   work:
-    workmail: {{ $work_email }}
     imap_host: {{ $work_imap_host }}
     imap_port: {{ $work_imap_port }}
     smtp_host: {{ $work_smtp_host }}
     smtp_port: {{ $work_smtp_port }}
-{{- end }}
-{{- if $secrets }}
   bitwarden:
     i3rs: 1e298379-8595-4282-9506-b02301736669
     wakatime_api: af7eba11-909c-4425-9ed4-b02300eb8c75
-    personal_mail: 7fdda3df-2ac1-43e2-a517-acd30009beb6
     google_app_key: 4fe4883c-f664-4a86-9d96-b188012ac263
+    personal_mail: eb9dee5e-a16b-42f7-9c33-b12300b1ab74
+    gmail_mail: 7fdda3df-2ac1-43e2-a517-acd30009beb6
     work_mail: eb9dee5e-a16b-42f7-9c33-b12300b1ab74
     ssh_pub: 75f7a883-6d56-453d-8678-b02300bacf9e
     ssh_priv: b51f9e3c-2a0a-44a9-8ff0-b02300c1320d
@@ -124,4 +89,3 @@ data:
     elevensoft: 5eef454b-706e-4347-b4c2-b0d70175769d
     spotify: d183c021-ce3f-4fbd-bb5d-b19b013beda5
     nvim: fbb840de-603d-4354-b648-b20600e0b718
-{{- end -}}

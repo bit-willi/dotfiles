@@ -42,3 +42,5 @@ yazi
 spotify-tui
 quickemu
 transmission-qt
+droidcam
+v4l2loopback-dkms

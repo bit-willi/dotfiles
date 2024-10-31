@@ -75,6 +75,7 @@ lightdm
 lightdm-gtk-greeter
 linux
 linux-firmware
+linux-headers
 logrotate
 lua53
 lvm2
@@ -271,3 +272,4 @@ gxkb
 qalculate-gtk
 bind
 btop
+cpupower

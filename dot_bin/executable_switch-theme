@@ -6,12 +6,16 @@ mode="prefer-dark"
 gtk_theme="gruvbox-dark-gtk"
 kitty_theme="Gruvbox Dark"
 vim_theme="dark"
+pager_theme="true"
+pager_syntax_theme="gruvbox-dark"
 
 if [ "$selected_theme" == 'Net/ThemeName "gruvbox-dark-gtk"' ]; then
         mode="prefer-light"
         gtk_theme="gruvbox-light-gtk"
         kitty_theme="Gruvbox Light"
         vim_theme="light"
+        pager_theme="false"
+        pager_syntax_theme="gruvbox-light"
 fi
 
 echo "Theme:" $mode
@@ -20,6 +24,9 @@ kitty +kitten themes --reload-in=all $kitty_theme
 
 echo "Net/ThemeName \"$gtk_theme\"" > $HOME/.xsettingsd
 echo "set background=$vim_theme" > $HOME/.nvim.color
+
+git config --global delta.dark $pager_theme
+git config --global delta.syntax-theme $pager_syntax_theme
 
 killall -HUP xsettingsd
 

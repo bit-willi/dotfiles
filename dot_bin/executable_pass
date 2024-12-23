@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+selected=`cat ~/.srv-credentials | cut -d':' -f1 | fzf`
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+cat ~/.srv-credentials | grep $selected | cut -d':' -f2 | cb copy

@@ -274,3 +274,5 @@ bind
 btop
 cpupower
 darktable
+opencl-nvidia
+clinfo

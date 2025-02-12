@@ -17,7 +17,7 @@ function help() {
    echo "Syntax:      dmenu [launcher|clipboard]"
    echo "options:"
    echo "    launcher     Application launcher"
-   echo "    clipboard    Display and select clipboard history (requires greenclip)"
+   echo "    clipboard    Display and select clipboard history (requires greenclip, cb and jq)"
    echo "    switch       Switch between opened window (requires wmctrl)"
    echo "    calculate    Calculator (requires calc)"
    echo "    locate       Locate and open files (requires mlocate and xdg-open)"
@@ -30,7 +30,8 @@ case "$1" in
         dmenu_run $FONT $LINE_LEN $THEME
         ;;
     "clipboard")
-        greenclip print \
+            cb history \
+            | jq -r '.[] | select(.content != null) | .content' \
             | sed '/^$/d' \
             | $DMENU_CMD -i -p clipboard \
             | xargs -r -d'\n' -I '{}' greenclip print '{}'

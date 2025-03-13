@@ -21,8 +21,8 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>",  { noremap = true, silent = true, desc = "Open diagnostic floating window" })
     buf_set_keymap("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>",  { noremap = true, silent = true, desc = "Goto previous diagnostic" })
     buf_set_keymap("n", "]d", ":lua vim.diagnostic.goto_next()<CR>",  { noremap = true, silent = true, desc = "Goto next diagnostic" })
-    buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>",  { noremap = true, silent = true, desc = "Open list with diagnostic" })
-    buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true, desc = "Formats the current buffer" })
+    buf_set_keymap("n", "<leader>lq", ":lua vim.diagnostic.setloclist()<CR>",  { noremap = true, silent = true, desc= "Open list with diagnostic" })
+    buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.format()<CR>", { noremap = true, silent = true, desc = "Formats the current buffer" })
 end
 
 root_dir = function(fname)

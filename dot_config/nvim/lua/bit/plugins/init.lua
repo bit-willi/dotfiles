@@ -23,7 +23,6 @@ return {
     },
     {
         "ThePrimeagen/harpoon",
-        keys = {"<leader>hh", "<leader>hd", "<leader>ha"},
         branch = "harpoon2",
         dependencies = { "nvim-lua/plenary.nvim" }
     },
@@ -81,7 +80,7 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
-        dependencies = { "rafamadriz/friendly-snippets" }, -- https://github.com/rafamadriz/friendly-snippets
+        dependencies = { "rafamadriz/friendly-snippets" },
         event = { "BufReadPre", "BufNewFile" },
         build = "make install_jsregexp"
     },
@@ -129,28 +128,13 @@ return {
     {
         "3rd/image.nvim",
         dependencies = { "luarocks.nvim" },
-        config = function()
-            -- ...
-        end
+        config = true
     },
     {
         "nvim-neorg/neorg",
         dependencies = { "luarocks.nvim" },
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
         version = "*", -- Pin Neorg to the latest stable release
-    },
-    {
-        dir = "~/documents/codes/personal/nvim-devdocs",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope.nvim",
-            "nvim-treesitter/nvim-treesitter",
-        },
-        opts = {}
-    },
-    {
-        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-        keys = {"<leader>l"}
     },
     {
         "brenoprata10/nvim-highlight-colors",
@@ -162,12 +146,8 @@ return {
         config = true
     },
     {
-        "NeogitOrg/neogit",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "sindrets/diffview.nvim",
-            "nvim-telescope/telescope.nvim",
-        },
-        config = true
+        "Massolari/lsp-auto-setup.nvim",
+        dependencies = { "neovim/nvim-lspconfig" },
+        config = true,
     }
 }

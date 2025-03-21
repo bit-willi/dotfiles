@@ -149,5 +149,12 @@ return {
         "Massolari/lsp-auto-setup.nvim",
         dependencies = { "neovim/nvim-lspconfig" },
         config = true,
+    },
+    {
+        "lucaSartore/fastspell.nvim",
+        config = true,
+        build = function ()
+            vim.system({vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh"})
+        end,
     }
 }

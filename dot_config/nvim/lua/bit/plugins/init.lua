@@ -156,5 +156,14 @@ return {
         build = function ()
             vim.system({vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh"})
         end,
+    },
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+            { "github/copilot.vim" },
+            { "nvim-lua/plenary.nvim", branch = "master" },
+        },
+        build = "make tiktoken",
+        opts = {}
     }
 }

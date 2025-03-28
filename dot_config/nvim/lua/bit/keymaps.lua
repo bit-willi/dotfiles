@@ -2,11 +2,6 @@
 vim.keymap.set("n", "<leader>fs", vim.cmd.Ex)
 vim.keymap.set("n", "<Esc><Esc>", ":noh<cr> :noh<cr>" )
 
--- Easy tabs
-vim.keymap.set("n", "<leader>tt", ":tabnew<cr>")
-vim.keymap.set("n", "<leader>tn", ":tabnext<cr>")
-vim.keymap.set("n", "<leader>tp", ":tabprevious<cr>")
-
 -- Easy splits
 vim.keymap.set("n", "<leader>sv", "<cmd>vsplit<cr>")
 vim.keymap.set("n", "<leader>sh", "<cmd>split<cr>")

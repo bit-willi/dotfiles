@@ -152,6 +152,7 @@ return {
     },
     {
         "lucaSartore/fastspell.nvim",
+        event = { "BufReadPre", "BufNewFile" },
         config = true,
         build = function ()
             vim.system({vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh"})
@@ -159,6 +160,7 @@ return {
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
+        cmd = "CopilotChatOpen",
         dependencies = {
             { "github/copilot.vim" },
             { "nvim-lua/plenary.nvim", branch = "master" },

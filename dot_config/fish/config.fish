@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_vi_key_bindings
 
-    export PATH="$HOME/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.emacs.d/bin:/home/$USER/.local/bin/"
+    export PATH="$HOME/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.emacs.d/bin:/home/$USER/.local/bin/:$HOME/.asdf/installs/php/$(php -v | head -n 1 | cut -d' ' -f2)/.composer/vendor/bin/"
 
     set -U fish_greeting ""
 

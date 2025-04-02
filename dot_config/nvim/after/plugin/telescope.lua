@@ -24,8 +24,6 @@ require("telescope").setup{
     }
 }
 
-require("telescope").load_extension("harpoon")
-
 vim.keymap.set("n", "<leader>sf",  require("telescope.builtin").find_files, { desc = "Search files in cwd" })
 vim.keymap.set("n", "<leader>sh",  require("telescope.builtin").help_tags, { desc = "Search help tags in cwd" })
 vim.keymap.set("n", "<leader>sw",  require("telescope.builtin").grep_string, { desc = "Search string in cwd" })

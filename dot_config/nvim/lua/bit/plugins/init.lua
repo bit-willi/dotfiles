@@ -18,11 +18,6 @@ return {
         event = { "BufReadPre", "BufNewFile" },
     },
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" }
-    },
-    {
         "scrooloose/nerdcommenter",
         event = { "BufReadPre", "BufNewFile" },
     },

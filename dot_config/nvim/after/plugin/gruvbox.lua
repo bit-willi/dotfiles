@@ -25,3 +25,6 @@ local setup = {
 
 require("gruvbox").setup(setup)
 vim.cmd("colorscheme gruvbox")
+
+local color_file = vim.fn.expand('~/.nvim.color')
+vim.cmd("source " .. color_file)

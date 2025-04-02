@@ -124,7 +124,6 @@ local function watch_file(fname)
     w:start(fname, {}, vim.schedule_wrap(on_change))
 end
 on_change = function()
-    print('hello');
     reload()
     w:stop()
     watch_file(color_file)

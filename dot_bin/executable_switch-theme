@@ -1,32 +1,55 @@
 #!/usr/bin/env bash
 
-selected_theme=$(cat $HOME/.xsettingsd)
+# Read current theme
+selected_theme=$(cat "$HOME/.xsettingsd")
 
-mode="prefer-dark"
-gtk_theme="gruvbox-dark-gtk"
-kitty_theme="Gruvbox Dark"
-vim_theme="dark"
-pager_theme="true"
-pager_syntax_theme="gruvbox-dark"
+dark_theme='Net/ThemeName "gruvbox-dark-gtk"'
+light_theme='Net/ThemeName "gruvbox-light-gtk"'
 
-if [ "$selected_theme" == 'Net/ThemeName "gruvbox-dark-gtk"' ]; then
-        mode="prefer-light"
-        gtk_theme="gruvbox-light-gtk"
-        kitty_theme="Gruvbox Light"
-        vim_theme="light"
-        pager_theme="false"
-        pager_syntax_theme="gruvbox-light"
+dark_mode="prefer-dark"
+light_mode="prefer-light"
+
+dark_gtk="gruvbox-dark-gtk"
+light_gtk="gruvbox-light-gtk"
+
+dark_kitty="Gruvbox Dark"
+light_kitty="Gruvbox Light"
+
+dark_vim="dark"
+light_vim="light"
+
+dark_pager="true"
+light_pager="false"
+
+dark_syntax="gruvbox-dark"
+light_syntax="gruvbox-light"
+
+# Toggle theme based on current selection
+if [ "$selected_theme" == "$dark_theme" ]; then
+    mode="$light_mode"
+    gtk_theme="$light_gtk"
+    kitty_theme="$light_kitty"
+    vim_theme="$light_vim"
+    pager_theme="$light_pager"
+    pager_syntax_theme="$light_syntax"
+    statusline="highlight StatusLine guifg=#3c3836 guibg=#ebdbb2"
+else
+    mode="$dark_mode"
+    gtk_theme="$dark_gtk"
+    kitty_theme="$dark_kitty"
+    vim_theme="$dark_vim"
+    pager_theme="$dark_pager"
+    pager_syntax_theme="$dark_syntax"
+    statusline="highlight StatusLine guibg=#3c3836 guifg=#ebdbb2"
 fi
 
-echo "Theme:" $mode
+# Apply theme
+echo "Theme: $mode"
+kitty +kitten themes --reload-in=all "$kitty_theme"
+echo "Net/ThemeName \"$gtk_theme\"" > "$HOME/.xsettingsd"
+echo -e "set background=$vim_theme\n$statusline" > "$HOME/.nvim.color"
 
-kitty +kitten themes --reload-in=all $kitty_theme
-
-echo "Net/ThemeName \"$gtk_theme\"" > $HOME/.xsettingsd
-echo "set background=$vim_theme" > $HOME/.nvim.color
-
-git config --global delta.dark $pager_theme
-git config --global delta.syntax-theme $pager_syntax_theme
+git config --global delta.dark "$pager_theme"
+git config --global delta.syntax-theme "$pager_syntax_theme"
 
 killall -HUP xsettingsd
-

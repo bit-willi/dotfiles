@@ -8,14 +8,9 @@ if vim.g.neovide then
 end
 
 -- Leader key -> ","
---
--- In general, it's a good idea to set this early in your config, because otherwise
--- if you have any mappings you set BEFORE doing this, they will be set to the OLD
--- leader.
 vim.g.mapleader = ","
 vim.g.maplocalleader = " "
 
--- Turn off builtin plugins I do not use.
 require "bit.disable_builtin"
 require "bit.keymaps"
 require "bit.options"

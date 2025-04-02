@@ -40,6 +40,20 @@ spread = function(template)
     end
 end
 
+focus = function()
+  local winid = vim.fn.win_getid()
+  vim.cmd("tab split")
+  local new_winid = vim.fn.win_getid()
+
+  vim.api.nvim_create_autocmd("WinClosed", {
+    pattern = tostring(new_winid),
+    once = true,
+    callback = function()
+      vim.fn.win_gotoid(winid)
+    end,
+  })
+end
+
 stridx = function(str, substr)
     return string.find(str, substr, 1, true) ~= nil
 end

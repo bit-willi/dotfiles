@@ -149,21 +149,3 @@ vim.cmd("set path+=**")
 
 -- Show invisible chars
 opt.list = true
-
--- Zoom
---
-local function zoom()
-  local winid = vim.fn.win_getid()
-  vim.cmd("tab split")
-  local new_winid = vim.fn.win_getid()
-
-  vim.api.nvim_create_autocmd("WinClosed", {
-    pattern = tostring(new_winid),
-    once = true,
-    callback = function()
-      vim.fn.win_gotoid(winid)
-    end,
-  })
-end
-
-vim.keymap.set("n", "<leader>zz", zoom)

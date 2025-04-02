@@ -1,9 +1,5 @@
 return {
     {
-        "tjdevries/express_line.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-    },
-    {
         "ellisonleao/gruvbox.nvim",
         priority = 1000 ,
         config = true,

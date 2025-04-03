@@ -11,7 +11,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true, desc = "Jumps to the definition of the symbol under the cursor" })
     buf_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true, desc = "Information about the symbol under the cursor in a floating window" })
     buf_set_keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true, silent = true, desc = "Lists all implementations for the symbol under the cursor in the quickfix window" })
-    buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>", { noremap = true, silent = true, desc = "Rename symbol under cursor" }) -- 🔥 Corrigido!
+    buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>", { noremap = true, silent = true, desc = "Rename symbol under cursor" })
     buf_set_keymap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true, desc = "Select a code action" })
     buf_set_keymap("n", "gr", ":lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true, desc = "List references to symbol under cursor" })
     buf_set_keymap("n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true, desc = "Open diagnostic floating window" })
@@ -21,18 +21,17 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<leader>lf", ":lua vim.lsp.buf.format()<CR>", { noremap = true, silent = true, desc = "Format current buffer" })
 end
 
-local lspconfig = require'lspconfig'
+vim.lsp.config("*", {
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+    on_attach = on_attach,
+})
 
-lspconfig.util.default_config = vim.tbl_extend(
-    "force",
-    lspconfig.util.default_config,
-    {
-        autostart = true,
-        on_attach = on_attach,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(
-            vim.lsp.protocol.make_client_capabilities()
-        )
-    }
-)
-
-require("lsp-auto-setup").setup({})
+require("lsp-auto-setup").setup({
+    server_config = {
+        phpactor = function()
+            return {
+                on_attach = on_attach
+            }
+        end
+    },
+})

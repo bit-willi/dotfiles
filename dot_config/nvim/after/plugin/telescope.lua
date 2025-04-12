@@ -9,7 +9,7 @@ require("telescope").setup{
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ['<c-d>'] = actions.delete_buffer,
+            ['<C-d>'] = actions.delete_buffer,
             ['<esc>'] = actions.close,
             ["<M-p>"] = action_layout.toggle_preview,
             ["<M-m>"] = action_layout.toggle_mirror,

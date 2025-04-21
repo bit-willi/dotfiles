@@ -1,9 +1,0 @@
-name: dotfiles
-root: ~/dotfiles
-
-windows:
-  - shell:
-      layout: even-vertical
-      panes:
-        - clear
-        - clear; chezmoi diff

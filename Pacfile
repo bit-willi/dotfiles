@@ -2,7 +2,6 @@ acpi
 acpid
 alacritty
 alsa-tools
-alsa-utils
 ansible
 arandr
 autoconf
@@ -24,13 +23,11 @@ diffutils
 dmenu
 dnsmasq
 docker
-docker-compose
 dunst
 e2fsprogs
 efibootmgr
 eza
 fakeroot
-fasd
 fd
 feh
 file
@@ -51,8 +48,6 @@ gparted
 grep
 groff
 grub
-gvfs
-gvfs-smb
 gzip
 help2man
 httpie
@@ -62,9 +57,7 @@ imagemagick
 inetutils
 iproute2
 iputils
-ispell
 jdk11-openjdk
-jfsutils
 jre-openjdk
 kitty
 less
@@ -86,8 +79,7 @@ make
 man-db
 man-pages
 mdadm
-mlocate
-nano
+plocate
 nasm
 net-tools
 netctl
@@ -109,15 +101,12 @@ pkgconf
 podman
 procps-ng
 psmisc
-reiserfsprogs
 ripgrep
 rofi
 s-nail
-samba
 scrot
 sed
 shadow
-smbclient
 solaar
 spike
 stow
@@ -146,14 +135,12 @@ wpa_supplicant
 xarchiver
 xautolock
 xf86-video-intel
-xfsprogs
 xorg-server
 xorg-xev
 xorg-xinit
 xorg-xinput
 i3status-rust
 papirus-icon-theme
-texlive-core
 rsync
 xdg-user-dirs
 pcmanfm-gtk3
@@ -168,12 +155,7 @@ neofetch
 ufw
 plantuml
 python-websocket-client
-aspell
-aspell-pt
-aspell-en
-fortune-mod
 w3m
-gist
 wmctrl
 acpi_call
 xclip
@@ -192,7 +174,6 @@ lm_sensors
 xbindkeys
 unclutter
 xss-lock
-xautolock
 geoclue
 intel-ucode
 powertop
@@ -222,7 +203,6 @@ virt-manager
 qemu-full
 libvirt
 flameshot
-pulsemixer
 kdeconnect
 seahorse
 tree-sitter
@@ -233,7 +213,6 @@ libffi
 qmk
 grc
 timeshift
-perl-rename
 tlp
 fish
 mutt
@@ -264,7 +243,6 @@ mpv
 evince
 zathura
 zathura-pdf-mupdf
-spotifyd
 spotify-player
 zsh
 wireshark-qt

@@ -14,9 +14,9 @@ else
 	is_linux = 1
 
 	ifeq ($(shell command -v yay 2> /dev/null),)
-		yay_installed := $(shell command -v yay 2> /dev/null)
-	else
 		yay_installed = 0
+	else
+		yay_installed = 1
 	endif
 endif
 
@@ -39,10 +39,10 @@ configure-linux:
 	sudo timedatectl set-timezone America/Sao_Paulo
 	sudo timedatectl set-ntp 1
 	sudo timedatectl set-local-rtc 0
-	sudo ln -sf /usr/share/zoneinfo/Ameriaca/Sao_Paulo /etc/localtime
+	sudo ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
 	@echo "Setup locale"
-	sudo sed -i '/en_US.UTF-8$$/s/^#//g' /etc/pacman.conf
+	sudo sed -i '/en_US.UTF-8$$/s/^#//g' /etc/locale.gen
 	sudo locale-gen
 
 	@echo "Enable non-root access to dmesg"
@@ -112,7 +112,7 @@ configure-osx:
 	killall SystemUIServer
 
 	@echo "build locate database"
-	sudo launchctl load -w /system/library/launchdaemons/com.apple.locate.plist || true
+	sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist || true
 
 	@echo "enable firewall"
 	sudo /usr/libexec/applicationfirewall/socketfilterfw --setglobalstate on
@@ -121,14 +121,7 @@ configure-osx:
 	sudo systemsetup setusingnetworktime on
 
 install-git-dependencies:
-	if [[ ! -f "$(HOME)/.emacs.d/bin/doom" ]]; then \
-		git clone --depth 1 https://github.com/doomemacs/doomemacs "$(HOME)/.config/emacs"; \
-		"$(HOME)/.config/emacs/bin/doom" install -!;\
-	else \
-		"$(HOME)/.config/emacs/bin/doom" sync -!;\
-	fi
-
-	if [[ ! -f "usr/local/bin/notes" ]]; then \
+	if [[ ! -f "/usr/local/bin/notes" ]]; then \
 		curl -L https://raw.githubusercontent.com/pimterry/notes/latest-release/install.sh | sudo bash; \
 	fi
 
@@ -140,13 +133,18 @@ install-go-dependencies:
 	GO111MODULE=on go install golang.org/x/tools/gopls@latest
 
 install-pyenv:
-	if [[ "$(host)" == "Darwin"* ]]; then \
-		LDFLAGS="-L/usr/local/opt/zlib/lib"; \
+	if [[ "$(host)" == "Darwin" ]]; then \
+		export LDFLAGS="-L/usr/local/opt/zlib/lib"; \
 	fi
 
 	if [ ! -d "$(HOME)/.pyenv" ]; then \
 		curl https://pyenv.run | bash; \
-		PATH="$(HOME)/.pyenv/bin:${PATH}"; \
+		export PATH="$(HOME)/.pyenv/bin:$$PATH"; \
+		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.10.2; \
+		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.8.12; \
+		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.9.9; \
+		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.11.0; \
+	fi
 		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.10.2; \
 		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.8.12; \
 		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.9.9; \
@@ -168,8 +166,8 @@ install-extra-dependencies:
 			yay -S --noconfirm --needed - <"$(AUR_BUNDLE_FILE)"; \
 		fi; \
 	else \
-                brew update; \
-                brew bundle; \
+		brew update; \
+		brew bundle; \
 	fi
 
 install-required-dependencies:
@@ -185,11 +183,12 @@ enable-gnome-keyring:
 
 install-windevine-ungoogled-chromium:
 	if [[ ! -f "/usr/lib/chromium/WidevineCdm" ]]; then \
-		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
-		ar x /tmp/google-chrome-stable_current_amd64.deb --output=/tmp;\
-		cd /tmp && tar -xvf /tmp/data.tar.xz 2>/dev/null; \
-		sudo rm -rf /usr/lib/chromium/WidevineCdm/; \
-		sudo mv /tmp/opt/google/chrome/WidevineCdm/ /usr/lib/chromium/; \
+		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+		ar x /tmp/google-chrome-stable_current_amd64.deb --output=/tmp && \
+		tar -xvf /tmp/data.tar.xz -C /tmp 2>/dev/null && \
+		sudo rm -rf /usr/lib/chromium/WidevineCdm/ && \
+		sudo mv /tmp/opt/google/chrome/WidevineCdm/ /usr/lib/chromium/ && \
+		rm -f /tmp/google-chrome-stable_current_amd64.deb /tmp/data.tar.xz; \
 	fi
 
 fix-permissions:

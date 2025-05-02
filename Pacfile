@@ -133,8 +133,6 @@ wakatime
 which
 wpa_supplicant
 xarchiver
-xautolock
-xf86-video-intel
 xorg-server
 xorg-xev
 xorg-xinit
@@ -260,5 +258,4 @@ vulkan-intel
 mesa-utils
 libva-utils
 thermald
-thunderbolt-tools
 ttf-fira-code

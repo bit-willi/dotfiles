@@ -1,6 +1,5 @@
 acpi
 acpid
-alacritty
 alsa-tools
 ansible
 arandr
@@ -124,7 +123,6 @@ ttf-cormorant
 ttf-hack
 ttf-inconsolata
 unzip
-urxvt-perls
 usbutils
 util-linux
 vi

@@ -15,7 +15,9 @@ require("telescope").setup{
             ["<M-m>"] = action_layout.toggle_mirror,
           },
         },
-        preview = true,
+        preview = {
+            treesitter = false
+        },
         path_display = {
             filename_first = {
                 reverse_directories = false

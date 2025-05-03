@@ -257,3 +257,4 @@ mesa-utils
 libva-utils
 thermald
 ttf-firacode-nerd
+xf86-input-libinput

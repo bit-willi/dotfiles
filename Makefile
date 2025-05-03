@@ -181,6 +181,12 @@ enable-gnome-keyring:
 	systemctl --user enable gcr-ssh-agent.socket
 	systemctl --user start gcr-ssh-agent.socket
 
+enable-kanata:
+	sudo usermod -aG input $USER
+	echo 'KERNEL=="uinput", MODE="0660", GROUP="input"' | sudo tee /etc/udev/rules.d/99-uinput.rules
+	sudo modprobe uinput
+	echo uinput | sudo tee /etc/modules-load.d/uinput.conf
+
 install-windevine-ungoogled-chromium:
 	if [[ ! -f "/usr/lib/chromium/WidevineCdm" ]]; then \
 		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \

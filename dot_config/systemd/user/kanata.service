@@ -1,0 +1,10 @@
+[Unit]
+Description=Kanata Service
+
+[Service]
+ExecStartPre=/usr/bin/modprobe uinput
+ExecStart=/usr/bin/kanata
+Restart=no
+
+[Install]
+WantedBy=sysinit.target

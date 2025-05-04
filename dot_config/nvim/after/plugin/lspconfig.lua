@@ -1,3 +1,5 @@
+local lspconfig = require('lspconfig')
+
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -26,12 +28,10 @@ vim.lsp.config("*", {
     on_attach = on_attach,
 })
 
-require("lsp-auto-setup").setup({
-    server_config = {
-        phpactor = function()
-            return {
-                on_attach = on_attach
-            }
-        end
-    },
-})
+local servers = {'phpactor'}
+
+for _, lsp in ipairs(servers) do
+    lspconfig[lsp].setup({
+        on_attach = on_attach
+    })
+end

@@ -137,11 +137,6 @@ return {
         config = true
     },
     {
-        "Massolari/lsp-auto-setup.nvim",
-        dependencies = { "neovim/nvim-lspconfig" },
-        config = true,
-    },
-    {
         "lucaSartore/fastspell.nvim",
         event = { "BufReadPre", "BufNewFile" },
         config = true,

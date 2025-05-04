@@ -21,10 +21,15 @@
   k (tap-hold $tap-time $hold-time k rmet)
   l (tap-hold $tap-time $hold-time l rctl)
   ; (tap-hold $tap-time $hold-time ; rsft)
+  caps (tap-hold $tap-time $hold-time esc (layer-switch fn))
 )
 
 (deflayer base
-  caps esc
-  @a   @s   @d   @f   @j   @k   @l   @;
+  @caps esc
+  @a    @s   @d   @f   @j   @k   @l   @;
 )
 
+(deflayer fn
+  _     _
+  _     _     _     _     left  down  up  right
+)

@@ -8,54 +8,6 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
-! URxvt
-URxvt.font: xft:Hack:size=10,xft:Inconsolata\\-dz:size=10,xft:Monospace:size=9:antialias=true:hinting=true,xft:FontAwesome:size=10
-! do not scroll with output
-URxvt*scrollTtyOutput: false
-! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
-URxvt*scrollWithBuffer: true
-! scroll back to the bottom on keypress
-URxvt*scrollTtyKeypress: true
-! scrollback buffer in secondary screen
-URxvt.secondaryScreen: 1
-URxvt.secondaryScroll: 0
-! perl extensions
-URxvt.perl-ext-common: default,matcher,fullscreen,clipboard,searchable-scrollback
-! clickable urls
-URxvt.url-launcher: /usr/bin/google-chrome-stable
-URxvt.matcher.button: 2
-! to open and list recent urls via keyboard
-URxvt.keysym.C-Delete: perl:matcher:last
-URxvt.keysym.M-Delete: perl:matcher:list
-! color matching links
-URxvt.matcher.rend.0: Uline Bold fg5
-! yankable URLs
-URxvt.perl-ext: default,url-select
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/google-chrome-stable
-URxvt.url-select.underline: true
-! cursor underline
-URxvt*cursorUnderline: true
-! scrollbar position
-URxvt*scrollBar: false
-! no borders
-URxvt*internalBorder: 0
-URxvt*externalBorder: 0px
-URxvt*borderLess: false
-! fullscreen
-URxvt.keysym.F11: perl:fullscreen:switch
-! tab colors
-URxvt.tabbed.tabbar-fg: 2
-URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg: 3
-URxvt.tabbed.tab-bg: 0
-! clipboard
-URxvt.keysym.M-c:   perl:clipboard:copy
-URxvt.keysym.M-v:   perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-! larger history
-URxvt.saveLines: 0
-
 ! from: https://github.com/morhetz/gruvbox-contrib
 ! hard contrast: *background: #1d2021
 *background: #282828

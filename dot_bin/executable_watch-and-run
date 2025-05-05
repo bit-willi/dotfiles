@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Usage: ./watch-and-run <pattern-to-look-at> <command-to-run>
+
+pattern="$1"
+cmd="$2"
+
+find -name "$pattern" | entr -s "$cmd"

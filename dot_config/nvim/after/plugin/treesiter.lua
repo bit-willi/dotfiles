@@ -1,17 +1,10 @@
 require('nvim-treesitter.configs').setup({
     ensure_installed = {
-        "go",
-        "html",
         "javascript",
         "json",
         "markdown",
-        "ocaml",
         "python",
-        "query",
-        "rust",
         "toml",
-        "tsx",
-        "typescript",
         "vim",
         "vimdoc",
         "php",
@@ -91,4 +84,12 @@ require('nvim-treesitter.configs').setup({
             show_help = '?',
         },
     }
+})
+
+-- PHP is broken somehow
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "php",
+  callback = function()
+    vim.cmd("TSEnable highlight")
+  end,
 })

@@ -20,7 +20,7 @@
   a (tap-hold $tap-time $hold-time a lsft)
   s (tap-hold $tap-time $hold-time s lctl)
   d (tap-hold $tap-time $hold-time d lmet)
-  f (tap-hold $tap-time $hold-time f lalt)
+  f (tap-hold $tap-time $hold-time f ralt)
   j (tap-hold $tap-time $hold-time j ralt)
   g (tap-hold $tap-time $hold-time g (macro A-M-g))
   k (tap-hold $tap-time $hold-time k rmet)
@@ -42,7 +42,7 @@
   caps
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  esc  @a   @s   @d   @f   @g   h    left down up   right '  ret
+  esc  @a   @s   @d   @f   @g   left down up   right ;   '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt         @spc          ralt rmet rctl
 )

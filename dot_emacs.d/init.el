@@ -1,130 +1,6 @@
-;;; init.el --- Emacs-Kick --- A feature rich Emacs config for (neo)vi(m)mers -*- lexical-binding: t; -*-
-;; Author: Rahul Martim Juliato
-
-;; Version: 0.2.0
-;; Package-Requires: ((emacs "30.1"))
-;; License: GPL-2.0-or-later
-
-;;; Commentary:
-;; =====================================================================
-;; ==================== READ THIS BEFORE CONTINUING ====================
-;; =====================================================================
-;;
-;;                      ⣠⣶⣿⣿⣶⡄         ⠀⣀⣤⣄⡀
-;;                      ⣿⣿⣿⣿λ⣿         ⣾)⣿⣿⣿⡆
-;;                      ⠹⢿⣿⣿⡿⠃        ⠀⣿⣿⣿⣿⣿⡏⢀⣀⡀
-;;                      ⣠⣤⣦⡄           ⠈⠛⠿⣟⣋⣼⣽⣾⣽⣦⡀⠀
-;;                      ⣼⣿⣷⣾⡽⡄       ⣴⣶⣶⣿⣿⣿⡿⢿⣟⣽⣾⣿⣿⣦
-;;                     ⣸⣿⣿⣾⣿⣿⣮⣤⣤⣤⣤⡀  ⠻⣿⡯⠽⠿⠛⠛⠉⠉⢿⣿⣿⣿⣿⣷
-;;                     ⣿⣿⢻⣿⣿⣿⣛⡿⠿⠟⠛⠁⣀⣠⣤⣤⣶⣶⣶⣶⣷⣶ ⠀⠻⣿⣿⣿⣿⣇
-;;                     ⢻⣿⡆⢿⣿⣿⣿⣿⣤⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟ ⣠⣶⣿⣿⣿⣿
-;;                     ⠈⠛⠃⠈⢿⣿⣿⣿⣿⣿⣿⠿⠟⠛⠋⠉     ⣠⣾⣿⣿⣿⠟⠋
-;;                          ⠙⢿⣿⣿⡏         ⠀⣴⣿⣿⣿⠟
-;;                           ⢸E⣿⡇         ⣼⣿⣿⣿
-;;                           ⢸M⣿⣿        ⢸⣿⣿⣿
-;;                           ⢸A⣿⣿        ⠸⣿⣿
-;;                           ⢸C⣿⣿
-;;                           ⣼S⣿⡇
-;;                          ⠀⠻⣿⡿
-;; =====================================================================
-;; =====================================================================
-
-;; What is Emacs-Kick?
-;;
-;; Emacs-Kick is `not' a distribution.
-;;
-;; Emacs-Kick is a starting point for your own configuration.  The goal
-;; is that you can read every line of code, top-to-bottom, understand
-;; what your configuration is doing, and modify it to suit your needs.
-;;
-;; Once you've done that, you can start exploring, configuring, and
-;; tinkering to make Emacs your own! That might mean leaving Emacs
-;; Kick just the way it is for a while or immediately breaking it into
-;; modular pieces.  It's up to you!
-;;
-;; If you don't know anything about Emacs Lisp, I recommend taking
-;; some time to read through a guide.
-;; One possible example which will only take 10-15 minutes:
-;; - https://learnxinyminutes.com/docs/elisp/
-;;
-;; After understanding a bit more about Emacs Lisp, you can use `M-x
-;; info RET` (info) for a reference on how Emacs integrates it.
-;;
-;;
-;; Emacs-Kick Guide:
-;;
-;; Well, this config ASSUMES you already knows (neo)vi(m) bindings,
-;; and the bases of how it works.  This is the `Emacs config for
-;; vimmers'.  So, if you're not familiar with it, go for
-;; `kickstart.nvim', get used to it, and than come back.
-;;
-;; On Emacs, help can be found multiple ways.
-;; With this config, the leader key is SPC.
-;; - <leader> h i opens the info (Also `M-x info RET')
-;; - <leader> h v explores available variables
-;; - <leader> h f explores avaliable functions
-;; - <leader> h k explores avaliable keybindings
-;;
-;; If, at any time you need to find some functionality, Emacs `M-x'
-;; (Meta is alt on most cases, option or command), works like a
-;; command pallete, you can for example type `M-x quit' and be
-;; presented with various options to quit Emacs.
-;;
-;; Once you've completed that, you can continue working through
-;; `AND READING' the rest of the kickstart configuration.
-;;
-;; I have left several comments throughout the configuration.  These
-;; are hints about where to find more information about the relevant
-;; settings, packages, or Emacs features used in Emacs-Kick.
-;;
-;; Feel free to delete them once you know what you're doing, but they
-;; should serve as a guide for when you are first encountering a few
-;; different constructs in your Emacs config.
-;;
-;; If you encounter any errors while installing Emacs-Kick,
-;; check the *Messages* buffer for more information. You can switch
-;; buffers using `<leader> SPC`, and all option menus can be navigated
-;; with `C-p` and `C-n`.
-;;
-;; I hope you enjoy your Emacs journey,
-;; - Rahul
-;;
-;; P.S.  You can delete this when you're done too.  It's your config
-;; now! :)
-
-
-;;; Code:
-
-;; Performance Hacks
-;; Emacs is an Elisp interpreter, and when running programs or packages,
-;; it can occasionally experience pauses due to garbage collection.
-;; By increasing the garbage collection threshold, we reduce these pauses
-;; during heavy operations, leading to smoother performance.
 (setq gc-cons-threshold #x40000000)
-
-;; Set the maximum output size for reading process output, allowing for larger data transfers.
 (setq read-process-output-max (* 1024 1024 4))
 
-;; Do I really need a speedy startup?
-;; Well, this config launches Emacs in about ~0.3 seconds,
-;; which, in modern terms, is a miracle considering how fast it starts
-;; with external packages.
-;; It wasn’t until the recent introduction of tools for lazy loading
-;; that a startup time of less than 20 seconds was even possible.
-;; Other fast startup methods were introduced over time.
-;; You may have heard of people running Emacs as a server,
-;; where you start it once and open multiple clients instantly connected to that server.
-;; Some even run Emacs as a systemd or sysV service, starting when the machine boots.
-;; While this is a great way of using Emacs, we WON’T be doing that here.
-;; I think 0.3 seconds is fast enough to avoid issues that could arise from
-;; running Emacs as a server, such as 'What version of Node is my LSP using?'.
-;; Again, this setup configures Emacs much like how a Vimmer would configure Neovim.
-
-
-;; Emacs comes with a built-in package manager (`package.el'), and we'll use it
-;; when it makes sense. However, `straight.el' is a bit more user-friendly and
-;; reproducible, especially for newcomers and shareable configs like emacs-kick.
-;; So we bootstrap it here.
 (setq package-enable-at-startup nil) ;; Disables the default package manager.
 
 ;; Bootstraps `straight.el'
@@ -148,51 +24,17 @@
 (straight-use-package 'use-package)
 
 
-;; In Emacs, a package is a collection of Elisp code that extends the editor's functionality,
-;; much like plugins do in Neovim. We need to import this package to add package archives.
 (require 'package)
 
-;; Add MELPA (Milkypostman's Emacs Lisp Package Archive) to the list of package archives.
-;; This allows you to install packages from this widely-used repository, similar to how
-;; pip works for Python or npm for Node.js. While Emacs comes with ELPA (Emacs Lisp
-;; Package Archive) configured by default, which contains packages that meet specific
-;; licensing criteria, MELPA offers a broader range of packages and is considered the
-;; standard for Emacs users. You can also add more package archives later as needed.
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; Define a global customizable variable `ek-use-nerd-fonts' to control the use of
-;; Nerd Fonts symbols throughout the configuration. This boolean variable allows
-;; users to easily enable or disable the use of symbols from Nerd Fonts, providing
-;; flexibility in appearance settings. By setting it to `t', we enable Nerd Fonts
-;; symbols; setting it to `nil' would disable them.
 (defcustom ek-use-nerd-fonts t
   "Configuration for using Nerd Fonts Symbols."
   :type 'boolean
   :group 'appearance)
 
 
-;; From now on, you'll see configurations using the `use-package` macro, which
-;; allows us to organize our Emacs setup in a modular way. These configurations
-;; look like this:
-;;
-;; (use-package some-package
-;;   :ensure t     ;; Ensure the package is installed (used with package.el).
-;;   :straight t   ;; Use straight.el to install and manage this package.
-;;   :config       ;; Configuration settings for the package.
-;;   ;; Additional settings can go here.
-;; )
-;;
-;; This approach simplifies package management, enabling us to easily control
-;; both built-in (first-party) and external (third-party) packages. While Emacs
-;; is a vast and powerful editor, using `use-package`—especially in combination
-;; with `straight.el`—helps streamline our configuration for better organization,
-;; reproducibility, and customization. As we proceed, you'll see smaller
-;; `use-package` declarations for specific packages, which will help us enable
-;; the desired features and improve our workflow.
-
-
 ;;; EMACS
-;;  This is biggest one. Keep going, plugins (oops, I mean packages) will be shorter :)
 (use-package emacs
   :ensure nil
   :custom                                         ;; Set custom variables to configure Emacs behavior.
@@ -225,30 +67,19 @@
   (prog-mode . display-line-numbers-mode)         ;; Enable line numbers in programming modes.
 
   :config
-  ;; By default emacs gives you access to a lot of *special* buffers, while navigating with [b and ]b,
-  ;; this might be confusing for newcomers. This settings make sure ]b and [b will always load a
-  ;; file buffer. To see all buffers use <leader> SPC, <leader> b l, or <leader> b i.
   (defun skip-these-buffers (_window buffer _bury-or-kill)
     "Function for `switch-to-prev-buffer-skip'."
     (string-match "\\*[^*]+\\*" (buffer-name buffer)))
   (setq switch-to-prev-buffer-skip 'skip-these-buffers)
 
-
-  ;; Configure font settings based on the operating system.
-  ;; Ok, this kickstart is meant to be used on the terminal, not on GUI.
-  ;; But without this, I fear you could start Graphical Emacs and be sad :(
   (set-face-attribute 'default nil :family "FiraCode Nerd Font Mono-regular"  :height 100)
 
-  (set-frame-font "FiraCode Nerd Font Mono-regular" nil t)
+  (set-frame-font "FiraCode Nerd Font-12" t t)
 
   (when (eq system-type 'darwin)       ;; Check if the system is macOS.
     (setq mac-command-modifier 'meta)  ;; Set the Command key to act as the Meta key.
     (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130))
 
-  ;; Save manual customizations to a separate file instead of cluttering `init.el'.
-  ;; You can M-x customize, M-x customize-group, or M-x customize-themes, etc.
-  ;; The saves you do manually using the Emacs interface would overwrite this file.
-  ;; The following makes sure those customizations are in a separate file.
   (setq custom-file (locate-user-emacs-file "custom-vars.el")) ;; Specify the custom file path.
   (load custom-file 'noerror 'nomessage)                       ;; Load the custom file quietly, ignoring errors.
 
@@ -276,25 +107,11 @@
   (modify-coding-system-alist 'file "" 'utf-8))
 
 ;;; WINDOW
-;; This section configures window management in Emacs, enhancing the way buffers
-;; are displayed for a more efficient workflow. The `window' use-package helps
-;; streamline how various buffers are shown, especially those related to help,
-;; diagnostics, and completion.
-;;
-;; Note: I have left some commented-out code below that may facilitate your
-;; Emacs journey later on. These configurations can be useful for displaying
-;; other types of buffers in side windows, allowing for a more organized workspace.
 (use-package window
   :ensure nil       ;; This is built-in, no need to fetch it.
   :custom
   (display-buffer-alist
    '(
-     ;; ("\\*.*e?shell\\*"
-     ;;  (display-buffer-in-side-window)
-     ;;  (window-height . 0.25)
-     ;;  (side . bottom)
-     ;;  (slot . -1))
-
      ("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|[Hh]elp\\|Messages\\|Bookmark List\\|Ibuffer\\|Occur\\|eldoc.*\\)\\*"
       (display-buffer-in-side-window)
       (window-height . 0.25)
@@ -320,17 +137,6 @@
 
 
 ;;; DIRED
-;; In Emacs, the `dired' package provides a powerful and built-in file manager
-;; that allows you to navigate and manipulate files and directories directly
-;; within the editor. If you're familiar with `oil.nvim', you'll find that
-;; `dired' offers similar functionality natively in Emacs, making file
-;; management seamless without needing external plugins.
-
-;; This configuration customizes `dired' to enhance its usability. The settings
-;; below specify how file listings are displayed, the target for file operations,
-;; and associations for opening various file types with their respective applications.
-;; For example, image files will open with `feh', while audio and video files
-;; will utilize `mpv'.
 (use-package dired
   :ensure nil                                                ;; This is built-in, no need to fetch it.
   :custom
@@ -348,35 +154,7 @@
         (setq insert-directory-program gls)))))
 
 
-;;; ERC
-;; In this section, we introduce ERC (Emacs Relay Chat), a built-in IRC client
-;; that allows you to engage in real-time chat directly within Emacs. While
-;; we're aiming to maintain functionality similar to Neovim, it's important to
-;; recognize that Emacs is often viewed as more than just a text editor. Many
-;; users leverage Emacs for a variety of tasks beyond editing text: from watching
-;; videos and listening to music, to managing emails and even serving as a window
-;; manager in Xorg, freeing themselves from traditional desktop environments.
-;;
-;; While this kickstarter focuses on essential configurations, I wanted to present
-;; ERC as a glimpse into Emacs's versatility. With ERC, you can seamlessly connect
-;; to IRC channels and interact with communities without leaving your editor.
-(use-package erc
-  :defer t ;; Load ERC when needed rather than at startup. (Load it with `M-x erc RET')
-  :custom
-  (erc-join-buffer 'window)                                        ;; Open a new window for joining channels.
-  (erc-hide-list '("JOIN" "PART" "QUIT"))                          ;; Hide messages for joins, parts, and quits to reduce clutter.
-  (erc-timestamp-format "[%H:%M]")                                 ;; Format for timestamps in messages.
-  (erc-autojoin-channels-alist '((".*\\.libera\\.chat" "#emacs"))));; Automatically join the #emacs channel on Libera.Chat.
-
-
 ;;; ISEARCH
-;; In this configuration, we're setting up isearch, Emacs's incremental search feature.
-;; Since we're utilizing Vim bindings, keep in mind that classic Vim search commands
-;; (like `/' and `?') are not bound in the same way. Instead, you'll need to use
-;; the standard Emacs shortcuts:
-;; - `C-s' to initiate a forward search
-;; - `C-r' to initiate a backward search
-;; The following settings enhance the isearch experience:
 (use-package isearch
   :ensure nil                                  ;; This is built-in, no need to fetch it.
   :config
@@ -388,48 +166,7 @@
          ("C-r" . isearch-backward)))          ;; Bind C-r to backward isearch.
 
 
-;;; VC
-;; The VC (Version Control) package is included here for awareness and completeness.
-;; While its support for Git is limited and generally considered subpar, it is good to know
-;; that it exists and can be used for other version control systems like Mercurial,
-;; Subversion, and Bazaar.
-;; Magit, which is often regarded as the "father" of Neogit, will be configured later
-;; for an enhanced Git experience.
-;; The keybindings below serve as a reminder of some common VC commands.
-;; But don't worry, you can always use `M-x command' :)
-(use-package vc
-  :ensure nil                        ;; This is built-in, no need to fetch it.
-  :defer t
-  :bind
-  (("C-x v d" . vc-dir)              ;; Open VC directory for version control status.
-   ("C-x v =" . vc-diff)             ;; Show differences for the current file.
-   ("C-x v D" . vc-root-diff)        ;; Show differences for the entire repository.
-   ("C-x v v" . vc-next-action))     ;; Perform the next version control action.
-  :config
-  ;; Better colors for <leader> g b  (blame file)
-  (setq vc-annotate-color-map
-        '((20 . "#f5e0dc")
-          (40 . "#f2cdcd")
-          (60 . "#f5c2e7")
-          (80 . "#cba6f7")
-          (100 . "#f38ba8")
-          (120 . "#eba0ac")
-          (140 . "#fab387")
-          (160 . "#f9e2af")
-          (180 . "#a6e3a1")
-          (200 . "#94e2d5")
-          (220 . "#89dceb")
-          (240 . "#74c7ec")
-          (260 . "#89b4fa")
-          (280 . "#b4befe"))))
-
-
 ;;; SMERGE
-;; Smerge is included for resolving merge conflicts in files. It provides a simple interface
-;; to help you keep changes from either the upper or lower version during a merge.
-;; This package is built-in, so there's no need to fetch it separately.
-;; The keybindings below did not needed to be setted, are here just to show
-;; you how to work with it in case you are curious about it.
 (use-package smerge-mode
   :ensure nil                                  ;; This is built-in, no need to fetch it.
   :defer t
@@ -441,11 +178,6 @@
 
 
 ;;; ELDOC
-;; Eldoc provides helpful inline documentation for functions and variables
-;; in the minibuffer, enhancing the development experience. It can be particularly useful
-;; in programming modes, as it helps you understand the context of functions as you type.
-;; This package is built-in, so there's no need to fetch it separately.
-;; The following line enables Eldoc globally for all buffers.
 (use-package eldoc
   :ensure nil          ;; This is built-in, no need to fetch it.
   :init
@@ -453,10 +185,6 @@
 
 
 ;;; FLYMAKE
-;; Flymake is an on-the-fly syntax checking extension that provides real-time feedback
-;; about errors and warnings in your code as you write. This can greatly enhance your
-;; coding experience by catching issues early. The configuration below activates
-;; Flymake mode in programming buffers.
 (use-package flymake
   :ensure nil          ;; This is built-in, no need to fetch it.
   :defer t
@@ -468,21 +196,16 @@
 
 
 ;;; ORG-MODE
-;; Org-mode is a powerful system for organizing and managing your notes,
-;; tasks, and documents in plain text. It offers features like task management,
-;; outlining, scheduling, and much more, making it a versatile tool for
-;; productivity. The configuration below simply defers loading Org-mode until
-;; it's explicitly needed, which can help speed up Emacs startup time.
 (use-package org
   :ensure nil     ;; This is built-in, no need to fetch it.
   :defer t)       ;; Defer loading Org-mode until it's needed.
 
 ;; Enable habit tracking
 (require 'org-habit)
-(add-to-list 'org-modules 'org-habit)
+(add-to-list 'org-modules 'org-habit t)
 (setq org-habit-graph-column 60)
 
-;; Org-roam setup (adjust path if needed)
+;; Org-roam setup
 (use-package org-roam
   :ensure t
   :custom
@@ -498,8 +221,8 @@
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/sync/org/inbox.org" "Tasks")
          "* TODO %?\n  %U\n")
-        ("h" "Habit" entry (file+headline "~/sync/org/inbox.org" "Habits")
-         "* TODO %?\n  SCHEDULED: %t\n  :PROPERTIES:\n  :STYLE: habit\n  :END:\n")
+        ("h" "Habit" entry (file+headline "~/sync/org/habits.org" "Habits")
+         "* TODO %?\nDEADLINE: %t\nSCHEDULED: %t\n:PROPERTIES:\n:Effort:\n:Priority:\n:Category:\n:END:\n\n\n")
         ("n" "Note" entry (file+headline "~/sync/org/notes.org" "Notes")
          "* %? :note:\n%U\n")
         ("r" "Roam" plain (function org-roam-capture--get-point)
@@ -509,16 +232,32 @@
          :unnarrowed t)))
 
 ;; Basic agenda setup
-(setq org-agenda-files '("~/sync/org/inbox.org" "~/sync/org/todo.org" "~/sync/org/notes.org" "~/sync/org/roam/"))
+(setq org-agenda-files '("~/sync/org/inbox.org"
+						 "~/sync/org/habits.org"
+						 "~/sync/org/notes.org"
+						 "~/sync/org/roam/"))
+
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
+;;; Org-pomodoro setup
+(use-package org-pomodoro
+  :ensure t
+  :after org
+  :bind (:map org-agenda-mode-map
+              ("P" . org-pomodoro)))
+
+(setq org-pomodoro-length 120
+      org-pomodoro-short-break-length 15
+      org-pomodoro-long-break-length 30
+      org-pomodoro-manual-break t)
+
+(setq org-pomodoro-use-notification t)
+
+;;; NOTIFICATIONS
+(require 'notifications)
+
 ;;; WHICH-KEY
-;; `which-key' is an Emacs package that displays available keybindings in a
-;; popup window whenever you partially type a key sequence. This is particularly
-;; useful for discovering commands and shortcuts, making it easier to learn
-;; Emacs and improve your workflow. It helps users remember key combinations
-;; and reduces the cognitive load of memorizing every command.
 (use-package which-key
   :ensure nil     ;; This is built-in, no need to fetch it.
   :defer t        ;; Defer loading Which-Key until after init.
@@ -527,25 +266,8 @@
 
 
 ;;; ==================== EXTERNAL PACKAGES ====================
-;;
-;; From this point onward, all configurations will be for third-party packages
-;; that enhance Emacs' functionality and extend its capabilities.
 
 ;;; VERTICO
-;; Vertico enhances the completion experience in Emacs by providing a
-;; vertical selection interface for both buffer and minibuffer completions.
-;; Unlike traditional minibuffer completion, which displays candidates
-;; in a horizontal format, Vertico presents candidates in a vertical list,
-;; making it easier to browse and select from multiple options.
-;;
-;; In buffer completion, `switch-to-buffer' allows you to select from open buffers.
-;; Vertico streamlines this process by displaying the buffer list in a way that
-;; improves visibility and accessibility. This is particularly useful when you
-;; have many buffers open, allowing you to quickly find the one you need.
-;;
-;; In minibuffer completion, such as when entering commands or file paths,
-;; Vertico helps by showing a dynamic list of potential completions, making
-;; it easier to choose the correct one without typing out the entire string.
 (use-package vertico
   :ensure t
   :straight t
@@ -570,10 +292,6 @@
 
 
 ;;; ORDERLESS
-;; Orderless enhances completion in Emacs by allowing flexible pattern matching.
-;; It works seamlessly with Vertico, enabling you to use partial strings and
-;; regular expressions to find files, buffers, and commands more efficiently.
-;; This combination provides a powerful and customizable completion experience.
 (use-package orderless
   :ensure t
   :straight t
@@ -586,10 +304,6 @@
 
 
 ;;; MARGINALIA
-;; Marginalia enhances the completion experience in Emacs by adding
-;; additional context to the completion candidates. This includes
-;; helpful annotations such as documentation and other relevant
-;; information, making it easier to choose the right option.
 (use-package marginalia
   :ensure t
   :straight t
@@ -598,10 +312,6 @@
 
 
 ;;; CONSULT
-;; Consult provides powerful completion and narrowing commands for Emacs.
-;; It integrates well with other completion frameworks like Vertico, enabling
-;; features like previews and enhanced register management. It's useful for
-;; navigating buffers, files, and xrefs with ease.
 (use-package consult
   :ensure t
   :straight t
@@ -616,11 +326,6 @@
 
 
 ;;; EMBARK
-;; Embark provides a powerful contextual action menu for Emacs, allowing
-;; you to perform various operations on completion candidates and other items.
-;; It extends the capabilities of completion frameworks by offering direct
-;; actions on the candidates.
-;; Just `<leader> .' over any text, explore it :)
 (use-package embark
   :ensure t
   :straight t
@@ -628,8 +333,6 @@
 
 
 ;;; EMBARK-CONSULT
-;; Embark-Consult provides a bridge between Embark and Consult, ensuring
-;; that Consult commands, like previews, are available when using Embark.
 (use-package embark-consult
   :ensure t
   :straight t
@@ -638,11 +341,6 @@
 
 
 ;;; TREESITTER-AUTO
-;; Treesit-auto simplifies the use of Tree-sitter grammars in Emacs,
-;; providing automatic installation and mode association for various
-;; programming languages. This enhances syntax highlighting and
-;; code parsing capabilities, making it easier to work with modern
-;; programming languages.
 (use-package treesit-auto
   :ensure t
   :straight t
@@ -655,10 +353,6 @@
 
 
 ;;; MARKDOWN-MODE
-;; Markdown Mode provides support for editing Markdown files in Emacs,
-;; enabling features like syntax highlighting, previews, and more.
-;; It’s particularly useful for README files, as it can be set
-;; to use GitHub Flavored Markdown for enhanced compatibility.
 (use-package markdown-mode
   :defer t
   :straight t
@@ -668,11 +362,6 @@
 
 
 ;;; COMPANY
-;; Company Mode provides a text completion framework for Emacs.
-;; It enhances the editing experience by offering context-aware
-;; suggestions as you type. With support for multiple backends,
-;; Company Mode is highly customizable and can be integrated with
-;; various modes and languages.
 (use-package company
   :defer t
   :straight t
@@ -919,6 +608,8 @@
   (setq evil-want-keybinding nil)     ;; Disable default keybinding to set custom ones.
   (setq evil-want-C-u-scroll t)       ;; Makes C-u scroll
   (setq evil-want-C-u-delete t)       ;; Makes C-u delete on insert mode
+  (setq evil-want-minibuffer t)       ;; Use evil in the minibuffer
+
   :config
   (evil-set-undo-system 'undo-tree)   ;; Uses the undo-tree package as the default undo system
 
@@ -1095,20 +786,6 @@
   :config
   (global-evil-matchit-mode 1))
 
-;; EVIL ORG
-(use-package evil-org
-  :ensure t
-  :after org
-  :hook (org-mode . evil-org-mode)
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
-  ;; Optional: disable org's native bindings that conflict with evil
-  (setq evil-org-key-theme '(navigation insert textobjects additional shift todo heading return))
-  (evil-org-mode))
-
-
-
 ;; UNDO TREE
 ;; The `undo-tree' package provides an advanced and visual way to
 ;; manage undo history. It allows you to navigate and visualize your
@@ -1244,7 +921,8 @@
   :after (:all nerd-icons marginalia)     ;; Load after `nerd-icons' and `marginalia' to ensure proper integration.
   :config
   (nerd-icons-completion-mode)            ;; Activate nerd icons for completion interfaces.
-  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)) ;; Setup icons in the marginalia mode for enhanced completion display.
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)
+  (add-hook 'org-agenda-mode-hook #'evil-normalize-keymaps)) ;; Setup icons in the marginalia mode for enhanced completion display.
 
 ;;; GRUVBOX THEME
 (use-package gruvbox-theme
@@ -1252,6 +930,15 @@
   :straight t
   :config
   (load-theme 'gruvbox :no-confirm))
+
+;;; Copilot plugin
+(use-package copilot
+  :ensure t
+  :defer t
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . copilot-accept-completion)
+              ("TAB" . copilot-accept-completion)))
 
 ;;; Auto theme apply
 (defun my/system-theme ()
@@ -1289,5 +976,31 @@
   (read-key)                                         ;; Wait for the user to press any key.
   (kill-emacs))                                      ;; Close Emacs after installation is complete.
 
+;;; Calendar starts at sunday
+(setq calendar-week-start-day 0) ;; Sunday=0, Monday=1
+
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values
+   '((eval font-lock-add-keywords nil
+		   '(("\\(waste\\)" 1 '(:foreground "red" :weight bold) t)))
+	 (eval font-lock-add-keywords nil
+		   '(("\\(maintance\\)" 1 '(:foreground "purple" :weight bold)
+			  t)))
+	 (eval font-lock-add-keywords nil
+		   '(("\\(creation\\)" 1 '(:foreground "green" :weight bold) t)))
+	 (eval font-lock-add-keywords nil
+		   '(("\\(revenue\\)" 1 '(:foreground "blue" :weight bold) t))))))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

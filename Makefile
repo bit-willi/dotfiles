@@ -145,11 +145,6 @@ install-pyenv:
 		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.9.9; \
 		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.11.0; \
 	fi
-		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.10.2; \
-		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.8.12; \
-		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.9.9; \
-		CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.11.0; \
-	fi
 
 	pip install --upgrade -r scripts/requirements.txt
 
@@ -171,6 +166,7 @@ install-extra-dependencies:
 	fi
 
 install-required-dependencies:
+	mkdir -p ~/.local/share/chezmoi
 	if [[ $(is_linux) -eq 1 ]]; then \
 		sudo pacman -S chezmoi bitwarden-cli geoclue; \
 	else \
@@ -199,9 +195,9 @@ install-windevine-ungoogled-chromium:
 
 fix-permissions:
 	@echo "Fixing GnuPG permissions"
+	mkdir ~/.gnupg 2>/dev/null
 	chown -R $(USER) ~/.gnupg/
-	chmod 700 ~/.gnupg/*
-	chmod 700 ~/.gnupg
+	chmod -R 700 ~/.gnupg
 
 	chmod 755 $(HOME)/.ssh
 	[ -f "$(HOME)/.ssh/id_ed25519" ] && chmod 600 "$(HOME)/.ssh/id_ed25519"

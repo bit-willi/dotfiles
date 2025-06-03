@@ -147,7 +147,6 @@ git-lfs
 calc
 python-notify2
 rclone
-neofetch
 ufw
 plantuml
 python-websocket-client
@@ -159,7 +158,6 @@ redshift
 htop
 python-psutil
 git-delta
-acpilight
 geoclue
 pcre
 bitwarden-cli

@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
         local filepath = vim.fn.expand("%:p")
         if string.match(filepath, "/public/") then
             local filename = vim.fn.expand("%:t:r") .. ".md"
-            local destination = '{{ (index (bitwarden "item" .bitwarden.nvim).fields 1).value }}' .. filename
+            local destination = '{{ (index (bitwarden "item" .bitwarden.nvim).fields 0).value }}' .. filename
             vim.cmd('Neorg export to-file ' .. destination)
         end
     end,

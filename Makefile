@@ -125,7 +125,7 @@ install-extra-dependencies: $(PACMAN_BUNDLE_FILE) $(AUR_BUNDLE_FILE)
 install-required-dependencies:
 	mkdir -p "$$HOME/.local/share/chezmoi"
 	if [ "$(is_linux)" -eq 1 ]; then \
-		sudo pacman -S chezmoi bitwarden-cli geoclue; \
+		sudo pacman -S --noconfirm chezmoi bitwarden-cli geoclue; \
 	else \
 		echo "Non-Linux OS not supported for install-required-dependencies"; \
 	fi

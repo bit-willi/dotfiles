@@ -42,6 +42,7 @@
 sourceDir: {{ .chezmoi.sourceDir }}
 
 data:
+  username: "{{ env "USER" }}"
   secrets: {{ $secrets }}
   minimal: {{ $minimal }}
   headless: {{ $headless }}

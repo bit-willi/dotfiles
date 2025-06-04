@@ -213,4 +213,4 @@ vim.keymap.set({"i", "s"}, "<C-e>", function()
         ls.change_choice(1)
     end
 end, {silent = true})
-vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/bit/.config/nvim/after/plugin/luasnip.lua<CR>")
+vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/{{ .username }}/.config/nvim/after/plugin/luasnip.lua<CR>")

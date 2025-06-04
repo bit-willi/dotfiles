@@ -258,3 +258,5 @@ ttf-firacode-nerd
 xf86-input-libinput
 firejail
 emacs
+docker-compose
+reflector

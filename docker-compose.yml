@@ -1,10 +1,15 @@
-version: "3"
+version: "3.8"
 services:
   dotfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dotfiles-test
+    image: benmezger/dotfiles:latest
     environment:
       - CI=1
-    build: .
-    container_name: dotfiles
-    image: benmezger/dotfiles
+      - HOME=/home/archie
     volumes:
-      - .:/usr/src/
+      - .:/home/archie/dotfiles
+    working_dir: /home/archie/dotfiles
+    user: archie

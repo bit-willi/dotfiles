@@ -20,7 +20,7 @@ xrandr --dpi 125.37
 # current lat/log: oud-zuid
 isavailable synclient && synclient TouchpadOff=1 &
 
-isavailable fastcompmgr && fastcompmgr &
+isavailable picom && picom &
 isavailable nm-applet && nm-applet &
 isavailable xautolock && xautolock -time 10 -locker ~/.bin/lock &
 isavailable dunst && dunst -config ~/.config/dunst/dunstrc &

@@ -4,6 +4,8 @@ LOGFILE := dotfiles.log
 PACMAN_BUNDLE_FILE := Pacfile
 AUR_BUNDLE_FILE := Aurfile
 
+DOCKER_COMPOSE := $(shell command -v docker-compose > /dev/null && echo "docker-compose" || echo "docker compose")
+
 host := $(shell uname -s)
 arch := $(shell uname -p)
 
@@ -162,5 +164,9 @@ apply: install-required-dependencies
 	bw login || true
 	chezmoi apply -v
 	$(MAKE) fix-permissions
+
+docker-setup-run:
+	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) up
 
 full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-gnome-keyring apply

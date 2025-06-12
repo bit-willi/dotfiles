@@ -140,6 +140,18 @@ enable-kanata:
 	sudo modprobe uinput
 	echo uinput | sudo tee /etc/modules-load.d/uinput.conf
 
+enable-touchpad-libinput:
+	sudo mkdir -p /etc/X11/xorg.conf.d && sudo tee <<'EOF' /etc/X11/xorg.conf.d/90-touchpad.conf 1> /dev/null
+	Section "InputClass"
+	Identifier "touchpad"
+	MatchIsTouchpad "on"
+	Driver "libinput"
+	Option "Tapping" "on"
+	Option "NaturalScrolling" "on"
+	Option "ScrollMethod" "twofinger"
+	EndSection
+	EOF
+
 install-windevine-ungoogled-chromium:
 	if [ ! -d "/usr/lib/chromium/WidevineCdm" ]; then \
 		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \

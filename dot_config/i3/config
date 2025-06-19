@@ -323,6 +323,9 @@ mode "$mode_gaps_left" {
 exec --no-startup-id i3-autodisplay -config ~/.config/i3-autodisplay/config.yml
 exec --no-startup-id systemctl --user start xsettingsd
 
+# Disable DPMS
+exec --no-startup-id xset s off -dpms
+
 bar {
     font pango:Hack, FontAwesome 8
     position bottom

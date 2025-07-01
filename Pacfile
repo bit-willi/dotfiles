@@ -251,6 +251,7 @@ darktable
 opencl-nvidia
 clinfo
 intel-media-driver
+intel-compute-runtime
 vulkan-intel
 mesa-utils
 libva-utils

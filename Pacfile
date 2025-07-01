@@ -47,6 +47,7 @@ gparted
 grep
 groff
 grub
+grub-btrfs
 gzip
 help2man
 httpie

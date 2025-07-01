@@ -134,6 +134,10 @@ enable-gnome-keyring:
 	systemctl --user enable gcr-ssh-agent.socket
 	systemctl --user start gcr-ssh-agent.socket
 
+enable-grub-btrfs:
+	sudo systemctl start grub-btrfsd
+	sudo systemctl enable grub-btrfsd
+
 enable-kanata:
 	sudo usermod -aG input "$$(whoami)"
 	echo 'KERNEL=="uinput", MODE="0660", GROUP="input"' | sudo tee /etc/udev/rules.d/99-uinput.rules
@@ -181,4 +185,4 @@ docker-setup-run:
 	$(DOCKER_COMPOSE) build
 	$(DOCKER_COMPOSE) up
 
-full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-gnome-keyring apply
+full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-gnome-keyring enable-grub-btrfs apply

@@ -37,6 +37,11 @@ alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
 
 alias ta='tmux new-session -A -D -s main'
+function mkv2mov
+    set input "$argv[1]"
+    set output (string replace -r '\.mkv$' '.mov' -- "$input")
+    ffmpeg -i "$input" -c:v mpeg4 -qscale:v 2 -c:a pcm_s16le "$output"
+end
 
 # if eza exist, alias to ls
 if type -q eza

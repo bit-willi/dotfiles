@@ -35,3 +35,17 @@ for _, lsp in ipairs(servers) do
         on_attach = on_attach
     })
 end
+
+
+-- Vue lsp cant be on above array...
+nvim_lsp['vls'].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_dir = function(fname)
+        return nvim_lsp.util.root_pattern(
+        'build.gradle', 'pom.xml', '.git'
+        )(fname) or vim.fn.getcwd()
+    end,
+    filetypes = {'vue'},
+    cmd = {'vls'}
+})

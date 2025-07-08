@@ -32,7 +32,7 @@ if [ "$selected_theme" == "$dark_theme" ]; then
     vim_theme="$light_vim"
     pager_theme="$light_pager"
     pager_syntax_theme="$light_syntax"
-    statusline="highlight StatusLine guibg=#3c3836 guifg=#ebdbb2"
+    statusline="highlight statusline guifg=#3c3836 guibg=#ebdbb2"
 else
     mode="$dark_mode"
     gtk_theme="$dark_gtk"
@@ -40,7 +40,7 @@ else
     vim_theme="$dark_vim"
     pager_theme="$dark_pager"
     pager_syntax_theme="$dark_syntax"
-    statusline="highlight StatusLine guifg=#3c3836 guibg=#ebdbb2"
+    statusline="highlight StatusLine guibg=#3c3836 guifg=#ebdbb2"
 fi
 
 # Apply theme

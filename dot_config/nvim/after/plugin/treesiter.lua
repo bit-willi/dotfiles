@@ -85,11 +85,3 @@ require('nvim-treesitter.configs').setup({
         },
     }
 })
-
--- PHP is broken somehow
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "php",
-  callback = function()
-    vim.cmd("TSEnable highlight")
-  end,
-})

@@ -12,6 +12,7 @@ alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/m
 alias shouldideploytoday="curl -s https://shouldideploy.today/api\?tz\=UTC | jq -r '.message'"
 alias at="tmux a -t 0"
 alias bw-export='export BW_SESSION=$(bw unlock | grep "export BW" |  cut -d"=" -f2 | tr -d "\"")'
+alias yz="yazi"
 
 alias i3-brightness-1="xrandr --output eDP-1 --brightness"
 alias i3-brightness-2="xrandr --output HDMI-1 --brightness"

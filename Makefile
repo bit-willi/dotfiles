@@ -72,6 +72,18 @@ configure-linux:
 		echo "/etc/geoclue/geoclue.conf not found!"; \
 	fi
 
+	@echo "Updating pulseaudio - alsa"
+	sudo tee /etc/asound.conf > /dev/null <<EOF
+	# Direct all ALSA audio to the PulseAudio server
+	pcm.!default {
+	    type pulse
+	}
+
+	ctl.!default {
+	    type pulse
+	}
+	EOF
+
 install-git-dependencies:
 	if [ ! -f "/usr/local/bin/notes" ]; then \
 		curl -L https://raw.githubusercontent.com/pimterry/notes/latest-release/install.sh | sudo bash; \

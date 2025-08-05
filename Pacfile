@@ -263,3 +263,8 @@ emacs
 docker-compose
 reflector
 pulseaudio-alsa
+easyeffects
+lsp-plugins
+calf
+zam-plugins
+webrtc-audio-processing-1

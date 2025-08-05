@@ -37,6 +37,8 @@ alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
 alias dnd-on='pkill -xu $EUID -USR1 dunst'
 alias dnd-off='pkill -xu $EUID -USR2 dunst'
 
+alias single-monitor='xrandr --output eDP-1 --mode 1920x1080 --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
+
 alias ta='tmux new-session -A -D -s main'
 function mkv2mov
     set input "$argv[1]"

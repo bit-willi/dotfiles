@@ -30,7 +30,7 @@ zramd
 yazi
 transmission-qt
 droidcam
-v4l2loopback-dkms
+v4l2loopback-dc-dkms
 meld
 st
 kanata

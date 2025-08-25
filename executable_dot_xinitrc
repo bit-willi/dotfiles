@@ -30,6 +30,7 @@ isavailable setxkbmap && setxkbmap -option caps:escape &
 isavailable xbindkeys && xbindkeys &
 isavailable warpd && warpd &
 isavailable gxkb && gxkb &
+isavailable redshift-gtk && redshift-gtk &
 isavailable unclutter && unclutter -idle 2 -jitter 2 -root &
 isavailable xmodmap && xmodmap $HOME/.Xmodmap
 

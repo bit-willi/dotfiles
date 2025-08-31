@@ -268,3 +268,5 @@ lsp-plugins
 calf
 zam-plugins
 webrtc-audio-processing-1
+ethtool
+smartmontools

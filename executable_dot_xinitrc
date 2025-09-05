@@ -34,6 +34,7 @@ isavailable redshift-gtk && redshift-gtk &
 isavailable easyeffects && easyeffects &
 isavailable unclutter && unclutter -idle 2 -jitter 2 -root &
 isavailable xmodmap && xmodmap $HOME/.Xmodmap
+isavailable aw-qt && aw-qt &
 isavailable xinput && xinput set-prop "SYNA3603:00 093A:0255 Touchpad" "libinput Natural Scrolling Enabled" 1
 
 # Fix monitors resolution

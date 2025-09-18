@@ -26,7 +26,7 @@ isavailable xautolock && xautolock -time 10 -locker ~/.bin/lock &
 isavailable dunst && dunst -config ~/.config/dunst/dunstrc &
 isavailable libinput-gestures-setup && libinput-gestures-setup start &
 isavailable blueman-applet && blueman-applet &
-isavailable setxkbmap && setxkbmap -option caps:escape &
+isavailable setxkbmap && setxkbmap -option compose:ralt &
 isavailable xbindkeys && xbindkeys &
 isavailable warpd && warpd &
 isavailable gxkb && gxkb &

@@ -50,10 +50,6 @@ return {
         ft = "kamailio",
     },
     {
-        "wakatime/vim-wakatime",
-        event = "InsertEnter",
-    },
-    {
         "github/copilot.vim",
         event = "InsertEnter",
     },

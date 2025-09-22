@@ -21,7 +21,7 @@ window#waybar {
 
 #workspaces button {
     padding: 0 1px;
-    background: @darkgray;
+    background: @bg;
     color: @white;
 }
 
@@ -37,7 +37,7 @@ window#waybar {
 
 #mode {
     background: @blue;
-    color: @darkgray;
+    color: @bg;
     padding: 0 3px;
     font-weight: bold;
 }

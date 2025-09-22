@@ -53,7 +53,6 @@ ifeq ($(IS_LINUX),Linux)
 	$(SUDO) locale-gen
 	$(SUDO) /sbin/sysctl kernel.dmesg_restrict=0
 	echo "kernel.dmesg_restrict=0" | $(SUDO) tee /etc/sysctl.d/99-dmesg.conf
-	echo -e "\n[redshift]\nallowed=true\nsystem=false\nusers=\n" | $(SUDO) tee -a $(GEOCLUE_CONF)
 	echo -e "pcm.!default {\n    type pulse\n}\n\nctl.!default {\n    type pulse\n}" | $(SUDO) tee $(ASOUND_CONF)
 else
 	@echo "Skipping Linux configuration on $(HOST_OS)"
@@ -131,7 +130,6 @@ install-windevine-ungoogled-chromium:
 enable-user-services:
 	@echo "### Enabling User Services ###"
 	systemctl --user enable --now gcr-ssh-agent.socket
-	systemctl --user enable --now redshift-gtk
 	systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
 	systemctl --user enable --now xdg-desktop-portal.service xdg-desktop-portal-wlr.service
 

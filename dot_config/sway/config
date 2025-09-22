@@ -164,7 +164,6 @@ hide_edge_borders none
 default_border pixel 1
 
 for_window [class="^.*"] border pixel 1
-for_window [class="pomodoro-logger"] floating enable
 
 seat * {
     hide_cursor 2000

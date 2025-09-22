@@ -1,200 +1,201 @@
+# ==============================================================================
+# Makefile for dotfiles
+# ==============================================================================
+
+# Shell to use
 SHELL := /usr/bin/env bash
 
-LOGFILE := dotfiles.log
+# Sudo prefix
+SUDO := sudo
+
+# File locations
 PACMAN_BUNDLE_FILE := Pacfile
 AUR_BUNDLE_FILE := Aurfile
+PY_REQUIREMENTS := scripts/requirements.txt
+PACMAN_CONF := /etc/pacman.conf
+LOCALE_GEN_CONF := /etc/locale.gen
+GEOCLUE_CONF := /etc/geoclue/geoclue.conf
+ASOUND_CONF := /etc/asound.conf
+UDEV_RULES_DIR := /etc/udev/rules.d
+MODULES_LOAD_DIR := /etc/modules-load.d
+X11_CONF_DIR := /etc/X11/xorg.conf.d
 
-DOCKER_COMPOSE := $(shell command -v docker-compose > /dev/null && echo "docker-compose" || echo "docker compose")
+# System information
+USER := $(shell whoami)
+HOST_OS := $(shell uname -s)
+IS_LINUX := $(filter Linux, $(HOST_OS))
 
-host := $(shell uname -s)
-arch := $(shell uname -p)
+# ==============================================================================
+# Main Targets
+# ==============================================================================
 
-ifeq ($(host),Linux)
-	is_linux = 1
-else
-	is_linux = 0
-endif
+.PHONY: all
+all: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs apply
 
-ifeq ($(shell command -v yay 2> /dev/null),)
-	yay_installed = 0
-else
-	yay_installed = 1
-endif
+# ==============================================================================
+# System Configuration
+# ==============================================================================
 
-.PHONY: all configure-linux install-git-dependencies install-go-dependencies install-pyenv install-extra-dependencies install-required-dependencies enable-user-services enable-kanata install-windevine-ungoogled-chromium fix-permissions apply full
-
-all: configure-linux apply
-
+.PHONY: configure-linux
 configure-linux:
-	@echo "Updating pacman.conf.."
-	if [ -f /etc/pacman.conf ]; then \
-		sudo sed -i '/Color$$/s/^#//g' /etc/pacman.conf; \
-		sudo sed -i '/TotalDownload$$/s/^#//g' /etc/pacman.conf; \
-		sudo sed -i '/CheckSpace$$/s/^#//g' /etc/pacman.conf; \
-		sudo sed -i '/VerbosePkgLists$$/s/^#//g' /etc/pacman.conf; \
-		sudo sed -i '/^#\[multilib\]/{N;s/#//g}' /etc/pacman.conf; \
-	else \
-		echo "/etc/pacman.conf not found!"; \
-	fi
+ifeq ($(IS_LINUX),Linux)
+	@echo "### Configuring Linux System ###"
+	$(SUDO) sed -i '/Color$$/s/^#//g' $(PACMAN_CONF)
+	$(SUDO) sed -i '/TotalDownload$$/s/^#//g' $(PACMAN_CONF)
+	$(SUDO) sed -i '/CheckSpace$$/s/^#//g' $(PACMAN_CONF)
+	$(SUDO) sed -i '/VerbosePkgLists$$/s/^#//g' $(PACMAN_CONF)
+	$(SUDO) sed -i '/^#\[multilib\]/{N;s/#//g}' $(PACMAN_CONF)
+	$(SUDO) timedatectl set-timezone America/Sao_Paulo
+	$(SUDO) timedatectl set-ntp 1
+	$(SUDO) timedatectl set-local-rtc 0
+	$(SUDO) ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+	$(SUDO) sed -i '/en_US.UTF-8$$/s/^#//g' $(LOCALE_GEN_CONF)
+	$(SUDO) locale-gen
+	$(SUDO) /sbin/sysctl kernel.dmesg_restrict=0
+	echo "kernel.dmesg_restrict=0" | $(SUDO) tee /etc/sysctl.d/99-dmesg.conf
+	echo -e "\n[redshift]\nallowed=true\nsystem=false\nusers=\n" | $(SUDO) tee -a $(GEOCLUE_CONF)
+	echo -e "pcm.!default {\n    type pulse\n}\n\nctl.!default {\n    type pulse\n}" | $(SUDO) tee $(ASOUND_CONF)
+else
+	@echo "Skipping Linux configuration on $(HOST_OS)"
+endif
 
-	@echo "Enable timedatectl and set up timezone"
-	if command -v timedatectl >/dev/null; then \
-		sudo timedatectl set-timezone America/Sao_Paulo; \
-		sudo timedatectl set-ntp 1; \
-		sudo timedatectl set-local-rtc 0; \
-		sudo ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime; \
-	else \
-		echo "timedatectl not found!"; \
-	fi
+# ==============================================================================
+# Dependency Installation
+# ==============================================================================
 
-	@echo "Setup locale"
-	if [ -f /etc/locale.gen ]; then \
-		sudo sed -i '/en_US.UTF-8$$/s/^#//g' /etc/locale.gen; \
-		sudo locale-gen; \
-	else \
-		echo "/etc/locale.gen not found!"; \
-	fi
+.PHONY: install-required-dependencies
+install-required-dependencies:
+ifeq ($(IS_LINUX),Linux)
+	@echo "### Installing Required Dependencies ###"
+	mkdir -p "$(HOME)/.local/share/chezmoi"
+	$(SUDO) pacman -S --noconfirm --needed chezmoi bitwarden-cli geoclue
+else
+	@echo "Skipping required dependencies on $(HOST_OS)"
+endif
 
-	@echo "Enable non-root access to dmesg"
-	if [ -x /sbin/sysctl ]; then \
-		sudo /sbin/sysctl kernel.dmesg_restrict=0; \
-		grep -q '^kernel.dmesg_restrict=0' /etc/sysctl.d/99-dmesg.conf 2>/dev/null || \
-			echo kernel.dmesg_restrict=0 | sudo tee -a /etc/sysctl.d/99-dmesg.conf; \
-	else \
-		echo "/sbin/sysctl not found!"; \
-	fi
+.PHONY: install-extra-dependencies
+install-extra-dependencies:
+ifeq ($(IS_LINUX),Linux)
+	@echo "### Installing Extra Dependencies ###"
+	$(SUDO) pacman -Syyu
+	$(SUDO) pacman -S --noconfirm --needed - < "$(PACMAN_BUNDLE_FILE)"
+	command -v yay >/dev/null || (git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm && cd - && rm -rf /tmp/yay)
+	yay -S --noconfirm --needed - < "$(AUR_BUNDLE_FILE)"
+else
+	@echo "Skipping extra dependencies on $(HOST_OS)"
+endif
 
-	@echo "Updating geoclue.conf.."
-	redshift_line="\n[redshift]\nallowed=true\nsystem=false\nusers=\n"
-	if [ -f /etc/geoclue/geoclue.conf ]; then \
-		grep -qF "[redshift]" "/etc/geoclue/geoclue.conf" || echo -e "$$redshift_line" | sudo tee -a "/etc/geoclue/geoclue.conf"; \
-	else \
-		echo "/etc/geoclue/geoclue.conf not found!"; \
-	fi
-
-	@echo "Updating pulseaudio - alsa"
-	sudo tee /etc/asound.conf > /dev/null <<EOF
-	# Direct all ALSA audio to the PulseAudio server
-	pcm.!default {
-	    type pulse
-	}
-
-	ctl.!default {
-	    type pulse
-	}
-	EOF
-
+.PHONY: install-git-dependencies
 install-git-dependencies:
+	@echo "### Installing Git Dependencies ###"
 	if [ ! -f "/usr/local/bin/notes" ]; then \
-		curl -L https://raw.githubusercontent.com/pimterry/notes/latest-release/install.sh | sudo bash; \
-		chown -R "$$(whoami):$$(whoami)" "$$HOME/.config/notes"; \
+		curl -L https://raw.githubusercontent.com/pimterry/notes/latest-release/install.sh | $(SUDO) bash; \
+		chown -R "$(USER):$(USER)" "$(HOME)/.config/notes"; \
 	fi
 
+.PHONY: install-go-dependencies
 install-go-dependencies:
-	@echo "Installing gitmux.."
+	@echo "### Installing Go Dependencies ###"
 	go install github.com/arl/gitmux@latest
-
-	@echo "Installing gopls.."
 	GO111MODULE=on go install golang.org/x/tools/gopls@latest
 
+.PHONY: install-pyenv
 install-pyenv:
-	if [ ! -d "$$HOME/.pyenv" ]; then \
+	@echo "### Installing pyenv and Python versions ###"
+	if [ ! -d "$(HOME)/.pyenv" ]; then \
 		curl https://pyenv.run | bash; \
-		export PATH="$$HOME/.pyenv/bin:$$PATH"; \
-		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.10.2; \
-		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.8.12; \
-		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.9.9; \
-		CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s 3.11.0; \
+		export PATH="$(HOME)/.pyenv/bin:$$PATH"; \
+		for version in 3.10.2 3.8.12 3.9.9 3.11.0; do \
+			CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s $$version; \
+		done; \
+	fi
+	pip install --upgrade -r $(PY_REQUIREMENTS)
+
+.PHONY: install-windevine-ungoogled-chromium
+install-windevine-ungoogled-chromium:
+	@echo "### Installing Widevine for Ungoogled Chromium ###"
+	if [ ! -d "/usr/lib/chromium/WidevineCdm" ]; then \
+		cd /tmp && \
+		wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+		ar x google-chrome-stable_current_amd64.deb && \
+		tar -xvf data.tar.xz && \
+		$(SUDO) mv opt/google/chrome/WidevineCdm /usr/lib/chromium/ && \
+		rm -rf opt data.tar.xz control.tar.xz debian-binary google-chrome-stable_current_amd64.deb; \
 	fi
 
-	if [ -f scripts/requirements.txt ]; then \
-		pip install --upgrade -r scripts/requirements.txt; \
-	else \
-		echo "scripts/requirements.txt not found!"; \
-	fi
+# ==============================================================================
+# System Services and Permissions
+# ==============================================================================
 
-install-extra-dependencies: $(PACMAN_BUNDLE_FILE) $(AUR_BUNDLE_FILE)
-	if [ "$(is_linux)" -eq 1 ]; then \
-		sudo pacman -Syyu; \
-		if [ -f "$(PACMAN_BUNDLE_FILE)" ]; then \
-			sudo pacman -S --noconfirm --needed - <"$(PACMAN_BUNDLE_FILE)"; \
-		else \
-			echo "$(PACMAN_BUNDLE_FILE) not found!"; \
-		fi; \
-		if [ "$(yay_installed)" -eq 0 ]; then \
-			git clone https://aur.archlinux.org/yay.git /tmp/yay; \
-			(cd /tmp/yay && makepkg -si --noconfirm --needed && rm -rf /tmp/yay); \
-		fi; \
-		if [ -f "$(AUR_BUNDLE_FILE)" ]; then \
-			yay -S --noconfirm --needed - <"$(AUR_BUNDLE_FILE)"; \
-		else \
-			echo "$(AUR_BUNDLE_FILE) not found!"; \
-		fi; \
-	else \
-		echo "Non-Linux OS not supported for install-extra-dependencies"; \
-	fi
-
-install-required-dependencies:
-	mkdir -p "$$HOME/.local/share/chezmoi"
-	if [ "$(is_linux)" -eq 1 ]; then \
-		sudo pacman -S --noconfirm chezmoi bitwarden-cli geoclue; \
-	else \
-		echo "Non-Linux OS not supported for install-required-dependencies"; \
-	fi
-
+.PHONY: enable-user-services
 enable-user-services:
+	@echo "### Enabling User Services ###"
 	systemctl --user enable --now gcr-ssh-agent.socket
 	systemctl --user enable --now redshift-gtk
 
+.PHONY: enable-grub-btrfs
 enable-grub-btrfs:
-	sudo systemctl start grub-btrfsd
-	sudo systemctl enable grub-btrfsd
+	@echo "### Enabling GRUB BTRFS Service ###"
+	$(SUDO) systemctl enable --now grub-btrfsd
 
+.PHONY: enable-kanata
 enable-kanata:
-	sudo usermod -aG input "$$(whoami)"
-	echo 'KERNEL=="uinput", MODE="0660", GROUP="input"' | sudo tee /etc/udev/rules.d/99-uinput.rules
-	sudo modprobe uinput
-	echo uinput | sudo tee /etc/modules-load.d/uinput.conf
+	@echo "### Enabling Kanata ###"
+	$(SUDO) usermod -aG input "$(USER)"
+	echo 'KERNEL=="uinput", MODE="0660", GROUP="input"' | $(SUDO) tee $(UDEV_RULES_DIR)/99-uinput.rules
+	$(SUDO) modprobe uinput
+	echo "uinput" | $(SUDO) tee $(MODULES_LOAD_DIR)/uinput.conf
 
+.PHONY: enable-touchpad-libinput
 enable-touchpad-libinput:
-	sudo mkdir -p /etc/X11/xorg.conf.d && sudo tee <<'EOF' /etc/X11/xorg.conf.d/90-touchpad.conf 1> /dev/null
-	Section "InputClass"
-	Identifier "touchpad"
-	MatchIsTouchpad "on"
-	Driver "libinput"
-	Option "Tapping" "on"
-	Option "NaturalScrolling" "on"
-	Option "ScrollMethod" "twofinger"
-	EndSection
-	EOF
+	@echo "### Enabling Touchpad Libinput ###"
+	$(SUDO) mkdir -p $(X11_CONF_DIR)
+	echo 'Section "InputClass"\n    Identifier "touchpad"\n    MatchIsTouchpad "on"\n    Driver "libinput"\n    Option "Tapping" "on"\n    Option "NaturalScrolling" "on"\n    Option "ScrollMethod" "twofinger"\nEndSection' | $(SUDO) tee $(X11_CONF_DIR)/90-touchpad.conf > /dev/null
 
-install-windevine-ungoogled-chromium:
-	if [ ! -d "/usr/lib/chromium/WidevineCdm" ]; then \
-		cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-		ar x /tmp/google-chrome-stable_current_amd64.deb && \
-		tar -xvf /tmp/data.tar.xz -C /tmp 2>/dev/null && \
-		sudo rm -rf /usr/lib/chromium/WidevineCdm/ && \
-		sudo mv /tmp/opt/google/chrome/WidevineCdm/ /usr/lib/chromium/ && \
-		rm -f /tmp/google-chrome-stable_current_amd64.deb /tmp/data.tar.xz; \
-	fi
-
+.PHONY: fix-permissions
 fix-permissions:
-	@echo "Fixing GnuPG permissions"
-	mkdir -p "$$HOME/.gnupg"
-	chown -R "$$(whoami)" "$$HOME/.gnupg/"
-	chmod -R 700 "$$HOME/.gnupg"
+	@echo "### Fixing Permissions ###"
+	mkdir -p "$(HOME)/.gnupg"
+	chown -R "$(USER)" "$(HOME)/.gnupg/"
+	chmod 700 "$(HOME)/.gnupg"
+	chmod 755 "$(HOME)/.ssh"
+	find "$(HOME)/.ssh" -type f -name 'id_*' -exec chmod 600 {} +
 
-	chmod 755 "$$HOME/.ssh"
-	[ -f "$$HOME/.ssh/id_ed25519" ] && chmod 600 "$$HOME/.ssh/id_ed25519"
-	[ -f "$$HOME/.ssh/id_ed25519.pub" ] && chmod 600 "$$HOME/.ssh/id_ed25519.pub"
+# ==============================================================================
+# Application Deployment
+# ==============================================================================
 
+.PHONY: apply
 apply: install-required-dependencies
-	bw login || true
+	@echo "### Applying Dotfiles with Chezmoi ###"
+	bw login --check || bw login
 	chezmoi apply -v
 	$(MAKE) fix-permissions
 
-docker-setup-run:
-	$(DOCKER_COMPOSE) build
-	$(DOCKER_COMPOSE) up
+# ==============================================================================
+# Help
+# ==============================================================================
 
-full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs apply
+.PHONY: help
+help:
+	@echo "Makefile for dotfiles"
+	@echo ""
+	@echo "Usage:"
+	@echo "  make <target>"
+	@echo ""
+	@echo "Targets:"
+	@echo "  all                           Run all setup tasks"
+	@echo "  configure-linux               Configure system settings for Linux"
+	@echo "  install-required-dependencies Install essential packages"
+	@echo "  install-extra-dependencies    Install packages from Pacman and AUR"
+	@echo "  install-git-dependencies      Install dependencies from Git"
+	@echo "  install-go-dependencies       Install Go dependencies"
+	@echo "  install-pyenv                 Install pyenv and Python versions"
+	@echo "  install-windevine-ungoogled-chromium  Install Widevine for Chromium"
+	@echo "  enable-user-services          Enable systemd user services"
+	@echo "  enable-grub-btrfs             Enable GRUB BTRFS service"
+	@echo "  enable-kanata                 Enable Kanata"
+	@echo "  enable-touchpad-libinput      Enable touchpad with libinput"
+	@echo "  fix-permissions               Fix permissions for GnuPG and SSH"
+	@echo "  apply                         Apply dotfiles with chezmoi"
+	@echo "  help                          Show this help message"

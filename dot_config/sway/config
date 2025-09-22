@@ -186,6 +186,7 @@ exec blueman-applet
 exec easyeffects --gapplication-service
 exec aw-qt
 exec flameshot
+exec kanshi
 
 # Activate smart borders (always)
 smart_gaps on

@@ -30,7 +30,6 @@ isavailable setxkbmap && setxkbmap -layout us -option compose:ralt &
 isavailable xbindkeys && xbindkeys &
 isavailable warpd && warpd &
 isavailable gxkb && gxkb &
-isavailable redshift-gtk && redshift-gtk &
 isavailable easyeffects && easyeffects &
 isavailable unclutter && unclutter -idle 2 -jitter 2 -root &
 isavailable xmodmap && xmodmap $HOME/.Xmodmap

@@ -3,7 +3,7 @@
     "position": "bottom",
     "height": 14,
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["custom/load", "pulseaudio", "backlight", "custom/battery", "clock", "tray"],
+    "modules-right": ["pulseaudio", "custom/load", "backlight", "custom/battery", "clock", "tray"],
     "sway/workspaces": {
         "disable-scroll": false,
         "on-scroll-up": "swaymsg workspace prev",

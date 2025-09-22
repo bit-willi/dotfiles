@@ -10,7 +10,7 @@ if status is-interactive
     source $HOME/.config/fish/git.fish
     source $HOME/.config/fish/exports.fish
     source $HOME/.config/fish/fzf-key-bindings.fish
-    source $HOME/.config/fish/mise.fish/
+    source $HOME/.config/fish/mise.fish
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
     source /etc/grc.fish
 

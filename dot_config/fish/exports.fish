@@ -1,4 +1,4 @@
-export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export EDITOR="$HOME/.bin/editor"
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 

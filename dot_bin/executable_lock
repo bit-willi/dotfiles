@@ -1,42 +1,47 @@
 #!/usr/bin/env bash
 
-rm -f /tmp/screenshot.png /tmp/screenshotblur.png
-scrot /tmp/screenshot.png
-magick /tmp/screenshot.png -scale 10% -scale 1000% /tmp/screenshotblur.png
+# Create temporary files for the screenshot and the blurred version
+screenshot_tmp=$(mktemp --suffix=.png)
+screenshot_blur_tmp=$(mktemp --suffix=.png)
 
-i3lock_options=(--image /tmp/screenshotblur.png --tiling --show-failed-attempts)
+# Clean up temporary files on exit
+trap 'rm -f "$screenshot_tmp" "$screenshot_blur_tmp"' EXIT
 
-kill_and_unpause_notifications() {
-  pkill -xu $EUID i3lock
-  pkill -xu $EUID -USR2 dunst
-}
+# 1. Take a screenshot using grim
+grim "$screenshot_tmp"
 
-trap kill_and_unpause_notifications TERM INT
+# 2. Create the blurred effect using ImageMagick (this part doesn't change)
+magick "$screenshot_tmp" -scale 10% -scale 1000% "$screenshot_blur_tmp"
+
+# 3. Define the options for swaylock
+swaylock_options=(
+    --image "$screenshot_blur_tmp"
+    --show-failed-attempts
+    --indicator-idle-visible
+    --clock
+    --datestr "%a, %B %d"
+    --timestr "%R"
+)
+
+# --- Pre-lock Actions ---
 
 # Pause notifications
-pkill -xu $EUID -USR1 dunst
+pkill -xu "$EUID" -USR1 dunst
 
 # Pause media
 playerctl -a pause
 
 # Mute sounds
-pactl set-sink-mute 0 on
+pactl set-sink-mute @DEFAULT_SINK@ toggle
 
-if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
-  # Prevent i3lock from inheriting a copy of the lock fd
-  i3lock "${i3lock_options[@]}" {XSS_SLEEP_LOCK_FD}<&-
+# --- Lock the screen ---
 
-  # Close the fd to indicate we're ready to sleep
-  exec {XSS_SLEEP_LOCK_FD}<&-
+swaylock "${swaylock_options[@]}"
 
-  while pkill -xu $EUID -0 i3lock; do
-    sleep 0.5
-  done
-else
-  # Lock
-  i3lock -n "${i3lock_options[@]}" &
-  wait
-fi
+# --- Post-lock Actions (these run after you unlock) ---
+
+# Un-mute sounds
+pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Unpause notifications
-pkill -xu $EUID -USR2 dunst
+pkill -xu "$EUID" -USR2 dunst

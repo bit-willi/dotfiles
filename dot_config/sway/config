@@ -1,0 +1,212 @@
+# sway config file
+set $mod Mod4
+
+font pango:Hack 9
+
+floating_modifier $mod
+
+bindsym $mod+Return exec --no-startup-id $HOME/.bin/terminal
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start run-dmenu (a program launcher)
+bindsym $mod+d exec --no-startup-id bash -c "wofi --show drun"
+bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
+bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec if [ $(echo -e "No\nYes" | wofi --dmenu --prompt='Exit Sway?') = "Yes" ]; then swaymsg exit; fi
+
+# scratchpad
+# make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# toogle theme (light/dark)
+bindsym $mod+Shift+d exec ~/.bin/switch-theme
+
+# show the first scratchpad window
+bindsym $mod+minus scratchpad show
+
+# lock screen
+bindsym $mod+Ctrl+l exec --no-startup-id $HOME/.bin/lock
+
+# print screen
+bindsym Print exec flameshot gui
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# pulse
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+bindsym $mod+Shift+x exec ~/.bin/lock
+#bindsym $mod+F10 exec --no-startup-id /usr/bin/xfce4-screenshooter
+
+# Set gruvbox colorscheme
+set $bg #000000
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+set $white #ffffff
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $blue $blue $darkgray $purple $blue
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+client.urgent           $red $red $white $red $red
+
+hide_edge_borders none
+default_border pixel 1
+
+for_window [class="^.*"] border pixel 1
+for_window [class="pomodoro-logger"] floating enable
+
+seat * {
+    hide_cursor 2000
+}
+
+exec swayidle -w \
+     timeout 600 'swaylock -f' \
+     timeout 900 'swaymsg "output * dpms off"' \
+     resume 'swaymsg "output * dpms on"' \
+     before-sleep $HOME/.bin/lock
+
+exec nm-applet
+exec dunst
+exec libinput-gestures-setup start
+exec blueman-applet
+exec easyeffects --gapplication-service
+exec aw-qt
+
+# Activate smart borders (always)
+smart_gaps on
+
+gaps inner 3
+gaps outer 0
+
+bar {
+    font pango:Hack, FontAwesome 8
+    position bottom
+    mode dock
+    status_command /usr/bin/i3status-rs $HOME/.config/sway/status.toml
+    colors {
+        separator #666666
+        background $bg
+        statusline $yellow
+        focused_workspace    $blue $blue $darkgray
+        inactive_workspace   $darkgray $darkgray $white
+        active_workspace     $darkgray $darkgray $yellow
+        urgent_workspace     $red $red $bg
+    }
+}
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# Fibonacci layout
+for_window [class=".*"] split toggle

@@ -4,13 +4,9 @@ gruvbox-dark-gtk
 gruvbox-icon-theme
 gtk-theme-arc-gruvbox-git
 siji-git
-xinit-xsession
-rofi-greenclip
 w3m
-i3-autodisplay
 docker-rootless-extras
 mermaid-cli
-bitwarden-rofi-git
 nsxiv
 bat
 tldr
@@ -33,7 +29,7 @@ v4l2loopback-dc-dkms
 meld
 st
 kanata
-acpilight
+acpiight
 libinput-gestures
 pomodoro-logger
 ngrok

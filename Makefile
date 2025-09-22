@@ -21,7 +21,7 @@ else
 	yay_installed = 1
 endif
 
-.PHONY: all configure-linux install-git-dependencies install-go-dependencies install-pyenv install-extra-dependencies install-required-dependencies enable-gnome-keyring enable-kanata install-windevine-ungoogled-chromium fix-permissions apply full
+.PHONY: all configure-linux install-git-dependencies install-go-dependencies install-pyenv install-extra-dependencies install-required-dependencies enable-user-services enable-kanata install-windevine-ungoogled-chromium fix-permissions apply full
 
 all: configure-linux apply
 
@@ -142,9 +142,9 @@ install-required-dependencies:
 		echo "Non-Linux OS not supported for install-required-dependencies"; \
 	fi
 
-enable-gnome-keyring:
-	systemctl --user enable gcr-ssh-agent.socket
-	systemctl --user start gcr-ssh-agent.socket
+enable-user-services:
+	systemctl --user enable --now gcr-ssh-agent.socket
+	systemctl --user enable --now redshift-gtk
 
 enable-grub-btrfs:
 	sudo systemctl start grub-btrfsd
@@ -197,4 +197,4 @@ docker-setup-run:
 	$(DOCKER_COMPOSE) build
 	$(DOCKER_COMPOSE) up
 
-full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-gnome-keyring enable-grub-btrfs apply
+full: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs apply

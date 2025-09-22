@@ -14,6 +14,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id bash -c "wofi --show drun"
 bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
 bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
+bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
 
 # change focus
 bindsym $mod+h focus left
@@ -187,6 +188,7 @@ exec easyeffects --gapplication-service
 exec aw-qt
 exec flameshot
 exec kanshi
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # Activate smart borders (always)
 smart_gaps on

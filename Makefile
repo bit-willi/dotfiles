@@ -132,6 +132,8 @@ enable-user-services:
 	@echo "### Enabling User Services ###"
 	systemctl --user enable --now gcr-ssh-agent.socket
 	systemctl --user enable --now redshift-gtk
+	systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
+	systemctl --user enable --now xdg-desktop-portal.service xdg-desktop-portal-wlr.service
 
 .PHONY: enable-grub-btrfs
 enable-grub-btrfs:

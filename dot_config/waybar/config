@@ -1,0 +1,65 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 14,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["disk#root", "memory", "cpu", "custom/load", "pulseaudio", "backlight", "custom/battery", "clock", "tray"],
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "on-scroll-up": "swaymsg workspace prev",
+        "on-scroll-down": "swaymsg workspace next"
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "disk#root": {
+        "path": "/",
+        "interval": 20,
+        "format": " ROOT {avail}",
+        "format-alt": " ROOT {avail} / {total}",
+        "critical": 10,
+        "warning": 20
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}% ({free_B} free)",
+        "format-alt": " {swap_used_p}% ({swap_free_B} free)",
+        "critical": 90,
+        "warning": 70
+    },
+    "cpu": {
+        "interval": 1,
+        "format": " {usage}%"
+    },
+    "custom/load": {
+        "exec": "cat /proc/loadavg | awk '{print $1}'",
+        "format": " {}",
+        "interval": 1
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-muted": " Muted",
+        "icons": {
+            "default": ["", ""]
+        }
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "custom/battery": {
+        "exec": "~/.bin/battery-stats",
+        "return-type": "string",
+        "interval": 10,
+        "format": "{}"
+    },
+    "clock": {
+        "interval": 60,
+        "format": " {:%a %d/%m %R}",
+        "format-alt": " {:%R}"
+    },
+    "tray": {
+        "spacing": 5
+    }
+}

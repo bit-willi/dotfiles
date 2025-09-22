@@ -1,0 +1,56 @@
+/* Gruvbox Colors */
+@define-color bg #282828;
+@define-color yellow #d79921;
+@define-color blue #458588;
+@define-color red #cc241d;
+@define-color darkgray #928374;
+@define-color white #ebdbb2;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: Hack, FontAwesome;
+    font-size: 11px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @bg;
+    color: @yellow;
+}
+
+#workspaces button {
+    padding: 0 1px;
+    background: @darkgray;
+    color: @white;
+}
+
+#workspaces button.focused {
+    background: @blue;
+    color: @yellow;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @bg;
+}
+
+#mode {
+    background: @blue;
+    color: @darkgray;
+    padding: 0 3px;
+    font-weight: bold;
+}
+
+#clock,
+#custom-battery,
+#backlight,
+#pulseaudio,
+#temperature,
+#custom-load,
+#cpu,
+#memory,
+#disk,
+#tray {
+    padding: 0 5px;
+}

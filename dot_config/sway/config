@@ -176,6 +176,11 @@ input * {
     xkb_options compose:ralt
 }
 
+input "type:touchpad" {
+    natural_scroll enabled
+    tap enabled
+}
+
 exec swayidle -w \
      timeout 600 'swaylock -f' \
      timeout 900 'swaymsg "output * dpms off"' \

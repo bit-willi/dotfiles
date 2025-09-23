@@ -139,12 +139,6 @@ enable-grub-btrfs:
 	@echo "### Enabling GRUB BTRFS Service ###"
 	$(SUDO) systemctl enable --now grub-btrfsd
 
-.PHONY: enable-touchpad-libinput
-enable-touchpad-libinput:
-	@echo "### Enabling Touchpad Libinput ###"
-	$(SUDO) mkdir -p $(X11_CONF_DIR)
-	echo 'Section "InputClass"\n    Identifier "touchpad"\n    MatchIsTouchpad "on"\n    Driver "libinput"\n    Option "Tapping" "on"\n    Option "NaturalScrolling" "on"\n    Option "ScrollMethod" "twofinger"\nEndSection' | $(SUDO) tee $(X11_CONF_DIR)/90-touchpad.conf > /dev/null
-
 .PHONY: fix-permissions
 fix-permissions:
 	@echo "### Fixing Permissions ###"
@@ -187,7 +181,6 @@ help:
 	@echo "  install-windevine-ungoogled-chromium  Install Widevine for Chromium"
 	@echo "  enable-user-services          Enable systemd user services"
 	@echo "  enable-grub-btrfs             Enable GRUB BTRFS service"
-	@echo "  enable-touchpad-libinput      Enable touchpad with libinput"
 	@echo "  fix-permissions               Fix permissions for GnuPG and SSH"
 	@echo "  apply                         Apply dotfiles with chezmoi"
 	@echo "  help                          Show this help message"

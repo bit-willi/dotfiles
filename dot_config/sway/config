@@ -189,7 +189,6 @@ exec swayidle -w \
 
 exec nm-applet
 exec dunst
-exec libinput-gestures-setup start
 exec blueman-applet
 exec easyeffects --gapplication-service
 exec aw-qt

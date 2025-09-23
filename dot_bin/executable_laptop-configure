@@ -1,7 +1,0 @@
-#!/bin/bash
-setxkbmap -layout us -variant intl
-
-# Dell laptop
-#xrandr --output HDMI-1 --auto --right-of eDP-1
-xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
-xinput set-prop "DELL0782:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1

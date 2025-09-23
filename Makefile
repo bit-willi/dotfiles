@@ -138,14 +138,6 @@ enable-grub-btrfs:
 	@echo "### Enabling GRUB BTRFS Service ###"
 	$(SUDO) systemctl enable --now grub-btrfsd
 
-.PHONY: enable-kanata
-enable-kanata:
-	@echo "### Enabling Kanata ###"
-	$(SUDO) usermod -aG input "$(USER)"
-	echo 'KERNEL=="uinput", MODE="0660", GROUP="input"' | $(SUDO) tee $(UDEV_RULES_DIR)/99-uinput.rules
-	$(SUDO) modprobe uinput
-	echo "uinput" | $(SUDO) tee $(MODULES_LOAD_DIR)/uinput.conf
-
 .PHONY: enable-touchpad-libinput
 enable-touchpad-libinput:
 	@echo "### Enabling Touchpad Libinput ###"
@@ -194,7 +186,6 @@ help:
 	@echo "  install-windevine-ungoogled-chromium  Install Widevine for Chromium"
 	@echo "  enable-user-services          Enable systemd user services"
 	@echo "  enable-grub-btrfs             Enable GRUB BTRFS service"
-	@echo "  enable-kanata                 Enable Kanata"
 	@echo "  enable-touchpad-libinput      Enable touchpad with libinput"
 	@echo "  fix-permissions               Fix permissions for GnuPG and SSH"
 	@echo "  apply                         Apply dotfiles with chezmoi"

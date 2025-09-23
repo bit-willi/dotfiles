@@ -52,6 +52,7 @@ ifeq ($(IS_LINUX),Linux)
 	$(SUDO) sed -i '/en_US.UTF-8$$/s/^#//g' $(LOCALE_GEN_CONF)
 	$(SUDO) locale-gen
 	$(SUDO) /sbin/sysctl kernel.dmesg_restrict=0
+	$(SUDO) cp etc /etc
 	echo "kernel.dmesg_restrict=0" | $(SUDO) tee /etc/sysctl.d/99-dmesg.conf
 	echo -e "pcm.!default {\n    type pulse\n}\n\nctl.!default {\n    type pulse\n}" | $(SUDO) tee $(ASOUND_CONF)
 else

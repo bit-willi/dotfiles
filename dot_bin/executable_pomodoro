@@ -12,19 +12,19 @@ ICON_PAUSED="⏸️"
 enter_work_mode() {
     pactl set-sink-mute @DEFAULT_SINK@ 1 # Mute volume
     dunstctl set-paused true            # Pause notifications
-    notify-send -i "dialog-information" "Pomodoro: Work Session" "Time to focus for $WORK_MINS minutes."
+    notify-send -a "Pomodoro" -i "dialog-information" "Work Session" "Time to focus for $WORK_MINS minutes."
 }
 
 enter_break_mode() {
     pactl set-sink-mute @DEFAULT_SINK@ 0 # Unmute volume
     dunstctl set-paused false           # Unpause notifications
-    notify-send -i "dialog-information" "Pomodoro: Break Time!" "Take a break for $BREAK_MINS minutes."
+    notify-send -a "Pomodoro" -i "dialog-information" "Break Time!" "Take a break for $BREAK_MINS minutes."
 }
 
 stop() {
     pactl set-sink-mute @DEFAULT_SINK@ 0 # Unmute volume
     dunstctl set-paused false           # Unpause notifications
-    notify-send -i "dialog-information" "Pomodoro: Break Time!" "Take a break for $BREAK_MINS minutes."
+    notify-send -a "Pomodoro" -i "dialog-information" "Stop Time!" "Timer is stopped!"
     echo "{}" > "$STATE_FILE"
 }
 
@@ -136,3 +136,4 @@ jq -n -c \
   --arg tooltip "Mode: $mode - Time Remaining: $time_format" \
   --arg class "$class" \
   '{"text": $text, "tooltip": $tooltip, "class": $class}'
+

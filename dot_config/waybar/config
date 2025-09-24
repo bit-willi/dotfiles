@@ -3,7 +3,7 @@
     "position": "bottom",
     "height": 14,
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["custom/load", "pulseaudio", "backlight", "custom/battery", "clock", "tray"],
+    "modules-right": ["custom/load", "custom/separator", "pulseaudio", "custom/separator", "backlight", "custom/separator", "custom/battery", "custom/separator", "custom/pomodoro", "custom/separator", "clock", "custom/separator", "tray"],
     "sway/workspaces": {
         "disable-scroll": false,
         "on-scroll-up": "swaymsg workspace prev",
@@ -12,14 +12,23 @@
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
+    "custom/pomodoro": {
+        "format": "{}",
+        "return-type": "json",
+        "interval": 1,
+        "exec": "~/.bin/pomodoro",
+        "on-click": "~/.bin/pomodoro toggle-pause",
+        "on-click-middle": "~/.bin/pomodoro restart",
+        "on-click-right": "~/.bin/pomodoro skip"
+    },
     "custom/load": {
         "exec": "cat /proc/loadavg | awk '{print $1}'",
-        "format": " {} |",
+        "format": " {}",
         "interval": 1
     },
     "pulseaudio": {
-        "format": "{volume}% {icon}|",
-        "format-muted": " Muted |",
+        "format": "{volume}% {icon}",
+        "format-muted": " Muted",
         "on-click" : "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-scroll-up" : "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ -l 1",
         "on-scroll-down" : "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
@@ -29,22 +38,27 @@
     },
     "backlight": {
         "device": "intel_backlight",
-        "format": "{percent}% {icon} |",
+        "format": "{percent}% {icon}",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "custom/battery": {
         "exec": "~/.bin/battery-stats",
         "return-type": "string",
         "interval": 10,
-        "format": "{} |"
+        "format": "{}"
     },
     "clock": {
         "interval": 60,
-        "format": " {:%R} |",
-        "format-alt": " {:%a %d/%m %R} |",
+        "format": " {:%R}",
+        "format-alt": " {:%a %d/%m %R}",
         "tooltip": false
     },
     "tray": {
         "spacing": 3
+    },
+    "custom/separator": {
+        "format": "|",
+        "interval": "once",
+        "tooltip": false
     }
 }

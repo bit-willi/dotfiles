@@ -54,3 +54,23 @@ window#waybar {
 #tray {
     padding: 0 5px;
 }
+
+#custom-separator {
+  color: @white;
+  margin: 0;
+}
+
+#custom-pomodoro {
+    padding: 0 10px;
+    color: #ebdbb2;
+}
+
+#custom-pomodoro.break {
+    background-color: #8ec07c; /* Gruvbox Green */
+    color: #282828;
+}
+
+#custom-pomodoro.paused {
+    background-color: #fabd2f; /* Gruvbox Yellow */
+    color: #282828;
+}

@@ -3,7 +3,7 @@
 # --- Configuration ---
 WORK_MINS=90
 BREAK_MINS=20
-STATE_FILE="/tmp/pomodoro.json"
+STATE_FILE="$HOME/.cache/pomodoro.json"
 ICON_WORK="🍅"
 ICON_BREAK="☕"
 ICON_PAUSED="⏸️"

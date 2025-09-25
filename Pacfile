@@ -19,7 +19,6 @@ dhcpcd
 dialog
 diff-so-fancy
 diffutils
-dmenu
 dnsmasq
 docker
 dunst
@@ -257,7 +256,6 @@ usage
 sway
 swaylock
 waybar
-wofi
 wl-clipboard
 xorg-xwayland
 jammastep
@@ -274,3 +272,4 @@ xdg-desktop-portal
 xdg-desktop-portal-wlr
 wlsunset
 keid
+fuzzel

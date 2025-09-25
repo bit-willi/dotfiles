@@ -10,10 +10,9 @@ bindsym $mod+Return exec --no-startup-id $HOME/.bin/terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start run-dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id bash -c "wofi --show drun"
-bindsym $mod+p exec --no-startup-id bash -c "$HOME/.bin/run-dmenu clipboard"
-bindsym $mod+o exec --no-startup-id bash -c "$HOME/.bin/run-dmenu"
+# start run-launcher (a program launcher)
+bindsym $mod+d exec --no-startup-id $HOME/.bin/run-launcher
+bindsym $mod+o exec --no-startup-id $HOME/.bin/run-launcher launcher
 bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
 
 # change focus

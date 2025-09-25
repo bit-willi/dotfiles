@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+# A minimalist launcher for Sway using fuzzel as a dmenu replacement.
+
+# --- Launcher Mode ---
+function launcher
+    set commands (for dir in $PATH; find $dir -maxdepth 1 -type f -executable -printf "%f\n"; end | sort -u)
+
+    set selected (printf "%s\n" $commands | fuzzel --dmenu --prompt="🚀 Run > ")
+    if test -n "$selected"
+        swaymsg exec -- $selected
+    end
+end
+
+# --- Main Logic ---
+switch "$argv[1]"
+    case launcher
+        launcher
+    case '*'
+        fuzzel
+end

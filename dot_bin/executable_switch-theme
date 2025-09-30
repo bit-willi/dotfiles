@@ -24,6 +24,15 @@ light_pager="false"
 dark_syntax="gruvbox-dark"
 light_syntax="gruvbox-light"
 
+# Fuzzel Theme
+dark_fuzzel="[colors]
+background=282828fa
+selection=3c3836fa"
+
+light_fuzzel="[colors]
+background=fbf1c7fa
+selection=ebddb2fa"
+
 # --- Toggle Logic ---
 
 current_mode=$(cat "$THEME_STATE_FILE" 2>/dev/null || echo "dark")
@@ -67,3 +76,21 @@ echo -e "set background=$vim_theme\n$vim_statusline" > "$HOME/.nvim.color"
 # 4. Apply Git Delta Theme (no change needed)
 git config --global delta.dark "$pager_dark_mode"
 git config --global delta.syntax-theme "$pager_syntax_theme"
+
+# 5. Apply Theme to fuzzel
+awk -v new_theme="$fuzzel_theme" '
+  # When we find the [colors] line...
+  /^\[colors\]/ {
+    print new_theme;    # Print the new theme block
+    in_block=1;         # Set a flag that we are inside the old block
+    next;               # Skip to the next line of the input file
+  }
+  # When we find the start of ANY other block, turn the flag off
+  /^\[.*\]/ {
+    in_block=0;
+  }
+  # If we are NOT inside the old block, print the line
+  !in_block {
+    print;
+  }
+' "$FUZZEL_CONFIG_FILE" > "${FUZZEL_CONFIG_FILE}.tmp" && mv "${FUZZEL_CONFIG_FILE}.tmp" "$FUZZEL_CONFIG_FILE"

@@ -25,6 +25,7 @@ dark_syntax="gruvbox-dark"
 light_syntax="gruvbox-light"
 
 # Fuzzel Theme
+FUZZEL_CONFIG_FILE="$HOME/.config/fuzzel/fuzzel.ini"
 dark_fuzzel="[colors]
 background=282828fa
 selection=3c3836fa"
@@ -47,6 +48,7 @@ if [ "$current_mode" == "dark" ]; then
     vim_statusline="$light_statusline"
     pager_dark_mode="$light_pager"
     pager_syntax_theme="$light_syntax"
+    fuzzel_theme="$light_fuzzel"
 else
     # Switch to Dark Mode
     echo "dark" > "$THEME_STATE_FILE"
@@ -56,6 +58,107 @@ else
     vim_statusline="$dark_statusline"
     pager_dark_mode="$dark_pager"
     pager_syntax_theme="$dark_syntax"
+    fuzzel_theme="$dark_fuzzel"
+fi
+
+# --- Apply Changes ---
+
+echo "Switching theme to: $(cat $THEME_STATE_FILE)"
+
+# 1. Apply GTK Theme using gsettings (the modern way)
+# This works for GTK 3/4 apps
+gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-$(cat $THEME_STATE_FILE)"
+
+# 2. Apply Kitty Theme (no change needed)
+kitty +kitten themes --reload-in=all "$kitty_theme"
+
+# 3. Apply Neovim Theme (no change needed)
+echo -e "set background=$vim_theme\n$vim_statusline" > "$HOME/.nvim.color"
+
+# 4. Apply Git Delta Theme (no change needed)
+git config --global delta.dark "$pager_dark_mode"
+git config --global delta.syntax-theme "$pager_syntax_theme"
+
+# 5. Apply Theme to fuzzel
+awk -v new_theme="$fuzzel_theme" '
+  # When we find the [colors] line...
+  /^\[colors\]/ {
+    print new_theme;    # Print the new theme block
+    in_block=1;         # Set a flag that we are inside the old block
+    next;               # Skip to the next line of the input file
+  }
+  # When we find the start of ANY other block, turn the flag off
+  /^\[.*\]/ {
+    in_block=0;
+  }
+  # If we are NOT inside the old block, print the line
+  !in_block {
+    print;
+  }
+' "$FUZZEL_CONFIG_FILE" > "${FUZZEL_CONFIG_FILE}.tmp" && mv "${FUZZEL_CONFIG_FILE}.tmp" "$FUZZEL_CONFIG_FILE"
+
+#!/usr/bin/env bash
+
+# Define a simple state file to track the current mode
+THEME_STATE_FILE="$HOME/.config/theme_mode"
+
+# --- Define Theme Variables ---
+# GTK Themes
+dark_gtk="gruvbox-dark-gtk"
+light_gtk="gruvbox-light-gtk"
+
+# Kitty Themes
+dark_kitty="Gruvbox Dark"
+light_kitty="Gruvbox Light"
+
+# Neovim Themes
+dark_vim="dark"
+light_vim="light"
+dark_statusline="highlight StatusLine guibg=#3c3836 guifg=#ebdbb2"
+light_statusline="highlight statusline guifg=#3c3836 guibg=#ebdbb2"
+
+# Git Delta Themes
+dark_pager="true"
+light_pager="false"
+dark_syntax="gruvbox-dark"
+light_syntax="gruvbox-light"
+
+# Fuzzel Theme
+FUZZEL_CONFIG_FILE="$HOME/.config/fuzzel/fuzzel.ini"
+dark_fuzzel="[colors]
+background=282828fa
+selection=3c3836fa"
+
+light_fuzzel="[colors]
+background=fbf1c7fa
+selection=ebddb2fa"
+
+# --- Toggle Logic ---
+
+current_mode=$(cat "$THEME_STATE_FILE" 2>/dev/null || echo "dark")
+
+# Toggle to the other mode
+if [ "$current_mode" == "dark" ]; then
+    # Switch to Light Mode
+    echo "light" > "$THEME_STATE_FILE"
+    gtk_theme="$light_gtk"
+    kitty_theme="$light_kitty"
+    vim_theme="$light_vim"
+    vim_statusline="$light_statusline"
+    pager_dark_mode="$light_pager"
+    pager_syntax_theme="$light_syntax"
+    fuzzel_theme="$light_fuzzel"
+else
+    # Switch to Dark Mode
+    echo "dark" > "$THEME_STATE_FILE"
+    gtk_theme="$dark_gtk"
+    kitty_theme="$dark_kitty"
+    vim_theme="$dark_vim"
+    vim_statusline="$dark_statusline"
+    pager_dark_mode="$dark_pager"
+    pager_syntax_theme="$dark_syntax"
+    fuzzel_theme="$dark_fuzzel"
 fi
 
 # --- Apply Changes ---

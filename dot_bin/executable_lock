@@ -10,7 +10,7 @@ trap 'rm -f "$screenshot_tmp" "$screenshot_blur_tmp"' EXIT
 # 1. Take a screenshot using grim
 grim "$screenshot_tmp"
 
-# 2. Create the blurred effect using ImageMagick (this part doesn't change)
+# 2. Create the blurred effect using ImageMagick
 magick "$screenshot_tmp" -scale 10% -scale 1000% "$screenshot_blur_tmp"
 
 # 3. Define the options for swaylock
@@ -18,30 +18,23 @@ swaylock_options=(
     --image "$screenshot_blur_tmp"
     --show-failed-attempts
     --indicator-idle-visible
-    --clock
-    --datestr "%a, %B %d"
-    --timestr "%R"
 )
 
 # --- Pre-lock Actions ---
-
-# Pause notifications
 pkill -xu "$EUID" -USR1 dunst
-
-# Pause media
 playerctl -a pause
-
-# Mute sounds
 pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # --- Lock the screen ---
+if [[ "$1" == "--daemonize" ]]; then
+    # Daemonize: Run in background and echo the PID
+    swaylock -n "${swaylock_options[@]}" &
+    echo $!
+else
+    # Normal: Run in foreground and wait
+    swaylock "${swaylock_options[@]}"
 
-swaylock "${swaylock_options[@]}"
-
-# --- Post-lock Actions (these run after you unlock) ---
-
-# Un-mute sounds
-pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-# Unpause notifications
-pkill -xu "$EUID" -USR2 dunst
+    # --- Post-lock Actions (only for normal mode) ---
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    pkill -xu "$EUID" -USR2 dunst
+fi

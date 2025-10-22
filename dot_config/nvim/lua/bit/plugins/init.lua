@@ -149,5 +149,9 @@ return {
         },
         build = "make tiktoken",
         opts = {}
+    },
+    {
+        "tpope/sleuth.vim",
+        cmd = "Git",
     }
 }

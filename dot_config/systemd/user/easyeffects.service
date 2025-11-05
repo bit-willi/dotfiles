@@ -1,0 +1,14 @@
+[Unit]
+Description=EasyEffects (user)
+After=pipewire.service pipewire-pulse.service wireplumber.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/easyeffects --gapplication-service
+Restart=always
+RestartSec=2
+ManagedOOMPreference=avoid
+
+[Install]
+WantedBy=default.target

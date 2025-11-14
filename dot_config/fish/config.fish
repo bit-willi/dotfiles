@@ -12,6 +12,7 @@ if status is-interactive
     source $HOME/.config/fish/fzf-key-bindings.fish
     source $HOME/.config/fish/mise.fish
     source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+    test -r '/home/willian/.opam/opam-init/init.fish' && source '/home/willian/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
     source /etc/grc.fish
 
     set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"

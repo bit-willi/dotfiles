@@ -50,10 +50,6 @@ return {
         ft = "kamailio",
     },
     {
-        "github/copilot.vim",
-        event = "InsertEnter",
-    },
-    {
         "christoomey/vim-tmux-navigator",
         event= "VeryLazy"
     },
@@ -95,33 +91,13 @@ return {
         "hrsh7th/cmp-nvim-lsp",
     },
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end
-    },
-    {
         "mbbill/undotree",
         cmd = { "UndotreeToggle" }
-    },
-    {
-        "vhyrro/luarocks.nvim",
-        priority = 1000,
-        config = true,
-        opts = {
-            rocks = { "magick" },
-        },
     },
     {
         "3rd/image.nvim",
         dependencies = { "luarocks.nvim" },
         config = true
-    },
-    {
-        "nvim-neorg/neorg",
-        dependencies = { "luarocks.nvim" },
-        lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-        version = "*", -- Pin Neorg to the latest stable release
     },
     {
         "brenoprata10/nvim-highlight-colors",
@@ -139,16 +115,6 @@ return {
         build = function ()
             vim.system({vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh"})
         end,
-    },
-    {
-        "CopilotC-Nvim/CopilotChat.nvim",
-        cmd = "CopilotChatOpen",
-        dependencies = {
-            { "github/copilot.vim" },
-            { "nvim-lua/plenary.nvim", branch = "master" },
-        },
-        build = "make tiktoken",
-        opts = {}
     },
     {
         "tpope/sleuth.vim",

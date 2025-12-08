@@ -5,6 +5,9 @@ export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 # Docker rootless
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
+# Env Secrets
+source $HOME/.env-secrets
+
 #Pyenv
 set -x PYENV_ROOT $HOME/.pyenv
 set -x fish_user_paths $PYENV_ROOT/bin $fish_user_paths

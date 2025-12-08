@@ -117,7 +117,23 @@ return {
         end,
     },
     {
-        "tpope/sleuth.vim",
+        "tpope/vim-sleuth",
         cmd = "Git",
+    },
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        ft = { "markdown", "Avante" },
+    },
+    {
+        "yetone/avante.nvim",
+        build = "make",
+        event = "VeryLazy",
+        version = false,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "nvim-telescope/telescope.nvim",
+            "hrsh7th/nvim-cmp",
+        }
     }
 }

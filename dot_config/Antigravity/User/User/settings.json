@@ -1,0 +1,36 @@
+{
+    // --- Aesthetics & Editor ---
+    "workbench.colorTheme": "Gruvbox Light Medium",
+    "editor.fontFamily": "FiraCode Nerd Font",
+    "editor.fontLigatures": true,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "json.schemaDownload.enable": false,
+    // --- Layout & Zen Mode ---
+    "workbench.activityBar.location": "hidden",
+    "workbench.layoutControl.enabled": false,
+    "window.customTitleBarVisibility": "windowed",
+    "zenMode.centerLayout": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.showTabs": "single",
+    // --- Neovim Extension ---
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "vscode-neovim.neovimInitVimPaths.linux": "/home/willian/.config/nvim/init.lua",
+    // --- Terminal & Tmux Integration ---
+    "terminal.integrated.defaultLocation": "editor", // Opens terminal as a tab
+    "terminal.integrated.enableImages": true, // Allows image.nvim/tmux passthrough
+    "terminal.integrated.gpuAcceleration": "on",
+    // 1. Define Tmux Profile
+    "terminal.integrated.profiles.linux": {
+        "fish": {
+            "path": "/usr/bin/fish"
+        }
+    },
+    // 2. Set Tmux as Default (Changed from 'fish')
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "diffEditor.hideUnchangedRegions.enabled": true
+}

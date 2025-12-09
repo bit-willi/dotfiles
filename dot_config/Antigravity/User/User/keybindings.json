@@ -1,0 +1,21 @@
+// Place your key bindings in this file to override the defaults
+[
+    // 1. Force Ctrl+w to send the raw signal (Hex \u0017) to Tmux/Terminal
+    {
+        "key": "ctrl+w",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "\u0017"
+        },
+        "when": "terminalFocus"
+    },
+    // 2. Do the same for Ctrl+a (Hex \u0001) just to be safe
+    {
+        "key": "ctrl+a",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "\u0001"
+        },
+        "when": "terminalFocus"
+    }
+]

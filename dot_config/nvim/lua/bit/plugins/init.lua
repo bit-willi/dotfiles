@@ -1,9 +1,10 @@
 return {
     {
         "ellisonleao/gruvbox.nvim",
-        priority = 1000 ,
+        priority = 1000,
         config = true,
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "godlygeek/tabular",
@@ -16,6 +17,7 @@ return {
     {
         "airblade/vim-gitgutter",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "scrooloose/nerdcommenter",
@@ -24,26 +26,32 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "williamboman/mason.nvim",
-        cmd = {"Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate", "MasonLog"},
+        cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate", "MasonLog" },
+        enabled = not vim.g.vscode,
     },
     {
         "onsails/lspkind.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "nvim-treesitter/nvim-treesitter",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
         "nvim-treesitter/playground",
         cmd = "TSPlaygroundToggle",
+        enabled = not vim.g.vscode,
     },
     {
         "kamailio/vim-kamailio-syntax",
@@ -51,11 +59,13 @@ return {
     },
     {
         "christoomey/vim-tmux-navigator",
-        event= "VeryLazy"
+        event = "VeryLazy",
+        enabled = not vim.g.vscode,
     },
     {
         "folke/todo-comments.nvim",
-        event= "VeryLazy"
+        event = "VeryLazy",
+        enabled = not vim.g.vscode,
     },
     {
         "tpope/vim-fugitive",
@@ -65,7 +75,8 @@ return {
         "L3MON4D3/LuaSnip",
         dependencies = { "rafamadriz/friendly-snippets" },
         event = { "BufReadPre", "BufNewFile" },
-        build = "make install_jsregexp"
+        build = "make install_jsregexp",
+        enabled = not vim.g.vscode,
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -73,51 +84,57 @@ return {
     },
     {
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter"
+        event = "InsertEnter",
+        enabled = not vim.g.vscode,
     },
     {
         "tpope/vim-dispatch",
-        event = "VeryLazy"
+        event = "VeryLazy",
     },
     {
         "dhruvasagar/vim-table-mode",
-        cmd = "TableModeEnable"
+        cmd = "TableModeEnable",
     },
     {
         "APZelos/blamer.nvim",
-        cmd = "BlamerToggle"
+        cmd = "BlamerToggle",
+        enabled = not vim.g.vscode,
     },
     {
         "hrsh7th/cmp-nvim-lsp",
+        enabled = not vim.g.vscode,
     },
     {
         "mbbill/undotree",
-        cmd = { "UndotreeToggle" }
+        cmd = { "UndotreeToggle" },
+        enabled = not vim.g.vscode,
     },
     {
         "3rd/image.nvim",
         dependencies = { "luarocks.nvim" },
-        config = true
+        config = true,
+        enabled = not vim.g.vscode,
     },
     {
         "brenoprata10/nvim-highlight-colors",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = not vim.g.vscode,
     },
     {
-        'windwp/nvim-autopairs',
+        "windwp/nvim-autopairs",
         event = "InsertEnter",
-        config = true
+        config = true,
     },
     {
         "lucaSartore/fastspell.nvim",
         event = { "BufReadPre", "BufNewFile" },
         config = true,
-        build = function ()
-            vim.system({vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh"})
-        end,
+        build = function()
+            vim.system({ vim.fn.stdpath("data") .. "/lazy/fastspell.nvim/lua/scripts/install.sh" })
+        end
     },
     {
         "tpope/vim-sleuth",
-        cmd = "Git",
+        event = "VeryLazy"
     }
 }

@@ -190,7 +190,6 @@ exec nm-applet
 exec dunst
 exec blueman-applet
 exec easyeffects --gapplication-service
-exec aw-qt
 exec flameshot
 exec kanshi
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway

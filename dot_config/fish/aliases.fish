@@ -68,12 +68,6 @@ else
     alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
 end
 
-if type -q nvim
-    alias vi="nvim"
-    alias vim="nvim"
-    alias v="nvim"
-end
-
 function awrit
     kitty sh -c "awrit $argv" 2>/dev/null
 end

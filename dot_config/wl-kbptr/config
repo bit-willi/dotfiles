@@ -1,0 +1,6 @@
+[general]
+modes=split,tile,bisect
+cancellation_status_code=0
+
+[mode_click]
+button=left

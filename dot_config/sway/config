@@ -13,7 +13,7 @@ bindsym $mod+Shift+q kill
 # start run-launcher (a program launcher)
 bindsym $mod+d exec --no-startup-id $HOME/.bin/run-launcher
 bindsym $mod+o exec --no-startup-id $HOME/.bin/run-launcher launcher
-bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
+bindsym $mod+g exec warpd --grid
 
 # change focus
 bindsym $mod+h focus left
@@ -88,12 +88,6 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec if [ $(echo -e "No\nYes" | wofi --dmenu --prompt='Exit Sway?') = "Yes" ]; then swaymsg exit; fi
 
 # scratchpad
 # make the currently focused window a scratchpad
@@ -178,6 +172,7 @@ input * {
 input "type:touchpad" {
     natural_scroll enabled
     tap enabled
+    dwt enabled
 }
 
 exec swayidle -w \

@@ -13,6 +13,7 @@ bindsym $mod+Shift+q kill
 # start run-launcher (a program launcher)
 bindsym $mod+d exec --no-startup-id $HOME/.bin/run-launcher
 bindsym $mod+o exec --no-startup-id $HOME/.bin/run-launcher launcher
+bindsym $mod+g exec --no-startup-id bash -c "warpd --grid"
 
 # change focus
 bindsym $mod+h focus left
@@ -132,37 +133,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# mouse mode (warpd replacement)
-mode "mouse" {
-    # --- Movement ---
-    bindsym h seat seat0 cursor move -20 0
-    bindsym j seat seat0 cursor move 0 20
-    bindsym k seat seat0 cursor move 0 -20
-    bindsym l seat seat0 cursor move 20 0
-
-    # --- Scrolling ---
-    # Using 'e' for up and 'r' for down
-    bindsym e seat seat0 cursor press button4, seat seat0 cursor release button4
-    bindsym r seat seat0 cursor press button5, seat seat0 cursor release button5
-
-    # --- Selection / "V" Mode ---
-    bindsym v seat seat0 cursor press button1
-
-    # --- Standard Buttons ---
-    # Left Click
-    bindsym f seat seat0 cursor press button1; bindsym --release f seat seat0 cursor release button1
-    # Middle Click
-    bindsym d seat seat0 cursor press button2; bindsym --release d seat seat0 cursor release button2
-    # Right Click
-    bindsym s seat seat0 cursor press button3; bindsym --release s seat seat0 cursor release button3
-
-    # Exit
-    bindsym Escape mode default
-    bindsym Return mode default
-}
-
-bindsym $mod+g exec "wl-kbptr-sway-active-win && swaymsg mode mouse"
-
 # pulse
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
@@ -208,7 +178,6 @@ input * {
 input "type:touchpad" {
     natural_scroll enabled
     tap enabled
-    dwt enabled
 }
 
 exec swayidle -w \
@@ -221,7 +190,6 @@ exec nm-applet
 exec dunst
 exec blueman-applet
 exec easyeffects --gapplication-service
-exec aw-qt
 exec flameshot
 exec kanshi
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway

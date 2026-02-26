@@ -16,6 +16,7 @@ fzf
 nmon
 gitmux
 rclone-browser
+warpd-git
 timeshift-autosnap
 librewolf-bin
 librespot-auth
@@ -40,4 +41,3 @@ android-sdk-cmdline-tools-latest
 android-studio
 android-emulator
 opencode
-wl-kbptr

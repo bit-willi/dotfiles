@@ -1,139 +1,103 @@
 #!/usr/bin/env bash
 
 # --- Configuration ---
-WORK_MINS=90
-BREAK_MINS=20
 STATE_FILE="$HOME/.cache/pomodoro.json"
 ICON_WORK="🍅"
 ICON_BREAK="☕"
+ICON_OFF="🌙"
 ICON_PAUSED="⏸️"
 
-# --- DND Functions ---
-enter_work_mode() {
-    pactl set-sink-mute @DEFAULT_SINK@ 1 # Mute volume
-    dunstctl set-paused true            # Pause notifications
-    notify-send -a "Pomodoro" -i "dialog-information" "Work Session" "Time to focus for $WORK_MINS minutes."
-}
+# Your Custom Schedule (HH:MM-HH:MM)
+SCHEDULE=(
+    "08:00-09:30"
+    "09:50-11:20"
+    "12:00-12:30"
+    "13:50-15:20"
+    "15:40-17:10"
+    "17:30-19:00"
+    "19:20-20:00"
+)
 
-enter_break_mode() {
-    pactl set-sink-mute @DEFAULT_SINK@ 0 # Unmute volume
-    dunstctl set-paused false           # Unpause notifications
-    notify-send -a "Pomodoro" -i "dialog-information" "Break Time!" "Take a break for $BREAK_MINS minutes."
-}
+# Ensure state file exists
+if [[ ! -f "$STATE_FILE" ]]; then echo '{"paused": false}' > "$STATE_FILE"; fi
 
-stop() {
-    pactl set-sink-mute @DEFAULT_SINK@ 0 # Unmute volume
-    dunstctl set-paused false           # Unpause notifications
-    notify-send -a "Pomodoro" -i "dialog-information" "Stop Time!" "Timer is stopped!"
-    echo "{}" > "$STATE_FILE"
-}
-
-# --- State Initialization ---
-initialize_state() {
-    enter_work_mode
-    end_time=$(( $(date +%s) + WORK_MINS * 60 ))
-    echo "{\"mode\":\"WORK\", \"end_time\":$end_time}" > "$STATE_FILE"
-}
-
-# --- Click Actions ---
+# --- Actions ---
 case "$1" in
     toggle-pause)
-        if [[ ! -f "$STATE_FILE" ]]; then exit 0; fi
-
-        mode=$(jq -r '.mode' "$STATE_FILE")
-        if [[ "$mode" == "PAUSED" ]]; then
-            # Resume
-            remaining_seconds=$(jq -r '.remaining_seconds' "$STATE_FILE")
-            new_end_time=$(( $(date +%s) + remaining_seconds ))
-            prev_mode=$(jq -r '.prev_mode' "$STATE_FILE")
-            echo "{\"mode\":\"$prev_mode\", \"end_time\":$new_end_time}" > "$STATE_FILE"
+        is_paused=$(jq -r '.paused' "$STATE_FILE")
+        if [[ "$is_paused" == "true" ]]; then
+            echo '{"paused": false}' > "$STATE_FILE"
+            notify-send -a "Pomodoro" "Resumed" "Following schedule..."
         else
-            # Pause
-            end_time=$(jq -r '.end_time' "$STATE_FILE")
-            remaining=$(( end_time - $(date +%s) ))
-            echo "{\"mode\":\"PAUSED\", \"prev_mode\":\"$mode\", \"remaining_seconds\":$remaining}" > "$STATE_FILE"
+            echo '{"paused": true}' > "$STATE_FILE"
+            pactl set-sink-mute @DEFAULT_SINK@ 0
+            dunstctl set-paused false
+            notify-send -a "Pomodoro" "Paused" "DND disabled until un-paused."
         fi
-        exit 0
-        ;;
-    skip)
-        if [[ ! -f "$STATE_FILE" ]]; then exit 0; fi
-
-        mode=$(jq -r '.mode' "$STATE_FILE")
-        if [[ "$mode" == "WORK" ]]; then
-            end_time=$(( $(date +%s) + BREAK_MINS * 60 ))
-            enter_break_mode
-            echo "{\"mode\":\"BREAK\", \"end_time\":$end_time}" > "$STATE_FILE"
-        else
-            end_time=$(( $(date +%s) + WORK_MINS * 60 ))
-            enter_work_mode
-            echo "{\"mode\":\"WORK\", \"end_time\":$end_time}" > "$STATE_FILE"
-        fi
-        exit 0
-        ;;
-    stop)
-        stop
-        exit 0
-        ;;
-    restart)
-        initialize_state
         exit 0
         ;;
 esac
 
-# --- Main Display Logic ---
+# --- Logic ---
+NOW=$(date +%s)
+IS_PAUSED=$(jq -r '.paused' "$STATE_FILE")
+CURRENT_MODE="OFF"
+REMAINING=0
+CLASS="off"
+ICON=$ICON_OFF
 
-# Initialize if state file doesn't exist
-if [[ ! -f "$STATE_FILE" ]]; then
-    initialize_state
-fi
+# Find where we are in the schedule
+for slot in "${SCHEDULE[@]}"; do
+    START_STR=$(echo $slot | cut -d'-' -f1)
+    END_STR=$(echo $slot | cut -d'-' -f2)
+    START_TS=$(date -d "$START_STR" +%s)
+    END_TS=$(date -d "$END_STR" +%s)
 
-# Read current state
-now=$(date +%s)
-mode=$(jq -r '.mode' "$STATE_FILE")
-end_time=$(jq -r '.end_time' "$STATE_FILE")
-remaining_seconds=0
+    if [[ "$NOW" -ge "$START_TS" && "$NOW" -lt "$END_TS" ]]; then
+        CURRENT_MODE="WORK"
+        REMAINING=$(( END_TS - NOW ))
+        ICON=$ICON_WORK
+        CLASS="work"
+        break
+    elif [[ "$NOW" -lt "$START_TS" ]]; then
+        CURRENT_MODE="BREAK"
+        REMAINING=$(( START_TS - NOW ))
+        ICON=$ICON_BREAK
+        CLASS="break"
+        break
+    fi
+done
 
-if [[ "$mode" == "PAUSED" ]]; then
-    remaining_seconds=$(jq -r '.remaining_seconds' "$STATE_FILE")
-    icon=$ICON_PAUSED
-    class="paused"
+# Handle DND and Output
+if [[ "$IS_PAUSED" == "true" ]]; then
+    # When paused, we ignore the DND rules but keep showing the timer
+    ICON=$ICON_PAUSED
+    CLASS="paused"
+    pactl set-sink-mute @DEFAULT_SINK@ 0
+    dunstctl set-paused false
 else
-    remaining_seconds=$(( end_time - now ))
-
-    # Check if timer has expired
-    if [[ "$remaining_seconds" -le 0 ]]; then
-        if [[ "$mode" == "WORK" ]]; then
-            # Switch to Break
-            enter_break_mode
-            end_time=$(( $(date +%s) + BREAK_MINS * 60 ))
-            echo "{\"mode\":\"BREAK\", \"end_time\":$end_time}" > "$STATE_FILE"
-            remaining_seconds=$(( end_time - now ))
-        else
-            # Switch to Work
-            initialize_state
-            end_time=$(jq -r '.end_time' "$STATE_FILE")
-            remaining_seconds=$(( end_time - now ))
-        fi
-    fi
-
-    if [[ "$mode" == "WORK" ]]; then
-        icon=$ICON_WORK
-        class="work"
+    # Apply DND based on mode
+    if [[ "$CURRENT_MODE" == "WORK" ]]; then
+        pactl set-sink-mute @DEFAULT_SINK@ 1
+        dunstctl set-paused true
     else
-        icon=$ICON_BREAK
-        class="break"
+        pactl set-sink-mute @DEFAULT_SINK@ 0
+        dunstctl set-paused false
     fi
 fi
 
-# Format the time
-mins=$(( remaining_seconds / 60 ))
-secs=$(( remaining_seconds % 60 ))
-time_format=$(printf "%02d:%02d" $mins $secs)
+# Format output
+if [[ "$REMAINING" -le 0 ]]; then
+    TEXT="Done $ICON_OFF"
+else
+    MINS=$(( REMAINING / 60 ))
+    SECS=$(( REMAINING % 60 ))
+    TIME_STR=$(printf "%02d:%02d" $MINS $SECS)
+    TEXT="$ICON $TIME_STR"
+fi
 
-# Output JSON for Waybar
 jq -n -c \
-  --arg text "$icon $time_format" \
-  --arg tooltip "Mode: $mode - Time Remaining: $time_format" \
-  --arg class "$class" \
+  --arg text "$TEXT" \
+  --arg tooltip "Status: $CURRENT_MODE (Paused: $IS_PAUSED)" \
+  --arg class "$CLASS" \
   '{"text": $text, "tooltip": $tooltip, "class": $class}'
-

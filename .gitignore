@@ -4,3 +4,5 @@ dot_weechat/private_logs
 __pycache__
 dot_config/pgcli/history
 /.python-version
+poetry.lock
+Brewfile.lock.json

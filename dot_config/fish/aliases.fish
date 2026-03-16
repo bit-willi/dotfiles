@@ -5,18 +5,14 @@ alias pip-all="pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 p
 alias lessf="less +F"
 alias at="tmux a -t main"
 alias cat="bat"
-alias bat="cat"
 alias network="sudo bandwhich"
 alias vhistory="history | peco"
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
 alias shouldideploytoday="curl -s https://shouldideploy.today/api\?tz\=UTC | jq -r '.message'"
-alias at="tmux a -t 0"
 alias bw-export='export BW_SESSION=$(bw unlock | grep "export BW" |  cut -d"=" -f2 | tr -d "\"")'
 alias yz="yazi"
 
-alias i3-brightness-1="xrandr --output eDP-1 --brightness"
-alias i3-brightness-2="xrandr --output HDMI-1 --brightness"
-alias brightness="sudo vim /sys/class/backlight/intel_backlight/brightness" # Defaul 7500
+# X11/i3 aliases removed — using Wayland/sway now
 
 alias map="telnet mapscii.me"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
@@ -34,10 +30,10 @@ alias blog="cd ~/Documents/codes/personal/blog"
 
 alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
-alias dnd-on='pkill -xu $EUID -USR1 dunst'
-alias dnd-off='pkill -xu $EUID -USR2 dunst'
+alias dnd-on='dunstctl set-paused true'
+alias dnd-off='dunstctl set-paused false'
 
-alias single-monitor='xrandr --output eDP-1 --mode 1920x1080 --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
+# single-monitor alias removed — using Wayland/sway now
 
 alias ta='tmux new-session -A -D -s main'
 function mkv2mov

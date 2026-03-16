@@ -103,7 +103,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Ctrl+l exec --no-startup-id $HOME/.bin/lock
 
 # print screen
-bindsym Print exec flameshot gui
+bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -128,9 +128,9 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # pulse
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 bindsym $mod+Shift+x exec ~/.bin/lock
 
@@ -185,7 +185,6 @@ exec nm-applet
 exec dunst
 exec blueman-applet
 exec easyeffects --gapplication-service
-exec flameshot
 exec kanshi
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 

@@ -36,6 +36,17 @@ case "$1" in
         fi
         exit 0
         ;;
+    restart)
+        echo '{"paused": false, "last_mode": "OFF"}' > "$STATE_FILE"
+        notify-send -a "Pomodoro" "Restarted" "State reset. Following schedule..."
+        exit 0
+        ;;
+    skip)
+        current_mode=$(jq -r '.last_mode // "OFF"' "$STATE_FILE")
+        jq --arg mode "$current_mode" '.last_mode = $mode' "$STATE_FILE" > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
+        notify-send -a "Pomodoro" "Skipped" "Advancing to next slot..."
+        exit 0
+        ;;
 esac
 
 # --- Logic ---

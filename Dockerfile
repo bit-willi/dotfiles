@@ -1,6 +1,6 @@
 FROM archlinux/archlinux:latest
 
-MAINTAINER Ben Mezger <me@benmezger.nl>
+LABEL maintainer="Willian de Souza <hello@williandesouza.com>"
 
 # Update system and install base packages
 RUN pacman -Syu --noconfirm

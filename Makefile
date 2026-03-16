@@ -52,7 +52,7 @@ ifeq ($(IS_LINUX),Linux)
 	$(SUDO) sed -i '/en_US.UTF-8$$/s/^#//g' $(LOCALE_GEN_CONF)
 	$(SUDO) locale-gen
 	$(SUDO) /sbin/sysctl kernel.dmesg_restrict=0
-	$(SUDO) cp etc /etc
+	$(SUDO) cp -rT etc/ /etc/
 	echo "kernel.dmesg_restrict=0" | $(SUDO) tee /etc/sysctl.d/99-dmesg.conf
 	echo -e "pcm.!default {\n    type pulse\n}\n\nctl.!default {\n    type pulse\n}" | $(SUDO) tee $(ASOUND_CONF)
 else
@@ -105,7 +105,7 @@ install-pyenv:
 	if [ ! -d "$(HOME)/.pyenv" ]; then \
 		curl https://pyenv.run | bash; \
 		export PATH="$(HOME)/.pyenv/bin:$$PATH"; \
-		for version in 3.10.2 3.8.12 3.9.9 3.11.0; do \
+		for version in 3.11.0 3.12.4 3.13.0; do \
 			CFLAGS="-I/usr/include/openssl" LDFLAGS="-L/usr/lib" pyenv install -s $$version; \
 		done; \
 	fi
@@ -146,7 +146,7 @@ fix-permissions:
 	mkdir -p "$(HOME)/.gnupg"
 	chown -R "$(USER)" "$(HOME)/.gnupg/"
 	chmod 700 "$(HOME)/.gnupg"
-	chmod 755 "$(HOME)/.ssh"
+	chmod 700 "$(HOME)/.ssh"
 	find "$(HOME)/.ssh" -type f -name 'id_*' -exec chmod 600 {} +
 
 # ==============================================================================

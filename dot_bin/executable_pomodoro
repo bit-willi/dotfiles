@@ -19,17 +19,17 @@ SCHEDULE=(
 )
 
 # Ensure state file exists
-if [[ ! -f "$STATE_FILE" ]]; then echo '{"paused": false}' > "$STATE_FILE"; fi
+if [[ ! -f "$STATE_FILE" ]]; then echo '{"paused": false, "last_mode": "OFF"}' > "$STATE_FILE"; fi
 
 # --- Actions ---
 case "$1" in
     toggle-pause)
         is_paused=$(jq -r '.paused' "$STATE_FILE")
         if [[ "$is_paused" == "true" ]]; then
-            echo '{"paused": false}' > "$STATE_FILE"
+            jq '.paused = false' "$STATE_FILE" > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
             notify-send -a "Pomodoro" "Resumed" "Following schedule..."
         else
-            echo '{"paused": true}' > "$STATE_FILE"
+            jq '.paused = true' "$STATE_FILE" > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
             pactl set-sink-mute @DEFAULT_SINK@ 0
             dunstctl set-paused false
             notify-send -a "Pomodoro" "Paused" "DND disabled until un-paused."
@@ -68,23 +68,33 @@ for slot in "${SCHEDULE[@]}"; do
     fi
 done
 
+# Track mode transitions (only act on change, not every tick)
+LAST_MODE=$(jq -r '.last_mode // "OFF"' "$STATE_FILE")
+
 # Handle DND and Output
 if [[ "$IS_PAUSED" == "true" ]]; then
     # When paused, we ignore the DND rules but keep showing the timer
     ICON=$ICON_PAUSED
     CLASS="paused"
-    pactl set-sink-mute @DEFAULT_SINK@ 0
-    dunstctl set-paused false
+    # Don't touch audio/notifications — user has full control
 else
-    # Apply DND based on mode
     if [[ "$CURRENT_MODE" == "WORK" ]]; then
+        # During work: enforce DND every tick (always muted)
         pactl set-sink-mute @DEFAULT_SINK@ 1
         dunstctl set-paused true
-    else
+    elif [[ "$LAST_MODE" == "WORK" && "$CURRENT_MODE" != "WORK" ]]; then
+        # Transition WORK→BREAK/OFF: unmute once, then hands off
         pactl set-sink-mute @DEFAULT_SINK@ 0
         dunstctl set-paused false
     fi
+    # During BREAK/OFF (not transitioning): don't touch mute — user controls it
 fi
+
+# Persist current mode for transition detection
+jq -n -c \
+  --argjson paused "$(jq '.paused' "$STATE_FILE")" \
+  --arg last_mode "$CURRENT_MODE" \
+  '{"paused": $paused, "last_mode": $last_mode}' > "$STATE_FILE"
 
 # Format output
 if [[ "$REMAINING" -le 0 ]]; then

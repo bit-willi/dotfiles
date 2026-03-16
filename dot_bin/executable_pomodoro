@@ -101,11 +101,9 @@ else
     # During BREAK/OFF (not transitioning): don't touch mute — user controls it
 fi
 
-# Persist current mode for transition detection
-jq -n -c \
-  --argjson paused "$(jq '.paused' "$STATE_FILE")" \
-  --arg last_mode "$CURRENT_MODE" \
-  '{"paused": $paused, "last_mode": $last_mode}' > "$STATE_FILE"
+# Persist current mode for transition detection (atomic write to avoid race condition)
+jq -c --arg last_mode "$CURRENT_MODE" '.last_mode = $last_mode' "$STATE_FILE" > "$STATE_FILE.tmp" \
+  && mv "$STATE_FILE.tmp" "$STATE_FILE"
 
 # Format output
 if [[ "$REMAINING" -le 0 ]]; then

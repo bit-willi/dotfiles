@@ -42,6 +42,12 @@ function mkv2mov
     ffmpeg -i "$input" -c:v mpeg4 -qscale:v 2 -c:a pcm_s16le "$output"
 end
 
+function ogg2mp2
+    set input "$argv[1]"
+    set output (string replace -r '\.ogg$' '.mp3' -- "$input")
+    ffmpeg -i "$input" -acodec libmp3lame "$output"
+end
+
 # if eza exist, alias to ls
 if type -q eza
     alias ls='eza'

@@ -9,10 +9,12 @@ export CHROME_EXECUTABLE=/usr/bin/chromium
 export PATH="$PATH":"$HOME/.pub-cache/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator"
 
 # Env Secrets
-source $HOME/.env-secrets
+test -r $HOME/.env-secrets; and source $HOME/.env-secrets
 
 #Pyenv
-set -x PYENV_ROOT $HOME/.pyenv
-set -x fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-status --is-interactive; and pyenv init - | source
-status --is-interactive; and pyenv virtualenv-init - | source
+if command -q pyenv
+    set -x PYENV_ROOT $HOME/.pyenv
+    set -x fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+    status --is-interactive; and pyenv init - | source
+    status --is-interactive; and pyenv virtualenv-init - | source
+end

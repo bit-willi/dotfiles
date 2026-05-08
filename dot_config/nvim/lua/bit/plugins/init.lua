@@ -45,7 +45,9 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPre", "BufNewFile" },
+        branch = "master",
+        lazy = false,
+        build = ":TSUpdate",
         enabled = not vim.g.vscode,
     },
     {
@@ -110,8 +112,14 @@ return {
         enabled = not vim.g.vscode,
     },
     {
+        "vhyrro/luarocks.nvim",
+        priority = 1000,
+        config = true,
+        enabled = not vim.g.vscode,
+    },
+    {
         "3rd/image.nvim",
-        dependencies = { "luarocks.nvim" },
+        dependencies = { "vhyrro/luarocks.nvim" },
         config = true,
         enabled = not vim.g.vscode,
     },

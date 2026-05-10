@@ -120,7 +120,11 @@ return {
     {
         "3rd/image.nvim",
         dependencies = { "vhyrro/luarocks.nvim" },
-        config = true,
+        opts = {
+            integrations = {
+                markdown = { enabled = false },
+            },
+        },
         enabled = not vim.g.vscode,
     },
     {

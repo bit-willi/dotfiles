@@ -13,7 +13,7 @@ if not vim.g.vscode then
         },
         auto_install = false,
         highlight = { enable = true },
-        indent = { enable = true },
+        indent = { enable = true, disable = { "php" } },
         incremental_selection = {
             enable = true,
             keymaps = {

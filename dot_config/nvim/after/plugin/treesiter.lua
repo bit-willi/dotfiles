@@ -12,7 +12,7 @@ if not vim.g.vscode then
             "lua",
         },
         auto_install = false,
-        highlight = { enable = true },
+        highlight = { enable = true, disable = { "php" } },
         indent = { enable = true, disable = { "php" } },
         incremental_selection = {
             enable = true,

@@ -1,20 +1,22 @@
 vim.g.loaded_matchparen = 1
 
--- Cursor shape via DCS tmux passthrough — bypasses terminfo Ss/Se entirely.
--- Sends DECSCUSR 2 (block) for normal, 6 (beam) for insert.
-if os.getenv("TMUX") then
-  vim.cmd([[
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
-  ]])
-else
-  vim.cmd([[
-    let &t_SI = "\<Esc>[6 q"
-    let &t_EI = "\<Esc>[2 q"
-    let &t_SR = "\<Esc>[4 q"
-  ]])
+-- Cursor shape via direct terminal I/O.
+-- neovim ignores t_SI/t_EI; must write DECSCUSR sequences directly.
+-- Inside tmux: wrap in DCS passthrough so tmux forwards to xterm.js.
+local function write_cursor(decscusr_n)
+  local seq
+  if os.getenv("TMUX") then
+    seq = string.format("\x1bPtmux;\x1b\x1b[%d q\x1b\\", decscusr_n)
+  else
+    seq = string.format("\x1b[%d q", decscusr_n)
+  end
+  io.write(seq)
+  io.flush()
 end
+
+vim.api.nvim_create_autocmd("InsertEnter",              { callback = function() write_cursor(6) end })
+vim.api.nvim_create_autocmd({ "InsertLeave", "VimEnter" }, { callback = function() write_cursor(2) end })
+vim.api.nvim_create_autocmd("VimLeave",                 { callback = function() write_cursor(2) end })
 
 local opt = vim.opt
 

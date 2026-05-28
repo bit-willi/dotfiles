@@ -1,5 +1,21 @@
 vim.g.loaded_matchparen = 1
 
+-- Cursor shape via DCS tmux passthrough — bypasses terminfo Ss/Se entirely.
+-- Sends DECSCUSR 2 (block) for normal, 6 (beam) for insert.
+if os.getenv("TMUX") then
+  vim.cmd([[
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
+  ]])
+else
+  vim.cmd([[
+    let &t_SI = "\<Esc>[6 q"
+    let &t_EI = "\<Esc>[2 q"
+    let &t_SR = "\<Esc>[4 q"
+  ]])
+end
+
 local opt = vim.opt
 
 -- Ignore compiled files
@@ -42,8 +58,8 @@ local set_cursorline = function(event, value, pattern)
     end,
   })
 end
-set_cursorline("WinLeave", false)
-set_cursorline("WinEnter", true)
+--set_cursorline("WinLeave", false)
+--set_cursorline("WinEnter", true)
 set_cursorline("FileType", false, "TelescopePrompt")
 
 -- Tabs

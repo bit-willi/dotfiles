@@ -1,27 +1,33 @@
 vim.g.loaded_matchparen = 1
 
--- Cursor shape via direct terminal I/O.
--- neovim ignores t_SI/t_EI; must write DECSCUSR sequences directly.
--- Inside tmux: wrap in DCS passthrough so tmux forwards to xterm.js.
-local in_tmux = os.getenv("TMUX") ~= nil
-
-local function wrap(seq)
-  if in_tmux then
-    return string.format("\x1bPtmux;\x1b%s\x1b\\", seq)
-  end
-  return seq
-end
-
+-- Cursor shape: write DECSCUSR directly to /dev/tty (bypasses io buffering).
+-- ModeChanged covers all transitions (normal/insert/visual/command/replace).
 local function write_cursor(decscusr_n)
-  -- shape + ensure cursor is visible (\E[?25h)
-  io.write(wrap(string.format("\x1b[%d q", decscusr_n)))
-  io.write(wrap("\x1b[?25h"))
-  io.flush()
+  local tty = io.open("/dev/tty", "w")
+  if not tty then return end
+  tty:write(string.format("\x1b[%d q\x1b[?25h", decscusr_n))
+  tty:flush()
+  tty:close()
 end
 
-vim.api.nvim_create_autocmd("InsertEnter",                 { callback = function() write_cursor(6) end })
-vim.api.nvim_create_autocmd({ "InsertLeave", "VimEnter" }, { callback = function() write_cursor(2) end })
-vim.api.nvim_create_autocmd("VimLeave",                    { callback = function() write_cursor(2) end })
+vim.api.nvim_create_autocmd({ "VimEnter", "VimResume" }, {
+  callback = function() write_cursor(2) end,
+})
+vim.api.nvim_create_autocmd("ModeChanged", {
+  callback = function()
+    local m = vim.fn.mode()
+    if m == "i" or m == "ic" or m == "ix" then
+      write_cursor(6)  -- beam
+    elseif m == "R" or m == "Rc" or m == "Rx" then
+      write_cursor(4)  -- underline
+    else
+      write_cursor(2)  -- block (normal, visual, command, etc.)
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("VimLeave", {
+  callback = function() write_cursor(2) end,
+})
 
 local opt = vim.opt
 

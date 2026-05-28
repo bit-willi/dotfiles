@@ -129,9 +129,9 @@ bindsym $mod+r mode "resize"
 
 # passthrough mode — jarvis-ui / VM-like: sway stops intercepting shortcuts
 mode "passthrough" {
-    bindsym $mod+Escape mode "default"
+    bindsym $mod+F15 mode "default"
 }
-bindsym $mod+Escape mode "passthrough"
+bindsym $mod+F15 mode "passthrough"
 
 # pulse
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%

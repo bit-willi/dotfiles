@@ -3,20 +3,25 @@ vim.g.loaded_matchparen = 1
 -- Cursor shape via direct terminal I/O.
 -- neovim ignores t_SI/t_EI; must write DECSCUSR sequences directly.
 -- Inside tmux: wrap in DCS passthrough so tmux forwards to xterm.js.
-local function write_cursor(decscusr_n)
-  local seq
-  if os.getenv("TMUX") then
-    seq = string.format("\x1bPtmux;\x1b\x1b[%d q\x1b\\", decscusr_n)
-  else
-    seq = string.format("\x1b[%d q", decscusr_n)
+local in_tmux = os.getenv("TMUX") ~= nil
+
+local function wrap(seq)
+  if in_tmux then
+    return string.format("\x1bPtmux;\x1b%s\x1b\\", seq)
   end
-  io.write(seq)
+  return seq
+end
+
+local function write_cursor(decscusr_n)
+  -- shape + ensure cursor is visible (\E[?25h)
+  io.write(wrap(string.format("\x1b[%d q", decscusr_n)))
+  io.write(wrap("\x1b[?25h"))
   io.flush()
 end
 
-vim.api.nvim_create_autocmd("InsertEnter",              { callback = function() write_cursor(6) end })
+vim.api.nvim_create_autocmd("InsertEnter",                 { callback = function() write_cursor(6) end })
 vim.api.nvim_create_autocmd({ "InsertLeave", "VimEnter" }, { callback = function() write_cursor(2) end })
-vim.api.nvim_create_autocmd("VimLeave",                 { callback = function() write_cursor(2) end })
+vim.api.nvim_create_autocmd("VimLeave",                    { callback = function() write_cursor(2) end })
 
 local opt = vim.opt
 

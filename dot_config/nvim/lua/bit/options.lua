@@ -1,34 +1,5 @@
 vim.g.loaded_matchparen = 1
 
--- Cursor shape: write DECSCUSR directly to /dev/tty (bypasses io buffering).
--- ModeChanged covers all transitions (normal/insert/visual/command/replace).
-local function write_cursor(decscusr_n)
-  local tty = io.open("/dev/tty", "w")
-  if not tty then return end
-  tty:write(string.format("\x1b[%d q\x1b[?25h", decscusr_n))
-  tty:flush()
-  tty:close()
-end
-
-vim.api.nvim_create_autocmd({ "VimEnter", "VimResume" }, {
-  callback = function() write_cursor(2) end,
-})
-vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function()
-    local m = vim.fn.mode()
-    if m == "i" or m == "ic" or m == "ix" then
-      write_cursor(6)  -- beam
-    elseif m == "R" or m == "Rc" or m == "Rx" then
-      write_cursor(4)  -- underline
-    else
-      write_cursor(2)  -- block (normal, visual, command, etc.)
-    end
-  end,
-})
-vim.api.nvim_create_autocmd("VimLeave", {
-  callback = function() write_cursor(2) end,
-})
-
 local opt = vim.opt
 
 -- Ignore compiled files
@@ -71,8 +42,8 @@ local set_cursorline = function(event, value, pattern)
     end,
   })
 end
---set_cursorline("WinLeave", false)
---set_cursorline("WinEnter", true)
+set_cursorline("WinLeave", false)
+set_cursorline("WinEnter", true)
 set_cursorline("FileType", false, "TelescopePrompt")
 
 -- Tabs

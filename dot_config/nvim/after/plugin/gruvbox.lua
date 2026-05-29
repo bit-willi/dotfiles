@@ -19,7 +19,9 @@ if not vim.g.vscode then
         inverse = true, -- invert background for search, diffs, statuslines and errors
         contrast = "", -- can be "hard", "soft" or empty string
         palette_overrides = {},
-        overrides = {},
+        overrides = {
+            Cursor = { fg = '#282828', bg = '#ebdbb2' },
+        },
         dim_inactive = false,
         transparent_mode = true,
     };

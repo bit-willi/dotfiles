@@ -143,6 +143,9 @@ bindsym $mod+Shift+x exec ~/.bin/lock
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
 
+# Wallpaper
+output * bg $HOME/pictures/wallpaper/FOCUS.png fill
+
 # Set gruvbox colorscheme
 set $bg #000000
 set $red #cc241d

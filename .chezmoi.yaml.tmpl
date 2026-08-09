@@ -1,5 +1,8 @@
 {{- $name := "Willian de Souza" -}}
-{{- $email := "me@bitwilli.com" -}}
+{{- /* Public address only. This repo is public, so the private address must
+       never be hardcoded here -- override it per machine with CHEZMOI_EMAIL,
+       which the generated ~/.config/chezmoi/chezmoi.yaml keeps out of git. */ -}}
+{{- $email := default "hello@williandesouza.com" (env "CHEZMOI_EMAIL") -}}
 {{- $hostname := "bit" -}}
 {{- $gpg_keyid := "0x7357E344D6C3C795" -}}
 {{- $github_user := "bit-willi" -}}

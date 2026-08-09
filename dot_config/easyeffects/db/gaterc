@@ -1,0 +1,7 @@
+[sie][Gate#0]
+attack=5
+curveThreshold=-50
+curveZone=-3
+reduction=-15
+release=150
+sidechainMode=1

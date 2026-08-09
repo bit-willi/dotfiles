@@ -1,0 +1,15 @@
+[sie][Equalizer#0#left]
+band0Frequency=75
+band0Slope=1
+band0Type=2
+band23Gain=1.5
+band24Gain=1.5
+band3Gain=0.27
+
+[sie][Equalizer#0#right]
+band0Frequency=75
+band0Slope=1
+band0Type=2
+band23Gain=1.5
+band24Gain=1.5
+band3Gain=0.27

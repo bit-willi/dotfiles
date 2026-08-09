@@ -1,5 +1,5 @@
 {{- $name := "Willian de Souza" -}}
-{{- $gmail_email := "hello@williandesouza.com" -}}
+{{- $email := "me@bitwilli.com" -}}
 {{- $hostname := "bit" -}}
 {{- $gpg_keyid := "0x7357E344D6C3C795" -}}
 {{- $github_user := "bit-willi" -}}
@@ -8,17 +8,27 @@
 sourceDir: {{ .chezmoi.sourceDir }}
 
 data:
+  # Profile flags. .chezmoiignore branches on minimal, workconf and secrets,
+  # so dropping any of them silently changes which files are managed --
+  # including whether the secret templates are ignored.
+  minimal: false
+  secrets: true
+  headless: false
+  workconf: false
+
   username: "{{ env "USER" }}"
   hostname: {{ $hostname }}
   gpg_keyid: {{ $gpg_keyid }}
   github_user: {{ $github_user }}
   maildir: {{ joinPath (printf "%v" .chezmoi.homeDir) $maildir }}
   name: {{ $name }}
-  email: {{ $gmail_email }}
+  email: {{ $email }}
   bitwarden:
     i3rs: 1e298379-8595-4282-9506-b02301736669
+    wakatime_api: af7eba11-909c-4425-9ed4-b02300eb8c75
     google_app_key: 4fe4883c-f664-4a86-9d96-b188012ac263
     google: e1e8dc22-20be-4f8d-b8f3-b2ad013dc977
+    personal_mail: eb9dee5e-a16b-42f7-9c33-b12300b1ab74
     gmail_mail: 7fdda3df-2ac1-43e2-a517-acd30009beb6
     work_mail: eb9dee5e-a16b-42f7-9c33-b12300b1ab74
     ssh_pub: 75f7a883-6d56-453d-8678-b02300bacf9e
@@ -26,9 +36,16 @@ data:
     srv_credentials: bbd5f49b-aa99-4c66-a08e-b24f01562648
     ssh: eb36407d-787d-4266-9b97-acc3014f98a3
     pgp_priv: 12fd17c3-9a82-45f6-968c-b023017d97d0
+    lastfm: c9a4cb98-f7b5-46ea-bef9-acb500c08fff
+    weechat_passphrase: 1e298379-8595-4282-9506-b02301736669
     github_repo_token: f52b5149-5545-4061-9949-b02300edd975
+    codestats_api_key_osx: 4be111e5-875c-4e73-8787-ad380047ac21
+    codestats_api_key_linux: af7eba11-909c-4425-9ed4-b02300eb8c75
     ngrok: d64af208-3b13-4630-b71f-b02301817892
     ssh_config: caca3cd5-b869-4bc2-a7e9-b02000052afe
     googleapi: 81035666-62e2-4c4c-af25-b0680016e27d
+    liberachat: 1e298379-8595-4282-9506-b02301736669
+    redshift: da49ff0d-3984-4d07-86ba-b08e0166812b
+    elevensoft: 5eef454b-706e-4347-b4c2-b0d70175769d
     spotify: d183c021-ce3f-4fbd-bb5d-b19b013beda5
     nvim: fbb840de-603d-4354-b648-b20600e0b718

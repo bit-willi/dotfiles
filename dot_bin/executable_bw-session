@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Print a Bitwarden session key that actually works, unlocking if needed.
+#
+# ~/.env-secrets persists BW_SESSION so it is set before chezmoi runs, and
+# every shell sources it. Once that key expires the exported value is worse
+# than no value at all: `bw` sees a non-empty BW_SESSION, tries to decrypt the
+# vault with it, and fails with
+#
+#     error=The decryption operation failed
+#     The provided key is not the expected type
+#
+# instead of prompting to unlock. Every `bitwarden` template call then fails
+# and `chezmoi apply` aborts before writing anything -- so the stale key is
+# never replaced and the vault stays locked forever.
+#
+# Usage:
+#     export BW_SESSION="$(bw-session)"
+
+set -euo pipefail
+
+if [ -n "${BW_SESSION:-}" ] &&
+	bw status 2>/dev/null | grep -q '"status":"unlocked"'; then
+	printf '%s' "$BW_SESSION"
+	exit 0
+fi
+
+# Drop the dead key first, otherwise `bw unlock` inherits it and errors out
+# rather than prompting.
+unset BW_SESSION
+
+session="$(bw unlock --raw)"
+BW_SESSION="$session" bw sync >/dev/null
+printf '%s' "$session"

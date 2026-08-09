@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Apply the chezmoi state with a session key that is guaranteed to decrypt.
+#
+# Use this instead of a bare `chezmoi apply`: the secret templates all call
+# `bitwarden`, so a locked or stale vault aborts the whole run. See bw-session.
+
+set -euo pipefail
+
+BW_SESSION="$("$(dirname "$(readlink -f "$0")")/bw-session")"
+export BW_SESSION
+
+exec chezmoi apply "$@"

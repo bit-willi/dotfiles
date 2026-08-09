@@ -29,6 +29,16 @@ fi
 # rather than prompting.
 unset BW_SESSION
 
-session="$(bw unlock --raw)"
+# The CLI can also lose the local vault outright -- a crash mid-write leaves
+# data.json truncated and the status drops to "unauthenticated", where
+# `bw unlock` cannot help. Nothing is lost, the server holds the vault, but it
+# has to be logged into again before a session key exists to unlock.
+if bw status 2>/dev/null | grep -q '"status":"unauthenticated"'; then
+	echo "bw: local vault is gone, logging in again" >&2
+	session="$(bw login --raw)"
+else
+	session="$(bw unlock --raw)"
+fi
+
 BW_SESSION="$session" bw sync >/dev/null
 printf '%s' "$session"

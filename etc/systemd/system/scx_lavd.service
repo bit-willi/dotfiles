@@ -1,0 +1,16 @@
+[Unit]
+Description=sched_ext scheduler (scx_lavd)
+Documentation=https://github.com/sched-ext/scx
+After=multi-user.target
+
+[Service]
+Type=simple
+# --autopower follows the power source: performance profile on AC, powersave
+# on battery. Swap for --performance to pin the AC behaviour everywhere.
+ExecStart=/usr/bin/scx_lavd --autopower
+Restart=on-failure
+RestartSec=3
+Nice=-20
+
+[Install]
+WantedBy=multi-user.target

@@ -30,7 +30,7 @@ IS_LINUX := $(filter Linux, $(HOST_OS))
 # ==============================================================================
 
 .PHONY: all
-all: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs apply
+all: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs enable-system-services apply
 
 # ==============================================================================
 # System Configuration
@@ -139,6 +139,14 @@ enable-user-services:
 enable-grub-btrfs:
 	@echo "### Enabling GRUB BTRFS Service ###"
 	$(SUDO) systemctl enable --now grub-btrfsd
+
+.PHONY: enable-system-services
+enable-system-services:
+	@echo "### Enabling System Services ###"
+	$(SUDO) systemctl daemon-reload
+	$(SUDO) systemctl enable --now scx_lavd.service
+	$(SUDO) systemctl restart systemd-oomd.service
+	$(SUDO) systemctl enable --now btrfs-scrub@-.timer
 
 .PHONY: fix-permissions
 fix-permissions:

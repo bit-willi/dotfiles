@@ -237,6 +237,8 @@ mesa-utils
 libva-utils
 thermald
 ttf-firacode-nerd
+ttf-jetbrains-mono-nerd
+inter-font
 firejail
 emacs
 docker-compose
@@ -251,10 +253,12 @@ ethtool
 smartmontools
 mkcert
 zram-generator
+scx-scheds
 mise
 usage
 sway
 swaylock
+swayidle
 waybar
 wl-clipboard
 xorg-xwayland

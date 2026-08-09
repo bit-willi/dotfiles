@@ -30,7 +30,7 @@ IS_LINUX := $(filter Linux, $(HOST_OS))
 # ==============================================================================
 
 .PHONY: all
-all: install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs enable-system-services apply
+all: check-packages install-required-dependencies configure-linux install-extra-dependencies install-pyenv install-git-dependencies install-windevine-ungoogled-chromium enable-user-services enable-grub-btrfs enable-system-services apply
 
 # ==============================================================================
 # System Configuration
@@ -62,6 +62,11 @@ endif
 # ==============================================================================
 # Dependency Installation
 # ==============================================================================
+
+.PHONY: check-packages
+check-packages:
+	@echo "### Checking Package Lists ###"
+	./scripts/check_packages.sh
 
 .PHONY: install-required-dependencies
 install-required-dependencies:

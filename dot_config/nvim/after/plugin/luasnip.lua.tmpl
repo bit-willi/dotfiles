@@ -214,5 +214,5 @@ if not vim.g.vscode then
             ls.change_choice(1)
         end
     end, {silent = true})
-    vim.keymap.set("n", "<leader><leader>s", "<cmd>source /home/{{ .username }}/.config/nvim/after/plugin/luasnip.lua<CR>")
+    vim.keymap.set("n", "<leader><leader>s", "<cmd>source {{ .chezmoi.homeDir }}/.config/nvim/after/plugin/luasnip.lua<CR>")
 end

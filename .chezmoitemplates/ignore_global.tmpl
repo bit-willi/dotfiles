@@ -28,6 +28,21 @@ projectile
 resources
 notes.org
 
+# Repo tooling and system files, not home-directory targets. Everything in the
+# source root maps to $HOME, so without these chezmoi creates ~/etc,
+# ~/pyproject.toml and ~/Library. etc/ reaches /etc through the Makefile's
+# `cp -rT etc/ /etc/`, not through chezmoi.
+etc/
+pyproject.toml
+Library/
+
+# Runtime state written by nvim, not configuration.
+.nvim.color
+
+# EasyEffects writes its settings through a temp file with a random suffix;
+# only the real db entries should be tracked.
+.config/easyeffects/db/easyeffectsrc.*
+
 # hugo
 docs/
 .content/

@@ -65,6 +65,10 @@ window#waybar {
     color: #ebdbb2;
 }
 
+#custom-pomodoro.work {
+    /* No special color for work, or choose one e.g. background-color: #458588; */
+}
+
 #custom-pomodoro.break {
     background-color: #8ec07c; /* Gruvbox Green */
     color: #282828;

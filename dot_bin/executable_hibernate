@@ -29,3 +29,4 @@ wait "$swaylock_pid"
 # Manually run the post-lock actions
 pactl set-sink-mute @DEFAULT_SINK@ toggle
 pkill -xu "$EUID" -USR2 dunst
+

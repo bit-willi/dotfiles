@@ -45,3 +45,6 @@
     foreground = "#fb4934"
     timeout = 0
 
+[pomodoro_sound]
+    appname = "Pomodoro"
+    script = paplay /usr/share/sounds/freedesktop/stereo/complete.oga

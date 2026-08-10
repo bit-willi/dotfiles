@@ -4,7 +4,7 @@ x-scheme-handler/http=librewolf.desktop
 x-scheme-handler/https=librewolf.desktop
 x-scheme-handler/about=librewolf.desktop
 x-scheme-handler/unknown=librewolf.desktop
-x-scheme-handler/mailto=google-chrome.desktop
+x-scheme-handler/mailto=Mailspring.desktop
 x-scheme-handler/webcal=librewolf.desktop
 application/pdf=org.pwmt.zathura.desktop
 application/pdf=org.pwmt.zathura.desktop
@@ -30,6 +30,10 @@ text/x-bibtex=nvim.desktop
 image/jpeg=org.gnome.eog.desktop
 image/png=org.gnome.eog.desktop
 application/x-zerosize=nvim.desktop
+x-scheme-handler/readest=readest-handler.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/mailspring=Mailspring.desktop
+x-scheme-handler/slack=slack.desktop
 
 [Added Associations]
 image/jpeg=org.gnome.eog.desktop;

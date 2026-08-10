@@ -11,11 +11,10 @@ ICON_PAUSED="⏸️"
 SCHEDULE=(
     "08:00-09:30"
     "09:50-11:20"
-    "12:00-13:30"
+    "12:35-13:40"
     "13:50-15:20"
     "15:40-17:10"
     "17:30-19:00"
-    "19:20-20:00"
 )
 
 # Ensure state file exists
@@ -30,7 +29,7 @@ case "$1" in
             notify-send -a "Pomodoro" "Resumed" "Following schedule..."
         else
             jq '.paused = true' "$STATE_FILE" > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
-            pactl set-sink-mute @DEFAULT_SINK@ 0
+            #pactl set-sink-mute @DEFAULT_SINK@ 0
             dunstctl set-paused false
             notify-send -a "Pomodoro" "Paused" "DND disabled until un-paused."
         fi
@@ -91,11 +90,11 @@ if [[ "$IS_PAUSED" == "true" ]]; then
 else
     if [[ "$CURRENT_MODE" == "WORK" ]]; then
         # During work: enforce DND every tick (always muted)
-        pactl set-sink-mute @DEFAULT_SINK@ 1
+        #pactl set-sink-mute @DEFAULT_SINK@ 1
         dunstctl set-paused true
     elif [[ "$LAST_MODE" == "WORK" && "$CURRENT_MODE" != "WORK" ]]; then
         # Transition WORK→BREAK/OFF: unmute once, then hands off
-        pactl set-sink-mute @DEFAULT_SINK@ 0
+        #pactl set-sink-mute @DEFAULT_SINK@ 0
         dunstctl set-paused false
     fi
     # During BREAK/OFF (not transitioning): don't touch mute — user controls it
@@ -120,3 +119,4 @@ jq -n -c \
   --arg tooltip "Status: $CURRENT_MODE (Paused: $IS_PAUSED)" \
   --arg class "$CLASS" \
   '{"text": $text, "tooltip": $tooltip, "class": $class}'
+

@@ -959,6 +959,10 @@
   :init
   (add-to-list 'major-mode-remap-alist '(php-mode . php-ts-mode)))
 
+;;; Teleprompter
+(use-package teleprompter
+  :ensure t)
+
 ;;; UTILITARY FUNCTION TO INSTALL EMACS-KICK
 (defun ek/first-install ()
   "Install tree-sitter grammars and compile packages on first run..."

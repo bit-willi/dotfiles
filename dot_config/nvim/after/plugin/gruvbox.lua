@@ -19,11 +19,9 @@ if not vim.g.vscode then
         inverse = true, -- invert background for search, diffs, statuslines and errors
         contrast = "", -- can be "hard", "soft" or empty string
         palette_overrides = {},
-        overrides = {
-            Cursor = { fg = '#282828', bg = '#ebdbb2' },
-        },
+        overrides = {},
         dim_inactive = false,
-        transparent_mode = true,
+        --transparent_mode = true,
     };
 
     require("gruvbox").setup(setup)

@@ -152,6 +152,9 @@ enable-system-services:
 	$(SUDO) systemctl enable --now scx_lavd.service
 	$(SUDO) systemctl restart systemd-oomd.service
 	$(SUDO) systemctl enable --now btrfs-scrub@-.timer
+	# timeshift schedules through /etc/cron.d/timeshift-hourly, so without a
+	# cron daemon its scheduled snapshots never run at all.
+	$(SUDO) systemctl enable --now cronie.service
 
 .PHONY: fix-permissions
 fix-permissions:

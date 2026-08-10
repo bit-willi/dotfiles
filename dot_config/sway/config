@@ -103,7 +103,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Ctrl+l exec --no-startup-id $HOME/.bin/lock
 
 # print screen
-bindsym Print exec grim -g "$(slurp)" - | wl-copy
+bindsym Print exec gradia --screenshot=INTERACTIVE
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -194,8 +194,11 @@ exec nm-applet
 exec dunst
 exec blueman-applet
 exec easyeffects --gapplication-service
+exec aw-qt
 exec kanshi
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# awatcher needs the sway socket, so it only works once the session is up
+exec systemctl --user restart aw-awatcher
 
 # Activate smart borders (always)
 smart_gaps on
@@ -208,6 +211,10 @@ for_window [window_role="task_dialog"] floating enable
 
 # Fibonacci layout
 for_window [class=".*"] split toggle
+
+# warpd draws its own grid overlay; letting sway tile or focus it breaks it
+for_window [app_id="warpd"] floating enable, sticky enable, focus_setting_priority low
+no_focus [app_id="warpd"]
 
 bar {
     swaybar_command waybar

@@ -1,0 +1,20 @@
+# Make libinput treat keyd's virtual keyboard as internal.
+#
+# libinput only pairs disable-while-typing with a keyboard it considers
+# internal. keyd grabs the real internal keyboard (AT Translated Set 2, bus
+# 0x0011 i8042) and re-emits every keystroke through a uinput device that
+# reports bus 0x0003 (USB), which libinput classifies as external. The result
+# is that dwt reads as "enabled" while never firing: it is armed against a
+# device that no longer sends events, and the events that do arrive come from
+# one it ignores.
+#
+# Marking the virtual keyboard internal restores the pairing, so the touchpad
+# is suppressed while typing again.
+#
+# Verify with:  libinput quirks list /dev/input/eventN
+# (find N with: grep -l 'keyd virtual keyboard' /sys/class/input/event*/device/name)
+
+[keyd virtual keyboard]
+MatchName=keyd virtual keyboard
+MatchUdevType=keyboard
+AttrKeyboardIntegration=internal

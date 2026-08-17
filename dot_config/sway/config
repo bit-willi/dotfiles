@@ -13,7 +13,7 @@ bindsym $mod+Shift+q kill
 # start run-launcher (a program launcher)
 bindsym $mod+d exec --no-startup-id $HOME/.bin/run-launcher
 bindsym $mod+o exec --no-startup-id $HOME/.bin/run-launcher launcher
-bindsym $mod+g exec warpd --grid
+bindsym $mod+g exec neru recursive_grid
 
 # change focus
 bindsym $mod+h focus left
@@ -144,7 +144,7 @@ bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
 
 # Wallpaper
-output * bg $HOME/pictures/wallpaper/FOCUS.png fill
+output * bg $HOME/pictures/wallpaper/flowstate.png fill
 
 # Set gruvbox colorscheme
 set $bg #000000
@@ -196,7 +196,8 @@ exec blueman-applet
 exec easyeffects --gapplication-service
 exec aw-qt
 exec kanshi
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always systemctl --user restart neru.service
 # awatcher needs the sway socket, so it only works once the session is up
 exec systemctl --user restart aw-awatcher
 
@@ -212,9 +213,6 @@ for_window [window_role="task_dialog"] floating enable
 # Fibonacci layout
 for_window [class=".*"] split toggle
 
-# warpd draws its own grid overlay; letting sway tile or focus it breaks it
-for_window [app_id="warpd"] floating enable, sticky enable, focus_setting_priority low
-no_focus [app_id="warpd"]
 
 bar {
     swaybar_command waybar

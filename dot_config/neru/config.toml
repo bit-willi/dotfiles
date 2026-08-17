@@ -1,0 +1,9 @@
+# Neru overrides for a recursive quadrant workflow.
+[recursive_grid]
+grid_cols = 2
+grid_rows = 2
+keys = "uijk"
+max_depth = 10
+
+[monitor_select]
+enabled = true

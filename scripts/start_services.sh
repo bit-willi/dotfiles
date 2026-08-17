@@ -57,6 +57,12 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	systemctl --user enable greenclip.service
 	systemctl --user restart greenclip.service
 
+	if command -v neru >/dev/null 2>&1; then
+		ansi --green "Setting up Neru"
+		systemctl --user enable neru.service
+		systemctl --user restart neru.service
+	fi
+
 	ansi --green "Setting up battery notifier"
 	systemctl --user enable battery-notifier.timer
 	systemctl --user restart battery-notifier.timer

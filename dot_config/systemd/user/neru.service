@@ -1,0 +1,13 @@
+[Unit]
+Description=Neru keyboard navigation daemon
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/neru launch
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

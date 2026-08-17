@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Launch Neru's recursive grid on Sway's focused output.
+set -euo pipefail
+
+if ! output_name="$(swaymsg -t get_outputs -r | jq -er 'first(.[] | select(.focused) | .name)')"; then
+    exec neru recursive_grid
+fi
+
+neru recursive_grid --cursor-selection-mode hold
+neru action move_monitor --name "$output_name"

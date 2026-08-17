@@ -1,9 +1,26 @@
-# Neru overrides for a recursive quadrant workflow.
+# Neru replacement for the former Warpd quadrant workflow.
 [recursive_grid]
 grid_cols = 2
 grid_rows = 2
 keys = "uijk"
 max_depth = 10
+
+[recursive_grid.animation]
+enabled = false
+
+[recursive_grid.hotkeys]
+# Match Warpd's exit and mouse-button keys.
+"c" = ["idle", "exec swaymsg mode neru-pointer"]
+"f" = "action left_click"
+"d" = "action middle_click"
+"s" = "action right_click"
+
+[recursive_grid.ui]
+# Keep the selection grid present but unobtrusive.
+line_width = 1
+font_size = 8
+label_background = false
+sub_key_preview = false
 
 [monitor_select]
 enabled = true

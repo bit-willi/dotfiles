@@ -13,7 +13,32 @@ bindsym $mod+Shift+q kill
 # start run-launcher (a program launcher)
 bindsym $mod+d exec --no-startup-id $HOME/.bin/run-launcher
 bindsym $mod+o exec --no-startup-id $HOME/.bin/run-launcher launcher
-bindsym $mod+g exec neru recursive_grid
+bindsym $mod+g exec --no-startup-id $HOME/.bin/neru-active-monitor
+# Former Warpd normal-mode controls, without an overlay.  Alt+Super+c was
+# Warpd's default Normal Mode launcher; Escape returns Sway to its default mode.
+bindsym $mod+Mod1+c mode "neru-pointer"
+
+mode "neru-pointer" {
+        bindsym y seat - cursor move -10 0
+        bindsym u seat - cursor move 0 10
+        bindsym i seat - cursor move 0 -10
+        bindsym o seat - cursor move 10 0
+        bindsym Left seat - cursor move -10 0
+        bindsym Down seat - cursor move 0 10
+        bindsym Up seat - cursor move 0 -10
+        bindsym Right seat - cursor move 10 0
+        bindsym f seat - cursor press button1
+        bindsym d seat - cursor press button2
+        bindsym s seat - cursor press button3
+
+        bindsym --release f seat - cursor press button1
+        bindsym --release d seat - cursor press button2
+        bindsym --release s seat - cursor press button3
+
+        bindsym Escape mode "default"
+        bindsym Return mode "default"
+        bindsym $mod+Mod1+c mode "default"
+}
 
 # change focus
 bindsym $mod+h focus left
@@ -195,8 +220,10 @@ exec dunst
 exec blueman-applet
 exec easyeffects --gapplication-service
 exec aw-qt
-exec kanshi
+# Kanshi runs as the enabled kanshi.service user unit.
+exec_always systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always systemctl --user restart kanshi.service
 exec_always systemctl --user restart neru.service
 # awatcher needs the sway socket, so it only works once the session is up
 exec systemctl --user restart aw-awatcher

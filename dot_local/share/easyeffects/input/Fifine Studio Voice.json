@@ -1,0 +1,86 @@
+{
+  "input": {
+    "blocklist": [],
+    "plugins_order": [
+      "filter#0",
+      "rnnoise#0",
+      "expander#0",
+      "compressor#0",
+      "limiter#0"
+    ],
+    "filter#0": {
+      "bypass": false,
+      "input-gain": 0.0,
+      "output-gain": 0.0,
+      "frequency": 80.0,
+      "width": 4.0,
+      "gain": 0.0,
+      "quality": 0.0,
+      "balance": 0.0,
+      "type": "High-pass",
+      "mode": "RLC (BT)",
+      "decramp": "Off",
+      "equal-mode": "IIR",
+      "slope": "x2"
+    },
+    "rnnoise#0": {
+      "bypass": false,
+      "input-gain": 0.0,
+      "output-gain": 0.0,
+      "model-name": "",
+      "enable-vad": false,
+      "vad-thres": 50.0,
+      "wet": 0.0,
+      "release": 100.0,
+      "use-standard-model": true
+    },
+    "expander#0": {
+      "bypass": false,
+      "input-gain": 0.0,
+      "output-gain": 0.0,
+      "dry": -80.01,
+      "wet": 0.0,
+      "mode": "Downward",
+      "attack": 10.0,
+      "release": 180.0,
+      "release-threshold": -80.01,
+      "threshold": -42.0,
+      "ratio": 2.0,
+      "knee": -6.0,
+      "makeup": 0.0,
+      "stereo-split": false
+    },
+    "compressor#0": {
+      "bypass": false,
+      "input-gain": 0.0,
+      "output-gain": 0.0,
+      "dry": -80.01,
+      "wet": 0.0,
+      "mode": "Downward",
+      "attack": 10.0,
+      "release": 120.0,
+      "release-threshold": -80.01,
+      "threshold": -18.0,
+      "ratio": 3.0,
+      "knee": -6.0,
+      "makeup": 3.0,
+      "stereo-split": false
+    },
+    "limiter#0": {
+      "bypass": false,
+      "input-gain": 0.0,
+      "output-gain": 0.0,
+      "mode": "Herm Thin",
+      "oversampling": "None",
+      "dithering": "None",
+      "sidechain-type": "Internal",
+      "lookahead": 5.0,
+      "attack": 5.0,
+      "release": 20.0,
+      "threshold": -1.0,
+      "gain-boost": false,
+      "stereo-link": 100.0,
+      "alr": false
+    }
+  }
+}

@@ -34,3 +34,7 @@ apply diff:
 	chmod 600 "$$config"
 	chezmoi --source "$(CURDIR)" execute-template < .chezmoi.yaml.tmpl > "$$config"
 	chezmoi --config "$$config" --config-format yaml --source "$(CURDIR)" $(CHEZMOI_ACTION)
+	if [[ "$(CHEZMOI_ACTION)" == "apply" ]] && tmux list-sessions >/dev/null 2>&1; then
+		tmux source-file "$$HOME/.tmux.conf"
+		echo "Reloaded the running tmux server."
+	fi

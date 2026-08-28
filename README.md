@@ -7,8 +7,8 @@ This branch intentionally does not manage Omarchy's Hyprland, shell, theme, or
 package configuration. Omarchy remains responsible for those defaults while
 this repository starts with only:
 
-- Fish user configuration
-- tmux configuration
+- Existing Fish configuration from the original dotfiles
+- Existing tmux configuration, TPM, gitmux, and session helpers
 - SSH config and Ed25519 keypair, restored from Bitwarden attachments
 
 ## Bootstrap

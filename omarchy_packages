@@ -1,0 +1,11 @@
+# Packages intentionally managed by the Omarchy dotfiles setup.
+bitwarden-cli
+chezmoi
+easyeffects
+jq
+keyd
+librewolf
+lsp-plugins
+nwg-displays
+proxychains-ng
+tor

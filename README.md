@@ -13,19 +13,22 @@ this repository starts with only:
 
 ## Bootstrap
 
-Install or unlock the Bitwarden CLI first, then expose the session to chezmoi:
+Clone this branch, enter its directory, and apply it:
 
-```fish
-set -gx BW_SESSION (bw unlock --raw)
-chezmoi init --apply --branch omarchy https://github.com/bit-willi/dotfiles.git
+```bash
+git clone --branch omarchy https://github.com/bit-willi/dotfiles.git
+cd dotfiles
+make apply
 ```
 
-Review changes before future applies:
+`make apply` asks for the Bitwarden master password once, exports the returned
+session only inside the Make process, and uses it for the full chezmoi apply.
 
-```fish
-chezmoi diff
-chezmoi apply --dry-run --verbose
-chezmoi apply
+Review changes before applying:
+
+```bash
+make diff
+make apply
 ```
 
 Private SSH material is never stored in Git. The templates retrieve existing

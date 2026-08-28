@@ -1,1 +1,3 @@
-{{- (bitwardenAttachment "config" .bitwarden.ssh_config) -}}
+Include ~/.ssh/config.d/*
+
+{{ (bitwardenAttachment "config" .bitwarden.ssh_config) -}}

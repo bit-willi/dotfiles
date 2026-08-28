@@ -1,0 +1,6 @@
+Host github-saper
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/saper_ed25519
+    IdentitiesOnly yes
+    AddKeysToAgent yes

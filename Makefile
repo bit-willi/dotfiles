@@ -66,6 +66,7 @@ apply diff:
 	esac
 	test -n "$$session" || { echo "Bitwarden did not return a session." >&2; exit 1; }
 	export BW_SESSION="$$session"
+	bw sync >/dev/null
 	config="$$(mktemp)"
 	trap 'rm -f "$$config"' EXIT
 	chmod 600 "$$config"

@@ -8,9 +8,10 @@ install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
 	omarchy pkg add chezmoi bitwarden-cli jq keyd
 	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
+	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf
 	sudo systemctl enable keyd
 	sudo systemctl restart keyd
-	echo "Installed dependencies and activated the keyd configuration."
+	echo "Installed dependencies and activated keyd. Reboot to apply the AC lid policy."
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff
@@ -42,7 +43,10 @@ apply diff:
 	chmod 600 "$$config"
 	chezmoi --source "$(CURDIR)" execute-template < .chezmoi.yaml.tmpl > "$$config"
 	chezmoi --config "$$config" --config-format yaml --source "$(CURDIR)" $(CHEZMOI_ACTION)
-	if [[ "$(CHEZMOI_ACTION)" == "apply" ]] && tmux list-sessions >/dev/null 2>&1; then
-		tmux source-file "$$HOME/.config/tmux/tmux.conf"
-		echo "Reloaded the running tmux server."
+	if [[ "$(CHEZMOI_ACTION)" == "apply" ]]; then
+		omarchy toggle idle allow-idle >/dev/null
+		if tmux list-sessions >/dev/null 2>&1; then
+			tmux source-file "$$HOME/.config/tmux/tmux.conf"
+			echo "Reloaded the running tmux server."
+		fi
 	fi

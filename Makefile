@@ -6,7 +6,7 @@ SHELL := /usr/bin/bash
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
-	omarchy pkg add chezmoi bitwarden-cli jq keyd
+	omarchy pkg add chezmoi bitwarden-cli jq keyd easyeffects tor proxychains-ng librewolf
 	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf
 	sudo systemctl enable keyd

@@ -22,10 +22,11 @@ make install-deps
 make apply
 ```
 
-`make install-deps` installs chezmoi, the Bitwarden CLI, jq, and keyd through
-Omarchy. It also installs `etc/keyd/laptop.conf`, enables the keyd service, and
-configures lid close on AC power to lock without suspending. Reboot once after
-installing to activate the logind policy.
+`make install-deps` installs chezmoi, the Bitwarden CLI, jq, keyd, EasyEffects,
+Tor, ProxyChains, and LibreWolf through Omarchy. It also installs
+`etc/keyd/laptop.conf`, enables the keyd service, and configures lid close on AC
+power to lock without suspending. Reboot once after installing to activate the
+logind policy.
 
 `make apply` asks for the Bitwarden master password once, exports the returned
 session only inside the Make process, and uses it for the full chezmoi apply.

@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+
+set -euo pipefail
+
+readonly config="${HOME}/.config/rclone/google-drive.conf"
+readonly remote="google-drive:"
+readonly service="rclone-google-drive.service"
+readonly bitwarden_item="81035666-62e2-4c4c-af25-b0680016e27d"
+
+command -v rclone >/dev/null || {
+	echo "Skipped Google Drive: rclone is not installed."
+	exit 0
+}
+
+if [[ ! -f "${config}" ]]; then
+	echo "Skipped Google Drive: ${config} does not exist."
+	exit 0
+fi
+
+if ! timeout 30 rclone --config "${config}" about "${remote}" >/dev/null 2>&1; then
+	systemctl --user stop "${service}" >/dev/null 2>&1 || true
+	echo "Google Drive authorization expired; starting browser reauthorization."
+	rclone --config "${config}" config reconnect "${remote}"
+	timeout 30 rclone --config "${config}" about "${remote}" >/dev/null
+
+	# Persist the renewed token without placing it in process arguments or output.
+	bw get item "${bitwarden_item}" |
+		jq --rawfile rclone_config "${config}" '
+			($rclone_config | capture("(?m)^token = (?<value>.+)$").value) as $token
+			| if (.fields | length) < 2 then error("Bitwarden token field is missing")
+			  else .fields[1].value = $token
+			  end
+		' |
+		bw encode |
+		bw edit item "${bitwarden_item}" >/dev/null
+	echo "Updated the Google Drive token in Bitwarden."
+fi
+
+mkdir -p "${HOME}/Cloud/GoogleDrive"
+systemctl --user enable --now "${service}"
+echo "Google Drive is mounted at ${HOME}/Cloud/GoogleDrive."

@@ -21,7 +21,8 @@ install-deps:
 	sudo systemctl restart keyd
 	systemctl --user daemon-reload
 	systemctl --user enable --now easyeffects.service
-	echo "Installed packages and activated keyd, touchpad recovery, and EasyEffects."
+	systemctl --user enable rclone-google-drive.service
+	echo "Installed packages and activated keyd, touchpad recovery, EasyEffects, and Google Drive startup."
 
 mount-cloud:
 	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }
@@ -74,6 +75,7 @@ apply diff:
 	chezmoi --config "$$config" --config-format yaml --source "$(CURDIR)" $(CHEZMOI_ACTION)
 	if [[ "$(CHEZMOI_ACTION)" == "apply" ]]; then
 		omarchy toggle idle allow-idle >/dev/null
+		"$(CURDIR)/scripts/ensure-google-drive"
 		if tmux list-sessions >/dev/null 2>&1; then
 			tmux source-file "$$HOME/.config/tmux/tmux.conf"
 			echo "Reloaded the running tmux server."

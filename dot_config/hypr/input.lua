@@ -6,3 +6,6 @@ hl.config({
     kb_options = "compose:ralt",
   },
 })
+
+-- Swipe horizontally with three fingers to change workspaces.
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })

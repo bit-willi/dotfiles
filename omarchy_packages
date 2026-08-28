@@ -8,4 +8,5 @@ librewolf
 lsp-plugins
 nwg-displays
 proxychains-ng
+rclone
 tor

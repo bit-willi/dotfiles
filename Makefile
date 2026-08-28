@@ -2,7 +2,7 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff install-deps
+.PHONY: apply diff install-deps mount-cloud unmount-cloud
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
@@ -13,6 +13,8 @@ install-deps:
 	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/reset-touchpad-i2c" /usr/local/libexec/reset-touchpad-i2c
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/system/reset-touchpad-i2c.service" /etc/systemd/system/reset-touchpad-i2c.service
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/easyeffects.service" "$$HOME/.config/systemd/user/easyeffects.service"
+	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-google-drive.service" "$$HOME/.config/systemd/user/rclone-google-drive.service"
+	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-drive.service" "$$HOME/.config/systemd/user/rclone-icloud-drive.service"
 	sudo systemctl daemon-reload
 	sudo systemctl enable --now reset-touchpad-i2c.service
 	sudo systemctl enable keyd
@@ -20,6 +22,24 @@ install-deps:
 	systemctl --user daemon-reload
 	systemctl --user enable --now easyeffects.service
 	echo "Installed packages and activated keyd, touchpad recovery, and EasyEffects."
+
+mount-cloud:
+	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }
+	mkdir -p "$$HOME/Cloud/GoogleDrive" "$$HOME/Cloud/iCloudDrive"
+	systemctl --user daemon-reload
+	for remote in google-drive icloud-drive; do
+		service="rclone-$${remote}.service"
+		config="$$HOME/.config/rclone/$${remote}.conf"
+		if [[ -f "$$config" ]] && rclone --config "$$config" listremotes | grep -Fxq "$${remote}:"; then
+			systemctl --user enable --now "$$service"
+			echo "Mounted $${remote}."
+		else
+			echo "Skipped $${remote}: remote is not configured yet."
+		fi
+	done
+
+unmount-cloud:
+	-systemctl --user disable --now rclone-google-drive.service rclone-icloud-drive.service
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff

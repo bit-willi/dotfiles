@@ -1,0 +1,30 @@
+[Unit]
+Description=Mount iCloud Photos with rclone
+Documentation=https://rclone.org/iclouddrive/
+Wants=network-online.target
+After=network-online.target rclone-icloud-drive.service
+
+[Service]
+Type=notify
+ExecStartPre=/usr/bin/mkdir -p %h/Pictures/ICloud %h/.cache/rclone/icloud-photos
+ExecStart=/usr/bin/rclone mount icloud-drive:PrimarySync %h/Pictures/ICloud \
+    --config=%h/.config/rclone/icloud-drive.conf \
+    --iclouddrive-service=photos \
+    --read-only \
+    --cache-dir=%h/.cache/rclone/icloud-photos \
+    --vfs-cache-mode=full \
+    --vfs-cache-max-size=4G \
+    --vfs-cache-max-age=24h \
+    --vfs-cache-min-free-space=10G \
+    --vfs-cache-poll-interval=1m \
+    --buffer-size=16M \
+    --vfs-read-ahead=64M \
+    --dir-cache-time=5m \
+    --umask=077
+ExecStop=/usr/bin/fusermount3 -uz %h/Pictures/ICloud
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

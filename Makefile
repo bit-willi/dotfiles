@@ -15,6 +15,7 @@ install-deps:
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/easyeffects.service" "$$HOME/.config/systemd/user/easyeffects.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-google-drive.service" "$$HOME/.config/systemd/user/rclone-google-drive.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-drive.service" "$$HOME/.config/systemd/user/rclone-icloud-drive.service"
+	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-photos.service" "$$HOME/.config/systemd/user/rclone-icloud-photos.service"
 	sudo systemctl daemon-reload
 	sudo systemctl enable --now reset-touchpad-i2c.service
 	sudo systemctl enable keyd
@@ -22,7 +23,9 @@ install-deps:
 	systemctl --user daemon-reload
 	systemctl --user enable --now easyeffects.service
 	systemctl --user enable rclone-google-drive.service
-	echo "Installed packages and activated keyd, touchpad recovery, EasyEffects, and Google Drive startup."
+	systemctl --user enable rclone-icloud-drive.service
+	systemctl --user enable rclone-icloud-photos.service
+	echo "Installed packages and activated keyd, touchpad recovery, EasyEffects, and cloud startup."
 
 mount-cloud:
 	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }
@@ -38,9 +41,13 @@ mount-cloud:
 			echo "Skipped $${remote}: remote is not configured yet."
 		fi
 	done
+	if [[ -f "$$HOME/.config/rclone/icloud-drive.conf" ]]; then
+		systemctl --user enable --now rclone-icloud-photos.service
+		echo "Mounted iCloud Photos."
+	fi
 
 unmount-cloud:
-	-systemctl --user disable --now rclone-google-drive.service rclone-icloud-drive.service
+	-systemctl --user disable --now rclone-google-drive.service rclone-icloud-drive.service rclone-icloud-photos.service
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff
@@ -74,8 +81,10 @@ apply diff:
 	chezmoi --source "$(CURDIR)" execute-template < .chezmoi.yaml.tmpl > "$$config"
 	chezmoi --config "$$config" --config-format yaml --source "$(CURDIR)" $(CHEZMOI_ACTION)
 	if [[ "$(CHEZMOI_ACTION)" == "apply" ]]; then
+		mkdir -p "$$HOME/Pictures/screenshots"
 		omarchy toggle idle allow-idle >/dev/null
 		"$(CURDIR)/scripts/ensure-google-drive"
+		"$(CURDIR)/scripts/ensure-icloud-drive"
 		if tmux list-sessions >/dev/null 2>&1; then
 			tmux source-file "$$HOME/.config/tmux/tmux.conf"
 			echo "Reloaded the running tmux server."

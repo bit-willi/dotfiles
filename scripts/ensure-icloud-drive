@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+set -euo pipefail
+
+readonly config="${HOME}/.config/rclone/icloud-drive.conf"
+readonly remote="icloud-drive:"
+readonly service="rclone-icloud-drive.service"
+readonly photos_service="rclone-icloud-photos.service"
+readonly bitwarden_item="rclone-icloud-drive"
+
+command -v rclone >/dev/null || {
+	echo "Skipped iCloud Drive: rclone is not installed."
+	exit 0
+}
+
+if [[ ! -f "${config}" ]]; then
+	echo "Skipped iCloud Drive: ${config} does not exist."
+	exit 0
+fi
+
+if ! timeout 30 rclone --config "${config}" lsd "${remote}" --max-depth 1 >/dev/null 2>&1; then
+	systemctl --user stop "${service}" "${photos_service}" >/dev/null 2>&1 || true
+	echo "iCloud Drive authorization expired; starting Apple reauthorization."
+	rclone --config "${config}" config reconnect "${remote}"
+	timeout 30 rclone --config "${config}" lsd "${remote}" --max-depth 1 >/dev/null
+
+	# Persist renewed Apple cookies and trust token without printing them.
+	bw get item "${bitwarden_item}" |
+		jq --rawfile rclone_config "${config}" '.notes = $rclone_config' |
+		bw encode |
+		bw edit item "${bitwarden_item}" >/dev/null
+	echo "Updated the iCloud Drive configuration in Bitwarden."
+fi
+
+mkdir -p "${HOME}/Cloud/iCloudDrive"
+mkdir -p "${HOME}/Pictures/ICloud"
+systemctl --user enable --now "${service}" "${photos_service}"
+echo "iCloud Drive and Photos are mounted under ${HOME}/Cloud and ${HOME}/Pictures."

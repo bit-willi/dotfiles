@@ -29,4 +29,8 @@ apply diff:
 	esac
 	test -n "$$session" || { echo "Bitwarden did not return a session." >&2; exit 1; }
 	export BW_SESSION="$$session"
-	chezmoi --source "$(CURDIR)" $(CHEZMOI_ACTION)
+	config="$$(mktemp)"
+	trap 'rm -f "$$config"' EXIT
+	chmod 600 "$$config"
+	chezmoi --source "$(CURDIR)" execute-template < .chezmoi.yaml.tmpl > "$$config"
+	chezmoi --config "$$config" --config-format yaml --source "$(CURDIR)" $(CHEZMOI_ACTION)

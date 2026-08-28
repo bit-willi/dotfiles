@@ -18,8 +18,12 @@ Clone this branch, enter its directory, and apply it:
 ```bash
 git clone --branch omarchy https://github.com/bit-willi/dotfiles.git
 cd dotfiles
+make install-deps
 make apply
 ```
+
+`make install-deps` installs chezmoi, the Bitwarden CLI, jq, and keyd through
+Omarchy. It also installs `etc/keyd/laptop.conf` and enables the keyd service.
 
 `make apply` asks for the Bitwarden master password once, exports the returned
 session only inside the Make process, and uses it for the full chezmoi apply.

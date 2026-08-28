@@ -2,7 +2,15 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff
+.PHONY: apply diff install-deps
+
+install-deps:
+	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
+	omarchy pkg add chezmoi bitwarden-cli jq keyd
+	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
+	sudo systemctl enable keyd
+	sudo systemctl restart keyd
+	echo "Installed dependencies and activated the keyd configuration."
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff

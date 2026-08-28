@@ -1,0 +1,11 @@
+[Unit]
+Description=Reset the touchpad I2C controller after a boot-time timeout
+After=systemd-modules-load.service
+ConditionPathExists=/sys/bus/platform/drivers/i2c_designware/i2c_designware.1
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/libexec/reset-touchpad-i2c
+
+[Install]
+WantedBy=multi-user.target

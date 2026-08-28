@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+set -euo pipefail
+
+readonly controller="i2c_designware.1"
+readonly driver_path="/sys/bus/platform/drivers/i2c_designware"
+
+if [[ ! -e "${driver_path}/${controller}" ]]; then
+	echo "Touchpad I2C controller ${controller} is not bound; skipping reset."
+	exit 0
+fi
+
+printf '%s' "${controller}" > "${driver_path}/unbind"
+sleep 1
+printf '%s' "${controller}" > "${driver_path}/bind"
+
+echo "Reset touchpad I2C controller ${controller}."

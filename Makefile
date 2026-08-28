@@ -9,9 +9,13 @@ install-deps:
 	omarchy pkg add chezmoi bitwarden-cli jq keyd easyeffects tor proxychains-ng librewolf
 	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf
+	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/reset-touchpad-i2c" /usr/local/libexec/reset-touchpad-i2c
+	sudo install -Dm0644 "$(CURDIR)/etc/systemd/system/reset-touchpad-i2c.service" /etc/systemd/system/reset-touchpad-i2c.service
+	sudo systemctl daemon-reload
+	sudo systemctl enable --now reset-touchpad-i2c.service
 	sudo systemctl enable keyd
 	sudo systemctl restart keyd
-	echo "Installed dependencies and activated keyd. Reboot to apply the AC lid policy."
+	echo "Installed dependencies and activated keyd and the touchpad recovery service."
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff

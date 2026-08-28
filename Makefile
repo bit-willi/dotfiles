@@ -2,7 +2,7 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply backup-saper-ssh diff install-deps
+.PHONY: apply diff install-deps
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
@@ -16,46 +16,6 @@ install-deps:
 	sudo systemctl enable keyd
 	sudo systemctl restart keyd
 	echo "Installed dependencies and activated keyd and the touchpad recovery service."
-
-backup-saper-ssh:
-	@command -v bw >/dev/null || { echo "Bitwarden CLI (bw) is required." >&2; exit 1; }
-	command -v jq >/dev/null || { echo "jq is required." >&2; exit 1; }
-	test -f "$$HOME/.ssh/saper_ed25519" || { echo "Missing ~/.ssh/saper_ed25519." >&2; exit 1; }
-	test -f "$$HOME/.ssh/saper_ed25519.pub" || { echo "Missing ~/.ssh/saper_ed25519.pub." >&2; exit 1; }
-	status="$$(bw status | jq -r '.status')"
-	case "$$status" in
-		unlocked)
-			session="$${BW_SESSION:-}"
-			;;
-		locked)
-			session="$$(bw unlock --raw)"
-			;;
-		unauthenticated)
-			session="$$(bw login --raw)"
-			;;
-		*)
-			echo "Unexpected Bitwarden status: $$status" >&2
-			exit 1
-			;;
-	esac
-	test -n "$$session" || { echo "Bitwarden did not return a session." >&2; exit 1; }
-	export BW_SESSION="$$session"
-	bw sync >/dev/null
-	item_name="ssh-saper-ed25519"
-	item_id="$$(bw get item "$$item_name" 2>/dev/null | jq -r '.id // empty' || true)"
-	if [[ -z "$$item_id" ]]; then
-		item_id="$$(bw get template item | jq --arg name "$$item_name" \
-			'.type = 2 | .name = $$name | .secureNote = {"type": 0}' | \
-			bw encode | bw create item | jq -r '.id')"
-	fi
-	attachments="$$(bw get item "$$item_id" | jq -r '.attachments[]?.fileName')"
-	if ! grep -Fxq 'saper_ed25519' <<<"$$attachments"; then
-		bw create attachment --file "$$HOME/.ssh/saper_ed25519" --itemid "$$item_id" >/dev/null
-	fi
-	if ! grep -Fxq 'saper_ed25519.pub' <<<"$$attachments"; then
-		bw create attachment --file "$$HOME/.ssh/saper_ed25519.pub" --itemid "$$item_id" >/dev/null
-	fi
-	echo "Backed up the Saper SSH key in Bitwarden item: $$item_name"
 
 apply: CHEZMOI_ACTION := apply
 diff: CHEZMOI_ACTION := diff

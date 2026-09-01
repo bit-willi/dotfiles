@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_theme="$(omarchy theme current | tr '[:upper:] ' '[:lower:]-')"
+
+if [[ "$current_theme" == "gruvbox-solid" ]]; then
+  omarchy theme set gruvbox-light-solid
+else
+  omarchy theme set gruvbox-solid
+fi

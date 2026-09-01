@@ -35,6 +35,10 @@ o.bind("SUPER + K", "Focus on above window", hl.dsp.focus({ direction = "u" }))
 o.bind("SUPER + L", "Focus on right window", hl.dsp.focus({ direction = "r" }))
 o.bind("SUPER + SHIFT + SLASH", "Keybindings", "omarchy-menu-keybindings")
 
+-- Replace Omarchy's Docker shortcut with a solid Gruvbox light/dark toggle.
+hl.unbind("SUPER + SHIFT + D")
+o.bind("SUPER + SHIFT + D", "Toggle Gruvbox light/dark", "omarchy-theme-toggle")
+
 -- Vim-style window movement, matching Omarchy's Super+Shift+Arrow bindings.
 o.bind("SUPER + SHIFT + H", "Swap window to the left", hl.dsp.window.swap({ direction = "l" }))
 o.bind("SUPER + SHIFT + J", "Swap window down", hl.dsp.window.swap({ direction = "d" }))

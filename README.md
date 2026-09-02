@@ -34,7 +34,9 @@ existing `Super+Shift+F` Nautilus shortcut remains available.
 
 The top bar uses a macOS-style layout: its center is empty, while indicators,
 update status, weather, keyboard layout, system controls, and the clock are on
-the right. The clock is placed at the far-right edge.
+the right. The clock is placed at the far-right edge. The clock and weather
+panels are cloned locally so their popups open below the clicked widgets instead
+of in the center of the display.
 
 `make apply` asks for the Bitwarden master password once, exports the returned
 session only inside the Make process, and uses it for the full chezmoi apply.

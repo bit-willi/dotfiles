@@ -15,6 +15,7 @@ install-deps:
 	omarchy bar move omarchy.weather --section right --after omarchy.system-update
 	omarchy bar move omarchy.keyboard-layout --section right --after omarchy.weather
 	omarchy bar move omarchy.clock --section right --after omarchy.power
+	"$(CURDIR)/scripts/ensure-anchored-bar-popups"
 	omarchy restart shell
 	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf

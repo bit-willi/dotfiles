@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -euo pipefail
+
+plugin_dir="${HOME}/.config/omarchy/plugins"
+plugin_prefix="${USER:-$(id -un)}"
+
+anchor_popup() {
+  local source_id="$1"
+  local local_id="${plugin_prefix}.${source_id#omarchy.}"
+  local target_dir="${plugin_dir}/${local_id}"
+  local panel="${target_dir}/Panel.qml"
+
+  if [[ ! -d "$target_dir" ]]; then
+    omarchy plugin clone "$source_id"
+  fi
+
+  [[ -f "$panel" ]] || {
+    echo "Missing panel for cloned plugin: $local_id" >&2
+    return 1
+  }
+
+  sed -i 's/centerOnBar: true/centerOnBar: false/' "$panel"
+  omarchy plugin enable "$local_id"
+}
+
+anchor_popup omarchy.clock
+anchor_popup omarchy.weather

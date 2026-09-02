@@ -22,11 +22,19 @@ make install-deps
 make apply
 ```
 
-`make install-deps` installs chezmoi, the Bitwarden CLI, jq, keyd, EasyEffects,
-Tor, ProxyChains, and LibreWolf through Omarchy. It also installs
-`etc/keyd/laptop.conf`, enables the keyd service, and configures lid close on AC
-power to lock without suspending. Reboot once after installing to activate the
-logind policy.
+`make install-deps` installs the packages listed in `omarchy_packages`, including
+the dotfile tools, LibreWolf, VPN support, Git LFS, gitmux, mkcert, SMART tools,
+EasyEffects, Tor, and ProxyChains. It also installs `etc/keyd/laptop.conf`,
+enables the keyd service, and configures lid close on AC power to lock without
+suspending. Reboot once after installing to activate the logind policy.
+
+The dependency setup also installs and enables Homearchy with only its recursive
+grid active globally. `Super+Shift+G` replaces Omarchy's Signal shortcut; the
+existing `Super+Shift+F` Nautilus shortcut remains available.
+
+The top bar uses a macOS-style layout: its center is empty, while indicators,
+update status, weather, keyboard layout, system controls, and the clock are on
+the right. The clock is placed at the far-right edge.
 
 `make apply` asks for the Bitwarden master password once, exports the returned
 session only inside the Make process, and uses it for the full chezmoi apply.

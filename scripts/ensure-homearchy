@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+
+
+PLUGIN_ID = "io.github.inde3d100.homearchy"
+PLUGIN_URL = "https://github.com/inde3d100/homearchy"
+PLUGIN_DIR = Path.home() / ".config/omarchy/plugins" / PLUGIN_ID
+BINDINGS_FILE = Path.home() / ".config/hypr/bindings.lua"
+START_MARKER = "-- Homearchy recursive grid: managed by dotfiles"
+END_MARKER = "-- End Homearchy recursive grid"
+
+
+def atomic_write(path: Path, content: str) -> None:
+    mode = path.stat().st_mode
+    with tempfile.NamedTemporaryFile("w", dir=path.parent, delete=False) as temporary:
+        temporary.write(content)
+        temporary.flush()
+        os.fsync(temporary.fileno())
+        temporary_path = Path(temporary.name)
+    temporary_path.chmod(mode)
+    os.replace(temporary_path, path)
+
+
+def install_plugin() -> None:
+    if not PLUGIN_DIR.is_dir():
+        subprocess.run(
+            ["omarchy", "plugin", "add", PLUGIN_URL, "--enable", "--yes"],
+            check=True,
+        )
+    else:
+        subprocess.run(["omarchy", "plugin", "enable", PLUGIN_ID], check=True)
+
+
+def configure_engine() -> tuple[Path, str]:
+    service = PLUGIN_DIR / "Service.qml"
+    original = service.read_text()
+    hotkeys_start = '      "[hotkeys]\\n" +\n'
+    logging_start = '      "[logging]\\n" +\n'
+    start = original.find(hotkeys_start)
+    end = original.find(logging_start, start)
+    if start == -1 or end == -1:
+        raise RuntimeError("Homearchy generated hotkey block was not found")
+
+    managed_hotkeys = (
+        hotkeys_start
+        + '      "\\"Super+Shift+G\\" = '
+        + '\\"recursive_grid --action left_click\\"\\n\\n" +\n'
+    )
+    updated = original[:start] + managed_hotkeys + original[end:]
+
+    scroll_start = '      "[scroll.hotkeys]\\n" +\n'
+    scroll = updated.find(scroll_start)
+    if scroll != -1:
+        scroll_end = updated.find("\n  }", scroll)
+        if scroll_end == -1:
+            raise RuntimeError("Homearchy scroll hotkey block has no terminator")
+        updated = updated[:scroll].rstrip(" +\n") + "\n" + updated[scroll_end:]
+
+    if updated != original:
+        atomic_write(service, updated)
+    return service, original
+
+
+def configure_hyprland() -> tuple[str, str]:
+    original = BINDINGS_FILE.read_text()
+    start = original.find(START_MARKER)
+    if start != -1:
+        end = original.find(END_MARKER, start)
+        if end == -1:
+            raise RuntimeError("managed Homearchy binding block has no end marker")
+        end += len(END_MARKER)
+        if end < len(original) and original[end] == "\n":
+            end += 1
+        original_without_block = original[:start].rstrip() + "\n"
+        original_without_block += original[end:].lstrip("\n")
+    else:
+        original_without_block = original
+
+    engine = PLUGIN_DIR / "bin/homearchy"
+    block = (
+        f"\n{START_MARKER}\n"
+        'hl.unbind("SUPER + SHIFT + G")\n'
+        f'o.bind("SUPER + SHIFT + G", "Homearchy recursive grid", '
+        f'"{engine} recursive_grid --action left_click")\n'
+        f"{END_MARKER}\n"
+    )
+    updated = original_without_block.rstrip() + "\n" + block
+    if updated != original:
+        backup = BINDINGS_FILE.with_name(BINDINGS_FILE.name + ".pre-homearchy")
+        if not backup.exists():
+            shutil.copy2(BINDINGS_FILE, backup)
+        atomic_write(BINDINGS_FILE, updated)
+    return original, updated
+
+
+def reload_desktop(service: Path, original_service: str, original_bindings: str) -> None:
+    try:
+        subprocess.run(["hyprctl", "reload"], check=True, stdout=subprocess.DEVNULL)
+        errors = subprocess.run(
+            ["hyprctl", "configerrors"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if errors:
+            raise RuntimeError(errors)
+        subprocess.run(["omarchy", "restart", "shell"], check=True)
+    except Exception:
+        atomic_write(service, original_service)
+        atomic_write(BINDINGS_FILE, original_bindings)
+        subprocess.run(["hyprctl", "reload"], check=False)
+        raise
+
+
+def main() -> None:
+    install_plugin()
+    service, original_service = configure_engine()
+    original_bindings, _ = configure_hyprland()
+    reload_desktop(service, original_service, original_bindings)
+    print("Homearchy recursive grid is bound to Super+Shift+G.")
+
+
+if __name__ == "__main__":
+    main()

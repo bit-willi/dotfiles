@@ -2,12 +2,20 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff install-deps mount-cloud unmount-cloud
+.PHONY: apply diff install-deps install-homearchy mount-cloud unmount-cloud
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
 	mapfile -t packages < <(sed -e 's/#.*//' -e '/^[[:space:]]*$$/d' "$(CURDIR)/omarchy_packages")
 	omarchy pkg add "$${packages[@]}"
+	git lfs install
+	"$(CURDIR)/scripts/ensure-homearchy"
+	omarchy bar move omarchy.indicators --section right --after omarchy.agents
+	omarchy bar move omarchy.system-update --section right --after omarchy.indicators
+	omarchy bar move omarchy.weather --section right --after omarchy.system-update
+	omarchy bar move omarchy.keyboard-layout --section right --after omarchy.weather
+	omarchy bar move omarchy.clock --section right --after omarchy.power
+	omarchy restart shell
 	sudo install -Dm0644 "$(CURDIR)/etc/keyd/laptop.conf" /etc/keyd/laptop.conf
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf
 	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/reset-touchpad-i2c" /usr/local/libexec/reset-touchpad-i2c
@@ -26,6 +34,9 @@ install-deps:
 	systemctl --user enable rclone-icloud-drive.service
 	systemctl --user enable rclone-icloud-photos.service
 	echo "Installed packages and activated keyd, touchpad recovery, EasyEffects, and cloud startup."
+
+install-homearchy:
+	"$(CURDIR)/scripts/ensure-homearchy"
 
 mount-cloud:
 	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }

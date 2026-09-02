@@ -1,37 +1,26 @@
-alias init-completion="rm -f $HOME/.zcompdump; compinit"
-alias dotfiles="cd ~/.dotfiles"
 alias fucking='sudo'
-alias pip-all="pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U"
 alias lessf="less +F"
 alias at="tmux a -t main"
 alias cat="bat"
-alias network="sudo bandwhich"
-alias vhistory="history | peco"
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
 alias shouldideploytoday="curl -s https://shouldideploy.today/api\?tz\=UTC | jq -r '.message'"
 alias bw-export='export BW_SESSION=$(bw unlock | grep "export BW" |  cut -d"=" -f2 | tr -d "\"")'
 alias yz="yazi"
 
-# X11/i3 aliases removed — using Wayland/sway now
+# X11/i3 aliases removed — using Omarchy/Hyprland now
 
 alias map="telnet mapscii.me"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 alias mkdir-date='mkdir $(date +"%Y-%m-%d")'
 alias touch-date='touch $(date +"%Y-%m-%d").txt'
-alias ocaml='rlwrap ocaml'
 alias bw-login='export BW_SESSION=$(bw unlock --raw); bw sync'
 alias c=clear
-alias sound='pulsemixer'
 alias cl='clear; l'
-alias journal='cd ~/.journal'
-alias files='pcmanfm'
-alias grc='/usr/bin/grc'
-alias blog="cd ~/Documents/codes/personal/blog"
+alias files='omarchy launch nautilus'
 
 alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'
-alias dnd-on='dunstctl set-paused true'
-alias dnd-off='dunstctl set-paused false'
+alias dnd='omarchy toggle notification silencing'
 
 # single-monitor alias removed — using Wayland/sway now
 
@@ -68,8 +57,4 @@ else
     alias lt='ll -tr'        # Lists sorted by date, most recent last.
     alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
     alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
-end
-
-function awrit
-    kitty sh -c "awrit $argv" 2>/dev/null
 end

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -euo pipefail
+
+avd_name="${ANDROID_AVD_NAME:-omarchy-android}"
+sdk_root="${ANDROID_HOME:-/opt/android-sdk}"
+avd_home="${ANDROID_AVD_HOME:-${HOME}/.android/avd}"
+
+require_command() {
+  command -v "$1" >/dev/null || {
+    echo "$1 is missing. Run 'make install-deps' from the dotfiles repository." >&2
+    exit 1
+  }
+}
+
+create_avd() {
+  local package_xml package_id
+
+  [[ -f "${avd_home}/${avd_name}.ini" ]] && return
+
+  require_command avdmanager
+  package_xml="$(find "${sdk_root}/system-images" -path '*/google_apis/x86_64/package.xml' -print 2>/dev/null | sort -V | tail -n 1)"
+  [[ -n "$package_xml" ]] || {
+    echo "No Google APIs x86_64 Android system image is installed." >&2
+    echo "Run 'make install-deps' from the dotfiles repository." >&2
+    exit 1
+  }
+
+  package_id="$(sed -n 's/.*<localPackage path="\([^"]*\)".*/\1/p' "$package_xml" | head -n 1)"
+  [[ -n "$package_id" ]] || {
+    echo "Could not identify the Android system image in $package_xml." >&2
+    exit 1
+  }
+
+  mkdir -p "$avd_home"
+  printf 'no\n' | avdmanager create avd \
+    --force \
+    --name "$avd_name" \
+    --package "$package_id" \
+    --device pixel_7
+
+  echo "Created Android emulator: $avd_name"
+}
+
+create_avd
+
+if [[ "${1:-}" == "--create-only" ]]; then
+  exit 0
+fi
+
+require_command emulator
+[[ -r /dev/kvm && -w /dev/kvm ]] || {
+  echo "KVM acceleration is unavailable to the current user." >&2
+  exit 1
+}
+
+exec emulator -avd "$avd_name" -accel on -gpu host "$@"

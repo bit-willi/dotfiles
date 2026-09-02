@@ -1,4 +1,8 @@
 # Packages intentionally managed by the Omarchy dotfiles setup.
+android-emulator
+android-google-apis-x86-64-system-image
+android-platform
+android-sdk-cmdline-tools-latest
 bitwarden-cli
 chezmoi
 easyeffects

@@ -2,13 +2,24 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff install-deps install-homearchy mount-cloud unmount-cloud
+.PHONY: apply diff install-android-emulator install-deps install-homearchy mount-cloud unmount-cloud
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
 	mapfile -t packages < <(sed -e 's/#.*//' -e '/^[[:space:]]*$$/d' "$(CURDIR)/omarchy_packages")
-	omarchy pkg add "$${packages[@]}"
+	official=()
+	aur=()
+	for package in "$${packages[@]}"; do
+		if pacman -Si "$$package" >/dev/null 2>&1; then
+			official+=("$$package")
+		else
+			aur+=("$$package")
+		fi
+	done
+	(($${#official[@]} == 0)) || omarchy pkg add "$${official[@]}"
+	(($${#aur[@]} == 0)) || yay -S --needed --noconfirm "$${aur[@]}"
 	git lfs install
+	"$(CURDIR)/dot_local/bin/executable_android-emulator" --create-only
 	"$(CURDIR)/scripts/ensure-homearchy"
 	omarchy bar move omarchy.indicators --section right --after omarchy.agents
 	omarchy bar move omarchy.system-update --section right --after omarchy.indicators
@@ -38,6 +49,9 @@ install-deps:
 
 install-homearchy:
 	"$(CURDIR)/scripts/ensure-homearchy"
+
+install-android-emulator:
+	"$(CURDIR)/scripts/install-android-emulator"
 
 mount-cloud:
 	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }

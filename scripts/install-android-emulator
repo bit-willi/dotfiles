@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+packages=(
+  android-emulator
+  android-google-apis-x86-64-system-image
+  android-platform
+  android-sdk-cmdline-tools-latest
+)
+
+command -v yay >/dev/null || {
+  echo "yay is required to download the Android emulator packages." >&2
+  exit 1
+}
+
+yay -S --needed --noconfirm "${packages[@]}"
+"${script_dir}/../dot_local/bin/executable_android-emulator" --create-only
+
+echo "Android emulator ready. Launch it with: android-emulator"

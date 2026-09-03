@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import getpass
+import grp
 import os
 from pathlib import Path
 import shutil
@@ -28,6 +30,21 @@ def atomic_write(path: Path, content: str) -> None:
     os.replace(temporary_path, path)
 
 
+def replace_once(content: str, old: str, new: str, description: str) -> str:
+    if content.count(old) != 1:
+        raise RuntimeError(f"Homearchy {description} changed upstream")
+    return content.replace(old, new, 1)
+
+
+def ensure_input_access() -> None:
+    user_name = getpass.getuser()
+    input_group = grp.getgrnam("input")
+    if user_name not in input_group.gr_mem:
+        subprocess.run(["sudo", "usermod", "-aG", "input", user_name], check=True)
+    if input_group.gr_gid not in os.getgroups():
+        print("Homearchy input access will be permanent after the next logout/login.")
+
+
 def install_plugin() -> None:
     if not PLUGIN_DIR.is_dir():
         subprocess.run(
@@ -48,11 +65,9 @@ def configure_engine() -> tuple[Path, str]:
     if start == -1 or end == -1:
         raise RuntimeError("Homearchy generated hotkey block was not found")
 
-    managed_hotkeys = (
-        hotkeys_start
-        + '      "\\"Super+Shift+G\\" = '
-        + '\\"recursive_grid --action left_click\\"\\n\\n" +\n'
-    )
+    # Hyprland owns the global chord. Registering it here as well makes one
+    # physical keypress activate the mode twice when evdev access is available.
+    managed_hotkeys = hotkeys_start + '      "\\n" +\n'
     updated = original[:start] + managed_hotkeys + original[end:]
 
     scroll_start = '      "[scroll.hotkeys]\\n" +\n'
@@ -62,6 +77,73 @@ def configure_engine() -> tuple[Path, str]:
         if scroll_end == -1:
             raise RuntimeError("Homearchy scroll hotkey block has no terminator")
         updated = updated[:scroll].rstrip(" +\n") + "\n" + updated[scroll_end:]
+
+    if "  function probeEngine() {" not in updated:
+        updated = replace_once(
+            updated,
+        """  function startEngine() {
+    if (stopping || engineProcess.running) return
+""",
+        """  function probeEngine() {
+    if (stopping) return
+    engineState = "starting"
+    ready = false
+    error = ""
+    statusTimer.restart()
+    if (!statusProcess.running) statusProcess.running = true
+  }
+
+  function startEngine() {
+    if (stopping || engineProcess.running) return
+""",
+            "engine startup block",
+        )
+        updated = replace_once(
+            updated,
+        """      root.writeConfig()
+      Qt.callLater(root.startEngine)
+""",
+        """      root.writeConfig()
+      Qt.callLater(root.probeEngine)
+""",
+            "setup callback",
+        )
+        updated = replace_once(
+            updated,
+        """      root.engineState = "error"
+      root.error = "engine exited with code " + exitCode
+      root.restartAttempt += 1
+      restartTimer.interval = Math.min(30000, 1000 * Math.pow(2, root.restartAttempt - 1))
+""",
+        """      if (exitCode === 0) {
+        root.engineState = "starting"
+        root.error = ""
+        if (!statusProcess.running) statusProcess.running = true
+        return
+      }
+      root.engineState = "error"
+      root.error = "engine exited with code " + exitCode
+      root.restartAttempt += 1
+      restartTimer.interval = Math.min(30000, 1000 * Math.pow(2, root.restartAttempt - 1))
+""",
+            "engine exit handler",
+        )
+        updated = replace_once(
+            updated,
+        """      if (exitCode === 0) root.applyStatus(statusOutput.text)
+      else if (root.engineState !== "error") root.ready = false
+""",
+        """      if (exitCode === 0) {
+        root.applyStatus(statusOutput.text)
+        if (!engineProcess.running) restartTimer.stop()
+      } else if (!root.stopping && !engineProcess.running && !restartTimer.running) {
+        root.ready = false
+        root.engineState = "starting"
+        Qt.callLater(root.startEngine)
+      }
+""",
+            "status exit handler",
+        )
 
     if updated != original:
         atomic_write(service, updated)
@@ -120,6 +202,7 @@ def reload_desktop(service: Path, original_service: str, original_bindings: str)
 
 
 def main() -> None:
+    ensure_input_access()
     install_plugin()
     service, original_service = configure_engine()
     original_bindings, _ = configure_hyprland()

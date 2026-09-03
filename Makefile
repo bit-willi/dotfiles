@@ -2,7 +2,7 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff install-android-emulator install-deps install-homearchy mount-cloud unmount-cloud
+.PHONY: apply diff install-android-emulator install-deps install-homearchy install-rootless-docker mount-cloud unmount-cloud
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
@@ -20,6 +20,7 @@ install-deps:
 	(($${#aur[@]} == 0)) || yay -S --needed --noconfirm "$${aur[@]}"
 	git lfs install
 	"$(CURDIR)/dot_local/bin/executable_android-emulator" --create-only
+	"$(CURDIR)/scripts/ensure-rootless-docker"
 	"$(CURDIR)/scripts/ensure-homearchy"
 	omarchy bar move omarchy.indicators --section right --after omarchy.agents
 	omarchy bar move omarchy.system-update --section right --after omarchy.indicators
@@ -52,6 +53,9 @@ install-homearchy:
 
 install-android-emulator:
 	"$(CURDIR)/scripts/install-android-emulator"
+
+install-rootless-docker:
+	"$(CURDIR)/scripts/ensure-rootless-docker"
 
 mount-cloud:
 	@command -v rclone >/dev/null || { echo "rclone is required." >&2; exit 1; }

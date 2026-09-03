@@ -5,7 +5,10 @@ android-platform
 android-sdk-cmdline-tools-latest
 bitwarden-cli
 chezmoi
+docker
+docker-rootless-extras
 easyeffects
+fuse-overlayfs
 git-lfs
 gitmux
 jq
@@ -17,7 +20,9 @@ networkmanager-l2tp
 nwg-displays
 proxychains-ng
 rclone
+rootlesskit
 smartmontools
+slirp4netns
 strongswan
 tor
 yazi

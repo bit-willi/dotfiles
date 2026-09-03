@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -euo pipefail
+
+user_name="${USER:-$(id -un)}"
+user_id="$(id -u)"
+docker_host="unix:///run/user/${user_id}/docker.sock"
+
+for command_name in docker dockerd-rootless.sh newgidmap newuidmap rootlesskit slirp4netns; do
+  command -v "$command_name" >/dev/null || {
+    echo "$command_name is required. Run 'make install-deps' first." >&2
+    exit 1
+  }
+done
+
+awk -F: -v user="$user_name" '$1 == user && $3 >= 65536 { found = 1 } END { exit !found }' /etc/subuid || {
+  echo "A subordinate UID range of at least 65536 is required for ${user_name}." >&2
+  exit 1
+}
+awk -F: -v user="$user_name" '$1 == user && $3 >= 65536 { found = 1 } END { exit !found }' /etc/subgid || {
+  echo "A subordinate GID range of at least 65536 is required for ${user_name}." >&2
+  exit 1
+}
+
+sudo systemctl disable --now docker.service docker.socket
+sudo loginctl enable-linger "$user_name"
+
+systemctl --user daemon-reload
+systemctl --user enable --now docker.socket docker.service
+
+if ! docker context inspect rootless >/dev/null 2>&1; then
+  docker context create rootless --docker "host=${docker_host}" >/dev/null
+fi
+
+DOCKER_HOST="$docker_host" docker info >/dev/null
+echo "Rootless Docker is ready at ${docker_host}."

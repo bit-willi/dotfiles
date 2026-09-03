@@ -37,6 +37,13 @@ and virtual device, run:
 make install-android-emulator
 ```
 
+Docker runs as a rootless user service using
+`unix:///run/user/$UID/docker.sock`. To install or repair only that setup, run:
+
+```bash
+make install-rootless-docker
+```
+
 The dependency setup also installs and enables Homearchy with only its recursive
 grid active globally. `Super+Shift+G` replaces Omarchy's Signal shortcut; the
 existing `Super+Shift+F` Nautilus shortcut remains available.

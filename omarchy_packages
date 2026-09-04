@@ -21,6 +21,7 @@ nwg-displays
 proxychains-ng
 rclone
 rootlesskit
+rtkit
 smartmontools
 slirp4netns
 strongswan

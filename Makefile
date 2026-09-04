@@ -22,8 +22,8 @@ install-deps:
 	"$(CURDIR)/dot_local/bin/executable_android-emulator" --create-only
 	"$(CURDIR)/scripts/ensure-rootless-docker"
 	"$(CURDIR)/scripts/ensure-homearchy"
-	omarchy bar move omarchy.indicators --section right --after omarchy.agents
-	omarchy bar move omarchy.system-update --section right --after omarchy.indicators
+	"$(CURDIR)/scripts/ensure-tray-indicators"
+	omarchy bar move omarchy.system-update --section right --after omarchy.agents
 	omarchy bar move omarchy.weather --section right --after omarchy.system-update
 	omarchy bar move omarchy.keyboard-layout --section right --after omarchy.weather
 	omarchy bar move omarchy.clock --section right --after omarchy.power
@@ -113,6 +113,7 @@ apply diff:
 	if [[ "$(CHEZMOI_ACTION)" == "apply" ]]; then
 		mkdir -p "$$HOME/Pictures/screenshots"
 		omarchy toggle idle allow-idle >/dev/null
+		"$(CURDIR)/scripts/ensure-tray-indicators"
 		"$(CURDIR)/scripts/ensure-google-drive"
 		"$(CURDIR)/scripts/ensure-icloud-drive"
 		if tmux list-sessions >/dev/null 2>&1; then

@@ -1,0 +1,62 @@
+#!/bin/bash
+
+set -euo pipefail
+
+plugin_prefix="${USER:-$(id -un)}"
+plugin_id="${plugin_prefix}.tray"
+plugin_dir="${HOME}/.config/omarchy/plugins/${plugin_id}"
+tray_qml="${plugin_dir}/Tray.qml"
+shell_config="${HOME}/.config/omarchy/shell.json"
+
+if [[ ! -d "$plugin_dir" ]]; then
+  omarchy plugin clone omarchy.tray
+fi
+
+[[ -f "$tray_qml" ]] || {
+  echo "Missing tray widget for cloned plugin: $plugin_id" >&2
+  exit 1
+}
+
+sed -i \
+  -e 's#import "/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets#import "file:/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets#' \
+  "$tray_qml"
+
+if ! grep -Fq 'as OmarchyWidgets' "$tray_qml"; then
+  sed -i '/^import "TrayModel.js" as TrayModel$/a import "file:/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets' "$tray_qml"
+fi
+
+sed -i \
+  -e 's/readonly property int drawerCount: drawerItems.length$/readonly property int drawerCount: drawerItems.length + indicatorEntryCount/' \
+  -e 's/readonly property int drawerCount: drawerItems.length + 6$/readonly property int drawerCount: drawerItems.length + indicatorEntryCount/' \
+  -e 's/readonly property int drawerExtent: drawerCount > 0 ? drawerCount \* trayItemExtent + (drawerCount - 1) \* trayItemGap : 0/readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntryCount * Style.bar.statusSlot + (drawerCount - 1) * trayItemGap/' \
+  -e 's/root\.allItems\.length > 0/root.drawerCount > 0/g' \
+  "$tray_qml"
+
+if ! grep -Fq 'readonly property int indicatorEntryCount:' "$tray_qml"; then
+  sed -i '/readonly property int drawerCount: drawerItems.length + indicatorEntryCount$/a\  readonly property int indicatorEntryCount: 6' "$tray_qml"
+fi
+
+if ! grep -Fq 'OmarchyWidgets.Indicators {' "$tray_qml"; then
+  sed -i '/^[[:space:]]*layer.enabled: true$/a\
+\
+            OmarchyWidgets.Indicators {\
+              bar: root.bar\
+              settings: ({ alwaysShow: true })\
+            }' "$tray_qml"
+fi
+
+omarchy plugin enable "$plugin_id"
+
+tmp_config="$(mktemp)"
+trap 'rm -f "$tmp_config"' EXIT
+jq --arg plugin_id "$plugin_id" '
+  .bar.layout.left = ((.bar.layout.left // []) | map(select(.id != "omarchy.indicators"))) |
+  .bar.layout.center = ((.bar.layout.center // []) | map(select(.id != "omarchy.indicators"))) |
+  .bar.layout.right = ((.bar.layout.right // []) | map(select(.id != "omarchy.indicators"))) |
+  if ([.bar.layout.left[], .bar.layout.center[], .bar.layout.right[]] | any(.id == $plugin_id))
+  then .
+  else .bar.layout.right = [{ id: $plugin_id }] + .bar.layout.right
+  end
+' "$shell_config" > "$tmp_config"
+mv "$tmp_config" "$shell_config"
+trap - EXIT

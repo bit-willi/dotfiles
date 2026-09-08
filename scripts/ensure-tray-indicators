@@ -30,6 +30,7 @@ sed -i \
   -e 's/readonly property int drawerCount: drawerItems.length + 6$/readonly property int drawerCount: drawerItems.length + indicatorEntryCount/' \
   -e 's/readonly property int drawerExtent: drawerCount > 0 ? drawerCount \* trayItemExtent + (drawerCount - 1) \* trayItemGap : 0/readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntryCount * Style.bar.statusSlot + (drawerCount - 1) * trayItemGap/' \
   -e 's/root\.allItems\.length > 0/root.drawerCount > 0/g' \
+  -e 's/settings: ({ alwaysShow: true })/settings: root.expanded ? ({ alwaysShow: true }) : ({ items: [""] })/' \
   "$tray_qml"
 
 if ! grep -Fq 'readonly property int indicatorEntryCount:' "$tray_qml"; then
@@ -41,7 +42,7 @@ if ! grep -Fq 'OmarchyWidgets.Indicators {' "$tray_qml"; then
 \
             OmarchyWidgets.Indicators {\
               bar: root.bar\
-              settings: ({ alwaysShow: true })\
+              settings: root.expanded ? ({ alwaysShow: true }) : ({ items: [""] })\
             }' "$tray_qml"
 fi
 

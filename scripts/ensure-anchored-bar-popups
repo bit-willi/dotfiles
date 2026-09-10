@@ -21,6 +21,7 @@ anchor_popup() {
   }
 
   sed -i 's/centerOnBar: true/centerOnBar: false/' "$panel"
+  perl -0pi -e 's/if \(root\.bar && "centerHoverRevealSuppressed" in root\.bar\)\n      root\.bar\.centerHoverRevealSuppressed = value/if (root.bar \&\& typeof root.bar.setCenterHoverRevealSuppressed === "function")\n      root.bar.setCenterHoverRevealSuppressed(value)\n    else if (root.bar \&\& "centerHoverRevealSuppressed" in root.bar)\n      root.bar.centerHoverRevealSuppressed = value/g' "$panel"
   omarchy plugin enable "$local_id"
 }
 

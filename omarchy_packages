@@ -26,6 +26,7 @@ smartmontools
 slirp4netns
 strongswan
 tor
+torsocks
 traceroute
 webkitgtk-6.0
 yazi

@@ -1,0 +1,11 @@
+[Unit]
+Description=Enable Intel Turbo Boost for the performance profile
+After=power-profiles-daemon.service
+ConditionPathExists=/sys/devices/system/cpu/intel_pstate/no_turbo
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/libexec/enable-intel-turbo
+
+[Install]
+WantedBy=multi-user.target

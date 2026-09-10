@@ -33,12 +33,15 @@ install-deps:
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/logind.conf.d/90-ac-lid-lock.conf" /etc/systemd/logind.conf.d/90-ac-lid-lock.conf
 	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/reset-touchpad-i2c" /usr/local/libexec/reset-touchpad-i2c
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/system/reset-touchpad-i2c.service" /etc/systemd/system/reset-touchpad-i2c.service
+	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/enable-intel-turbo" /usr/local/libexec/enable-intel-turbo
+	sudo install -Dm0644 "$(CURDIR)/etc/systemd/system/enable-intel-turbo.service" /etc/systemd/system/enable-intel-turbo.service
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/easyeffects.service" "$$HOME/.config/systemd/user/easyeffects.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-google-drive.service" "$$HOME/.config/systemd/user/rclone-google-drive.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-drive.service" "$$HOME/.config/systemd/user/rclone-icloud-drive.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-photos.service" "$$HOME/.config/systemd/user/rclone-icloud-photos.service"
 	sudo systemctl daemon-reload
 	sudo systemctl enable --now reset-touchpad-i2c.service
+	sudo systemctl enable --now enable-intel-turbo.service
 	sudo systemctl enable keyd
 	sudo systemctl restart keyd
 	systemctl --user daemon-reload

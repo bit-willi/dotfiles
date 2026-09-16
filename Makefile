@@ -41,7 +41,8 @@ install-deps:
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-photos.service" "$$HOME/.config/systemd/user/rclone-icloud-photos.service"
 	sudo systemctl daemon-reload
 	sudo systemctl enable --now reset-touchpad-i2c.service
-	sudo systemctl enable --now enable-intel-turbo.service
+	sudo systemctl reenable enable-intel-turbo.service
+	sudo systemctl start enable-intel-turbo.service
 	sudo systemctl enable keyd
 	sudo systemctl restart keyd
 	systemctl --user daemon-reload

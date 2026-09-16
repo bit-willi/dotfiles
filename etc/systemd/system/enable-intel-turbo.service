@@ -8,4 +8,6 @@ Type=oneshot
 ExecStart=/usr/local/libexec/enable-intel-turbo
 
 [Install]
-WantedBy=multi-user.target
+# The power daemon starts after multi-user.target, so this service must not
+# be ordered before that target through its default target dependencies.
+WantedBy=graphical.target

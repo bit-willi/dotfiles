@@ -22,6 +22,7 @@ install-deps:
 	"$(CURDIR)/dot_local/bin/executable_android-emulator" --create-only
 	"$(CURDIR)/scripts/ensure-rootless-docker"
 	"$(CURDIR)/scripts/ensure-homearchy"
+	"$(CURDIR)/scripts/ensure-pomodoro-plugin"
 	"$(CURDIR)/scripts/ensure-tray-indicators"
 	omarchy bar move omarchy.system-update --section right --after omarchy.agents
 	omarchy bar move omarchy.weather --section right --after omarchy.system-update

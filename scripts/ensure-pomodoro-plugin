@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+plugin_id="mlhunter.pomodoro"
+plugin_url="https://github.com/rokan00/omarchy-pomodoro.git"
+
+if ! omarchy plugin list --json | jq -e --arg plugin_id "$plugin_id" \
+  '.[] | select(.id == $plugin_id)' >/dev/null; then
+  omarchy plugin add "$plugin_url" --enable --yes
+else
+  omarchy plugin enable "$plugin_id"
+fi

@@ -8,6 +8,7 @@ chezmoi
 docker
 docker-rootless-extras
 easyeffects
+flea
 fuse-overlayfs
 git-lfs
 gitmux

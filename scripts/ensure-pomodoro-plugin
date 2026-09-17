@@ -11,3 +11,5 @@ if ! omarchy plugin list --json | jq -e --arg plugin_id "$plugin_id" \
 else
   omarchy plugin enable "$plugin_id"
 fi
+
+omarchy bar move "$plugin_id" --section right --after omarchy.agents

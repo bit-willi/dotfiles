@@ -6,7 +6,7 @@ export DOCKER_HOST="unix:///run/user/"(id -u)"/docker.sock"
 export CHROME_EXECUTABLE=/usr/bin/chromium
 
 # Path
-export PATH="$HOME/.local/bin:$HOME/.pub-cache/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$HOME/.npm-global/bin:$HOME/pOS/bin":"$PATH"
+export PATH="$HOME/.local/bin:$HOME/.pub-cache/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$HOME/.npm-global/bin:$HOME/pOS/bin:$HOME/.bend/bin":"$PATH"
 
 # Env Secrets
 test -r $HOME/.env-secrets; and source $HOME/.env-secrets

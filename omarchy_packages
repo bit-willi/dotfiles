@@ -4,7 +4,9 @@ android-google-apis-x86-64-system-image
 android-platform
 android-sdk-cmdline-tools-latest
 bitwarden-cli
+bun
 chezmoi
+clang
 docker
 docker-rootless-extras
 easyeffects

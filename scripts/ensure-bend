@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+bend_home="${BEND_HOME:-$HOME/.bend}"
+bend_bin="$bend_home/bin/bend"
+
+for command in bun clang curl; do
+  command -v "$command" >/dev/null || {
+    echo "Bend requires $command. Run make install-deps first." >&2
+    exit 1
+  }
+done
+
+if [[ ! -x "$bend_bin" ]]; then
+  installer="$(mktemp)"
+  trap 'rm -f "$installer"' EXIT
+  curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --retry-all-errors \
+    --output "$installer" https://bend-lang.com/install.sh
+  BEND_HOME="$bend_home" sh "$installer"
+fi
+
+BEND_HOME="$bend_home" BEND_NO_TELEMETRY=1 "$bend_bin" --help >/dev/null

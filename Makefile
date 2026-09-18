@@ -2,7 +2,7 @@ SHELL := /usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-.PHONY: apply diff install-android-emulator install-bend install-deps install-homearchy install-rootless-docker mount-cloud unmount-cloud
+.PHONY: apply diff install-android-emulator install-bend install-deps install-homearchy install-rootless-docker install-voxtype mount-cloud unmount-cloud
 
 install-deps:
 	@command -v omarchy >/dev/null || { echo "Omarchy is required." >&2; exit 1; }
@@ -22,6 +22,7 @@ install-deps:
 	"$(CURDIR)/dot_local/bin/executable_android-emulator" --create-only
 	"$(CURDIR)/scripts/ensure-rootless-docker"
 	"$(CURDIR)/scripts/ensure-bend"
+	"$(CURDIR)/scripts/ensure-voxtype"
 	"$(CURDIR)/scripts/ensure-homearchy"
 	"$(CURDIR)/scripts/ensure-pomodoro-plugin"
 	"$(CURDIR)/scripts/ensure-tray-indicators"
@@ -59,6 +60,9 @@ install-homearchy:
 
 install-bend:
 	"$(CURDIR)/scripts/ensure-bend"
+
+install-voxtype:
+	"$(CURDIR)/scripts/ensure-voxtype"
 
 install-android-emulator:
 	"$(CURDIR)/scripts/install-android-emulator"

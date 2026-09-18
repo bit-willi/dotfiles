@@ -1,0 +1,27 @@
+# Use Hyprland's native bindings instead of the global evdev listener.
+# Omarchy provides F9 (hold to dictate) and Super+Ctrl+X (toggle dictation).
+state_file = "auto"
+
+[hotkey]
+enabled = false
+
+[audio]
+device = "default"
+sample_rate = 16000
+max_duration_secs = 60
+
+[whisper]
+backend = "local"
+# The multilingual model supports Portuguese and English dictation.
+model = "base"
+language = "auto"
+
+[output]
+mode = "type"
+fallback_to_clipboard = true
+
+[output.notification]
+on_transcription = true
+
+[osd]
+frontend = "gtk4"

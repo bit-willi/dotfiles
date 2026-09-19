@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+theme_path="$HOME/.local/state/omarchy/current/theme"
+session_id="${XDG_SESSION_ID:?XDG_SESSION_ID is required}"
+: "${OMARCHY_PATH:=/usr/share/omarchy}"
+export OMARCHY_PATH
+
+resync_theme() {
+  local colors shell attempt
+
+  [[ -f "$theme_path/colors.toml" && -f "$theme_path/shell.toml" ]] || return 0
+  colors=$(base64 -w 0 "$theme_path/colors.toml")
+  shell=$(base64 -w 0 "$theme_path/shell.toml")
+
+  # The shell may still be loading immediately after an unlock or reload.
+  for attempt in {1..10}; do
+    if omarchy-shell shell applyTheme "$colors" "$shell" >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 0.2
+  done
+}
+
+watch_unlock() {
+  local was_locked locked
+  was_locked=$(loginctl show-session "$session_id" -p LockedHint --value 2>/dev/null || echo no)
+
+  while sleep 1; do
+    locked=$(loginctl show-session "$session_id" -p LockedHint --value 2>/dev/null || echo no)
+    if [[ $was_locked == yes && $locked != yes ]]; then
+      resync_theme
+    fi
+    was_locked=$locked
+  done
+}
+
+watch_config_reload() {
+  local socket event
+  socket="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+
+  while [[ -S $socket ]]; do
+    while IFS= read -r event; do
+      [[ $event == configreloaded\>\>* ]] && resync_theme
+    done < <(socat -U - "UNIX-CONNECT:$socket" 2>/dev/null || true)
+    sleep 1
+  done
+}
+
+resync_theme
+watch_unlock &
+watch_config_reload

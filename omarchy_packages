@@ -3,7 +3,7 @@ android-emulator
 android-google-apis-x86-64-system-image
 android-platform
 android-sdk-cmdline-tools-latest
-antigravity
+antigravity-cli
 bitwarden-cli
 bun
 chezmoi

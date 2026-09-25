@@ -45,7 +45,7 @@ make install-rootless-docker
 ```
 
 The dependency setup also installs and enables Homearchy with only its recursive
-grid active globally. `Super+Shift+G` replaces Omarchy's Signal shortcut; the
+grid active globally. `Super+G` replaces Omarchy's window-grouping shortcut; the
 existing `Super+Shift+F` Nautilus shortcut remains available.
 
 The top bar uses a macOS-style layout: its center is empty, while indicators,

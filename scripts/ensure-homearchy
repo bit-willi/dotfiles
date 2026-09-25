@@ -78,6 +78,27 @@ def configure_engine() -> tuple[Path, str]:
             raise RuntimeError("Homearchy scroll hotkey block has no terminator")
         updated = updated[:scroll].rstrip(" +\n") + "\n" + updated[scroll_end:]
 
+    recursive_start = '      "[recursive_grid]\\n" +\n'
+    legacy_recursive_start = '      "[recursive_grid.hotkeys]\\n" +\n'
+    recursive_end = '      "[scroll]\\n" +\n'
+    start = updated.find(recursive_start)
+    if start == -1:
+        start = updated.find(legacy_recursive_start)
+    end = updated.find(recursive_end, start)
+    if start == -1 or end == -1:
+        raise RuntimeError("Homearchy recursive-grid block was not found")
+    managed_recursive_grid = (
+        '      "[recursive_grid]\\n" +\n'
+        '      "grid_cols = 2\\n" +\n'
+        '      "grid_rows = 2\\n" +\n'
+        '      "keys = \\"uijk\\"\\n\\n" +\n'
+        '      "[recursive_grid.hotkeys]\\n" +\n'
+        '      "\\\"m\\\" = [\\\"action left_click\\\", \\"idle\\\"]\\n" +\n'
+        '      "\\\",\\\" = [\\\"action middle_click\\\", \\"idle\\\"]\\n" +\n'
+        '      "\\\".\\\" = [\\\"action right_click\\\", \\"idle\\\"]\\n\\n" +\n'
+    )
+    updated = updated[:start] + managed_recursive_grid + updated[end:]
+
     if "  function probeEngine() {" not in updated:
         updated = replace_once(
             updated,
@@ -168,8 +189,8 @@ def configure_hyprland() -> tuple[str, str]:
     engine = PLUGIN_DIR / "bin/homearchy"
     block = (
         f"\n{START_MARKER}\n"
-        'hl.unbind("SUPER + SHIFT + G")\n'
-        f'o.bind("SUPER + SHIFT + G", "Homearchy recursive grid", '
+        'hl.unbind("SUPER + G")\n'
+        f'o.bind("SUPER + G", "Homearchy recursive grid", '
         f'"{engine} recursive_grid --action left_click")\n'
         f"{END_MARKER}\n"
     )
@@ -207,7 +228,7 @@ def main() -> None:
     service, original_service = configure_engine()
     original_bindings, _ = configure_hyprland()
     reload_desktop(service, original_service, original_bindings)
-    print("Homearchy recursive grid is bound to Super+Shift+G.")
+    print("Homearchy recursive grid is bound to Super+G.")
 
 
 if __name__ == "__main__":

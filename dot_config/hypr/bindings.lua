@@ -39,6 +39,9 @@ o.bind("SUPER + SHIFT + SLASH", "Keybindings", "omarchy-menu-keybindings")
 hl.unbind("SUPER + SHIFT + D")
 o.bind("SUPER + SHIFT + D", "Toggle Gruvbox light/dark", "omarchy-theme-toggle")
 
+-- Disable the default window-grouping shortcut; Homearchy owns Super+G.
+hl.unbind("SUPER + G")
+
 -- Vim-style window movement, matching Omarchy's Super+Shift+Arrow bindings.
 o.bind("SUPER + SHIFT + H", "Swap window to the left", hl.dsp.window.swap({ direction = "l" }))
 o.bind("SUPER + SHIFT + J", "Swap window down", hl.dsp.window.swap({ direction = "d" }))

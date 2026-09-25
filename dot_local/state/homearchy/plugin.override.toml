@@ -1,0 +1,6 @@
+# Homearchy recursive-grid preferences.
+# The plugin's generated base config loads this override on every startup.
+[recursive_grid]
+grid_cols = 2
+grid_rows = 2
+keys = "uijk"

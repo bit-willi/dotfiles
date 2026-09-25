@@ -17,3 +17,12 @@ require("hypr.autostart")
 
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
+
+-- pOS drives its dedicated Chromium session through an extension. Keep its
+-- automation requests from activating workspace 2 or stealing keyboard focus.
+-- Manual pointer focus still works normally.
+o.window("chromium", {
+  workspace = "2 silent",
+  no_initial_focus = true,
+  suppress_event = "activate activatefocus",
+})

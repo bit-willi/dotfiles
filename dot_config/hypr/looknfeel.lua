@@ -10,3 +10,10 @@ hl.config({
     },
   },
 })
+
+-- Hide the border when only one visible tiled window occupies the workspace.
+-- Hyprland restores the normal border automatically when another tile appears.
+hl.workspace_rule({ workspace = "w[tv1]", gaps_in = 0, gaps_out = 0 })
+o.window({ float = false, workspace = "w[tv1]" }, {
+  border_size = 0,
+})

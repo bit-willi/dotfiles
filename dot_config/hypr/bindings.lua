@@ -39,6 +39,10 @@ o.bind("SUPER + SHIFT + SLASH", "Keybindings", "omarchy-menu-keybindings")
 hl.unbind("SUPER + SHIFT + D")
 o.bind("SUPER + SHIFT + D", "Toggle Gruvbox light/dark", "omarchy-theme-toggle")
 
+-- Replace Omarchy's Spotify shortcut with Spotifast.
+hl.unbind("SUPER + SHIFT + M")
+o.bind("SUPER + SHIFT + M", "Music (Spotifast)", { launch = "spotifast", focus = "^spotifast$" })
+
 -- Disable the default window-grouping shortcut; Homearchy owns Super+G.
 hl.unbind("SUPER + G")
 

@@ -29,6 +29,7 @@ rclone
 rootlesskit
 rtkit
 smartmontools
+spotifast-bin
 slirp4netns
 strongswan
 tor

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "willian.icloud",
+  "name": "Cloud",
+  "version": "1.0.0",
+  "author": "Willian",
+  "description": "iCloud and Google Drive access status with a control panel.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "Cloud",
+    "description": "Check iCloud and Google Drive status; click for details.",
+    "category": "Files",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

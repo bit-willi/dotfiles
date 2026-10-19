@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+source_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dot_config/omarchy/plugins/willian.icloud"
+target_dir="${HOME}/.config/omarchy/plugins/willian.icloud"
+
+install_if_changed() {
+	local mode="$1" source="$2" target="$3"
+	if [[ ! -f "$target" ]] || ! cmp -s "$source" "$target"; then
+		install -Dm"$mode" "$source" "$target"
+	fi
+}
+
+install_if_changed 0644 "${source_dir}/manifest.json" "${target_dir}/manifest.json"
+install_if_changed 0644 "${source_dir}/BarWidget.qml" "${target_dir}/BarWidget.qml"
+install_if_changed 0644 "${source_dir}/Panel.qml" "${target_dir}/Panel.qml"
+install_if_changed 0755 "${source_dir}/executable_status.sh" "${target_dir}/status.sh"
+install_if_changed 0755 "${source_dir}/executable_reconnect.sh" "${target_dir}/reconnect.sh"
+install_if_changed 0755 "${source_dir}/executable_save-auth.sh" "${target_dir}/save-auth.sh"
+
+if ! jq -e '.bar.layout | [.left[], .center[], .right[]] | any(.id == "willian.icloud")' \
+	"${HOME}/.config/omarchy/shell.json" >/dev/null; then
+	omarchy bar put willian.icloud --section right --after omarchy.tailscale
+fi

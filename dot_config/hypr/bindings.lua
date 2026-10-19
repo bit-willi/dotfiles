@@ -43,6 +43,15 @@ o.bind("SUPER + SHIFT + D", "Toggle Gruvbox light/dark", "omarchy-theme-toggle")
 hl.unbind("SUPER + SHIFT + M")
 o.bind("SUPER + SHIFT + M", "Music (Spotifast)", { launch = "spotifast", focus = "^spotifast$" })
 
+-- Replace Omarchy's Nautilus shortcuts with Flea.
+hl.unbind("SUPER + SHIFT + F")
+o.bind("SUPER + SHIFT + F", "File manager", { launch = "flea --gui" })
+hl.unbind("SUPER + ALT + SHIFT + F")
+o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", { launch = 'flea --gui "$(omarchy-cmd-terminal-cwd)"' })
+
+-- Float Flea's file chooser like Omarchy's other portal dialogs.
+o.window("com.thisisgm.flea.picker", { tag = "+floating-window" })
+
 -- Disable the default window-grouping shortcut; Homearchy owns Super+G.
 hl.unbind("SUPER + G")
 

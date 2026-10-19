@@ -11,6 +11,7 @@ clang
 docker
 docker-rootless-extras
 easyeffects
+flea-bin
 fuse-overlayfs
 git-lfs
 gitmux

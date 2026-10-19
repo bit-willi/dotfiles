@@ -16,7 +16,7 @@ alias touch-date='touch $(date +"%Y-%m-%d").txt'
 alias bw-login='export BW_SESSION=$(bw unlock --raw); bw sync'
 alias c=clear
 alias cl='clear; l'
-alias files='omarchy launch nautilus'
+alias files='flea --gui'
 
 alias resolv-lock='sudo chattr +i /etc/resolv.conf'
 alias resolv-unlock='sudo chattr -i /etc/resolv.conf'

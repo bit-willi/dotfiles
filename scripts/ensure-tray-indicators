@@ -1,63 +1,92 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 set -euo pipefail
 
 plugin_prefix="${USER:-$(id -un)}"
 plugin_id="${plugin_prefix}.tray"
 plugin_dir="${HOME}/.config/omarchy/plugins/${plugin_id}"
-tray_qml="${plugin_dir}/Tray.qml"
-shell_config="${HOME}/.config/omarchy/shell.json"
+stock_dir="/usr/share/omarchy/shell/plugins/bar/widgets"
 
 if [[ ! -d "$plugin_dir" ]]; then
   omarchy plugin clone omarchy.tray
 fi
 
-[[ -f "$tray_qml" ]] || {
-  echo "Missing tray widget for cloned plugin: $plugin_id" >&2
-  exit 1
+# Keep the cloned tray current with Omarchy. Load the six stock indicator
+# buttons directly in its drawer; importing Indicators.qml as a nested widget
+# breaks its inline QML components in current Omarchy.
+python3 - "$stock_dir/Tray.qml" "$plugin_dir/Tray.qml" <<'PY'
+from pathlib import Path
+import sys
+
+source = Path(sys.argv[1]).read_text()
+target = Path(sys.argv[2])
+changes = {
+    "visible: pinnedItems.length > 0 || drawerCount > 0": "visible: true",
+    "root.allItems.length > 0 ? expandIcon.implicitWidth + root.drawerExtent : 0": "expandIcon.implicitWidth + root.drawerExtent",
+    "root.allItems.length > 0 ? expandIcon.implicitHeight + root.drawerExtent : 0": "expandIcon.implicitHeight + root.drawerExtent",
+    "visible: root.allItems.length > 0": "visible: true",
+    "if (button === Qt.RightButton) root.managePopupOpen = !root.managePopupOpen":
+        "if (button === Qt.RightButton) root.managePopupOpen = !root.managePopupOpen\n"
+        "            else if (button === Qt.LeftButton) {\n"
+        "              root.drawerPinnedOpen = !root.drawerPinnedOpen\n"
+        "              root.expanded = root.drawerPinnedOpen\n"
+        "            }",
 }
+expected = [1, 1, 1, 2, 2]
+for (old, new), count in zip(changes.items(), expected):
+    if source.count(old) != count:
+        raise SystemExit(f"Omarchy tray layout changed: expected {count} matches for {old!r}")
+    source = source.replace(old, new)
 
-sed -i \
-  -e 's#import "/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets#import "file:/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets#' \
-  "$tray_qml"
+old = "readonly property int drawerCount: drawerItems.length"
+assert source.count(old) == 1
+source = source.replace(old, "readonly property int drawerCount: drawerItems.length + indicatorEntries.length")
+old = "readonly property int drawerExtent: drawerCount > 0 ? drawerCount * trayItemExtent + (drawerCount - 1) * trayItemGap : 0"
+assert source.count(old) == 1
+source = source.replace(old, "readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntries.length * Style.bar.statusSlot")
+old = "  property bool expanded: false\n"
+assert source.count(old) == 1
+source = source.replace(old, old + '''  readonly property var indicatorEntries: ["Dictation", "ScreenRecording", "Reminder", "NightLight", "Dnd", "StayAwake"]
+  property bool drawerPinnedOpen: false
+  readonly property bool revealInactiveIndicators: expanded
+  signal refreshRequested()
+''')
 
-if ! grep -Fq 'as OmarchyWidgets' "$tray_qml"; then
-  sed -i '/^import "TrayModel.js" as TrayModel$/a import "file:/usr/share/omarchy/shell/plugins/bar/widgets" as OmarchyWidgets' "$tray_qml"
+old = "onHoveredChanged: root.expanded = hovered"
+assert source.count(old) == 2
+source = source.replace(old, "onHoveredChanged: if (!root.drawerPinnedOpen) root.expanded = hovered")
+old = 'text: "\\uf053"'
+assert source.count(old) == 2
+source = source.replace(old, old + '\n          tooltipText: root.expanded ? "Hide tray controls" : "Show tray controls"')
+
+old = '''            Repeater {
+              model: root.drawerItems
+              TrayItem {}
+            }'''
+assert source.count(old) == 2
+source = source.replace(old, '''            Repeater {
+              model: root.indicatorEntries
+              Loader {
+                required property string modelData
+                source: "file:///usr/share/omarchy/shell/plugins/bar/indicators/" + modelData + ".qml"
+                onLoaded: {
+                  item.bar = root.bar
+                  item.indicatorHost = root
+                }
+              }
+            }
+
+''' + old)
+if not target.exists() or target.read_text() != source:
+    target.write_text(source)
+PY
+
+if ! cmp -s "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"; then
+  install -m0644 "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"
 fi
 
-sed -i \
-  -e 's/readonly property int drawerCount: drawerItems.length$/readonly property int drawerCount: drawerItems.length + indicatorEntryCount/' \
-  -e 's/readonly property int drawerCount: drawerItems.length + 6$/readonly property int drawerCount: drawerItems.length + indicatorEntryCount/' \
-  -e 's/readonly property int drawerExtent: drawerCount > 0 ? drawerCount \* trayItemExtent + (drawerCount - 1) \* trayItemGap : 0/readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntryCount * Style.bar.statusSlot + (drawerCount - 1) * trayItemGap/' \
-  -e 's/root\.allItems\.length > 0/root.drawerCount > 0/g' \
-  -e 's/settings: ({ alwaysShow: true })/settings: root.expanded ? ({ alwaysShow: true }) : ({ items: [""] })/' \
-  "$tray_qml"
-
-if ! grep -Fq 'readonly property int indicatorEntryCount:' "$tray_qml"; then
-  sed -i '/readonly property int drawerCount: drawerItems.length + indicatorEntryCount$/a\  readonly property int indicatorEntryCount: 6' "$tray_qml"
-fi
-
-if ! grep -Fq 'OmarchyWidgets.Indicators {' "$tray_qml"; then
-  sed -i '/^[[:space:]]*layer.enabled: true$/a\
-\
-            OmarchyWidgets.Indicators {\
-              bar: root.bar\
-              settings: root.expanded ? ({ alwaysShow: true }) : ({ items: [""] })\
-            }' "$tray_qml"
-fi
-
+omarchy plugin disable omarchy.tray
 omarchy plugin enable "$plugin_id"
-
-tmp_config="$(mktemp)"
-trap 'rm -f "$tmp_config"' EXIT
-jq --arg plugin_id "$plugin_id" '
-  .bar.layout.left = ((.bar.layout.left // []) | map(select(.id != "omarchy.indicators"))) |
-  .bar.layout.center = ((.bar.layout.center // []) | map(select(.id != "omarchy.indicators"))) |
-  .bar.layout.right = ((.bar.layout.right // []) | map(select(.id != "omarchy.indicators"))) |
-  if ([.bar.layout.left[], .bar.layout.center[], .bar.layout.right[]] | any(.id == $plugin_id))
-  then .
-  else .bar.layout.right = [{ id: $plugin_id }] + .bar.layout.right
-  end
-' "$shell_config" > "$tmp_config"
-mv "$tmp_config" "$shell_config"
-trap - EXIT
+omarchy bar put "$plugin_id" --section right --index 0
+omarchy bar move "$plugin_id" --section right --index 0
+omarchy plugin disable omarchy.indicators

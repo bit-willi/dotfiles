@@ -45,14 +45,22 @@ make install-rootless-docker
 ```
 
 The dependency setup also installs and enables Homearchy with only its recursive
-grid active globally. `Super+G` replaces Omarchy's window-grouping shortcut; the
-existing `Super+Shift+F` Nautilus shortcut remains available.
+grid active globally. `Super+G` replaces Omarchy's window-grouping shortcut.
+Flea replaces Nautilus for `Super+Shift+F`, the current-directory shortcut,
+folder opening, “Show in folder,” and file chooser dialogs. The Fish `files`
+alias also opens Flea.
 
-The top bar uses a macOS-style layout: its center is empty, while indicators,
+The top bar uses a macOS-style layout: its center is empty, while the tray,
 update status, weather, keyboard layout, system controls, and the clock are on
-the right. The clock is placed at the far-right edge. The clock and weather
-panels are cloned locally so their popups open below the clicked widgets instead
-of in the center of the display.
+the right. Click the tray chevron to show Daylight, idle/screensaver, and the
+other status indicators alongside app icons. The clock is at the far-right edge.
+The clock and weather panels are cloned locally so their popups open below the
+clicked widgets instead of in the center of the display.
+
+The Cloud icon checks iCloud Drive, iCloud Photos, and Google Drive access once
+a minute. Hover shows its name; click opens one panel with all three statuses,
+an iCloud reconnect action, refresh, and a Bitwarden save action. Rclone mounts
+files on demand; the icon reports access health rather than upload progress.
 
 `make apply` asks for the Bitwarden master password once, exports the returned
 session only inside the Make process, and uses it for the full chezmoi apply.

@@ -35,9 +35,9 @@ o.bind("SUPER + K", "Focus on above window", hl.dsp.focus({ direction = "u" }))
 o.bind("SUPER + L", "Focus on right window", hl.dsp.focus({ direction = "r" }))
 o.bind("SUPER + SHIFT + SLASH", "Keybindings", "omarchy-menu-keybindings")
 
--- Replace Omarchy's Docker shortcut with a solid Gruvbox light/dark toggle.
+-- Replace Omarchy's Docker shortcut with the Solitary Swift light/dark toggle.
 hl.unbind("SUPER + SHIFT + D")
-o.bind("SUPER + SHIFT + D", "Toggle Gruvbox light/dark", "omarchy-theme-toggle")
+o.bind("SUPER + SHIFT + D", "Toggle Solitary Swift light/dark", "omarchy-theme-toggle")
 
 -- Replace Omarchy's Spotify shortcut with Spotifast.
 hl.unbind("SUPER + SHIFT + M")

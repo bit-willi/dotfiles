@@ -11,9 +11,8 @@ if [[ ! -d "$plugin_dir" ]]; then
   omarchy plugin clone omarchy.tray
 fi
 
-# Keep the cloned tray current with Omarchy. Load the six stock indicator
-# buttons directly in its drawer; importing Indicators.qml as a nested widget
-# breaks its inline QML components in current Omarchy.
+# Keep the cloned tray current with Omarchy. Wrap the stock indicators so their
+# clicks work inside a user plugin, which has no access to first-party services.
 python3 - "$stock_dir/Tray.qml" "$plugin_dir/Tray.qml" <<'PY'
 from pathlib import Path
 import sys
@@ -66,13 +65,11 @@ old = '''            Repeater {
 assert source.count(old) == 2
 source = source.replace(old, '''            Repeater {
               model: root.indicatorEntries
-              Loader {
+              TrayIndicator {
                 required property string modelData
-                source: "file:///usr/share/omarchy/shell/plugins/bar/indicators/" + modelData + ".qml"
-                onLoaded: {
-                  item.bar = root.bar
-                  item.indicatorHost = root
-                }
+                indicatorName: modelData
+                bar: root.bar
+                indicatorHost: root
               }
             }
 
@@ -80,6 +77,8 @@ source = source.replace(old, '''            Repeater {
 if not target.exists() or target.read_text() != source:
     target.write_text(source)
 PY
+
+install -m0644 "$(dirname "$0")/TrayIndicator.qml" "$plugin_dir/TrayIndicator.qml"
 
 if ! cmp -s "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"; then
   install -m0644 "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"
@@ -90,3 +89,7 @@ omarchy plugin enable "$plugin_id"
 omarchy bar put "$plugin_id" --section right --index 0
 omarchy bar move "$plugin_id" --section right --index 0
 omarchy plugin disable omarchy.indicators
+
+if omarchy plugin list --json | jq -e '.[] | select(.id == "mlhunter.pomodoro")' >/dev/null; then
+  omarchy plugin disable mlhunter.pomodoro
+fi

@@ -24,7 +24,6 @@ install-deps:
 	"$(CURDIR)/scripts/ensure-bend"
 	"$(CURDIR)/scripts/ensure-voxtype"
 	"$(CURDIR)/scripts/ensure-homearchy"
-	"$(CURDIR)/scripts/ensure-pomodoro-plugin"
 	"$(CURDIR)/scripts/ensure-tray-indicators"
 	"$(CURDIR)/scripts/ensure-icloud-widget"
 	omarchy bar move omarchy.system-update --section right --after omarchy.agents

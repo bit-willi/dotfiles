@@ -25,6 +25,7 @@ install-deps:
 	"$(CURDIR)/scripts/ensure-voxtype"
 	"$(CURDIR)/scripts/ensure-homearchy"
 	"$(CURDIR)/scripts/ensure-tray-indicators"
+	"$(CURDIR)/scripts/ensure-flea-ui"
 	"$(CURDIR)/scripts/ensure-icloud-widget"
 	omarchy bar move omarchy.system-update --section right --after omarchy.agents
 	omarchy bar move omarchy.weather --section right --after omarchy.system-update
@@ -127,6 +128,7 @@ apply diff:
 		mkdir -p "$$HOME/Pictures/screenshots"
 		omarchy toggle idle allow-idle >/dev/null
 		"$(CURDIR)/scripts/ensure-tray-indicators"
+		"$(CURDIR)/scripts/ensure-flea-ui"
 		"$(CURDIR)/scripts/ensure-icloud-widget"
 		"$(CURDIR)/scripts/ensure-google-drive"
 		"$(CURDIR)/scripts/ensure-icloud-drive"

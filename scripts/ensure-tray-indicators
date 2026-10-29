@@ -37,19 +37,9 @@ for (old, new), count in zip(changes.items(), expected):
         raise SystemExit(f"Omarchy tray layout changed: expected {count} matches for {old!r}")
     source = source.replace(old, new)
 
-old = "readonly property int drawerCount: drawerItems.length"
-assert source.count(old) == 1
-source = source.replace(old, "readonly property int drawerCount: drawerItems.length + indicatorEntries.length")
-old = "readonly property int drawerExtent: drawerCount > 0 ? drawerCount * trayItemExtent + (drawerCount - 1) * trayItemGap : 0"
-assert source.count(old) == 1
-source = source.replace(old, "readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntries.length * Style.bar.statusSlot")
 old = "  property bool expanded: false\n"
 assert source.count(old) == 1
-source = source.replace(old, old + '''  readonly property var indicatorEntries: ["Dictation", "ScreenRecording", "Reminder", "NightLight", "Dnd", "StayAwake"]
-  property bool drawerPinnedOpen: false
-  readonly property bool revealInactiveIndicators: expanded
-  signal refreshRequested()
-''')
+source = source.replace(old, old + "  property bool drawerPinnedOpen: false\n")
 
 old = "onHoveredChanged: root.expanded = hovered"
 assert source.count(old) == 2
@@ -58,27 +48,16 @@ old = 'text: "\\uf053"'
 assert source.count(old) == 2
 source = source.replace(old, old + '\n          tooltipText: root.expanded ? "Hide tray controls" : "Show tray controls"')
 
-old = '''            Repeater {
-              model: root.drawerItems
-              TrayItem {}
-            }'''
-assert source.count(old) == 2
-source = source.replace(old, '''            Repeater {
-              model: root.indicatorEntries
-              TrayIndicator {
-                required property string modelData
-                indicatorName: modelData
-                bar: root.bar
-                indicatorHost: root
-              }
-            }
-
-''' + old)
+for name in ("pinnedRow", "pinnedCol"):
+    old = f"        id: {name}\n"
+    assert source.count(old) == 1
+    source = source.replace(old, old + "        ControlCenter { bar: root.bar }\n")
 if not target.exists() or target.read_text() != source:
     target.write_text(source)
 PY
 
 install -m0644 "$(dirname "$0")/TrayIndicator.qml" "$plugin_dir/TrayIndicator.qml"
+install -m0644 "$(dirname "$0")/ControlCenter.qml" "$plugin_dir/ControlCenter.qml"
 
 if ! cmp -s "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"; then
   install -m0644 "$stock_dir/TrayModel.js" "$plugin_dir/TrayModel.js"

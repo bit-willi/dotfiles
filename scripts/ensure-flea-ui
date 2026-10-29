@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+command -v flea >/dev/null || exit 0
+flea --ui-state '{"view":"columns","keyHints":true}' >/dev/null

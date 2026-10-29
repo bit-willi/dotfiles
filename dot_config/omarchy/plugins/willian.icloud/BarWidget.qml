@@ -104,7 +104,8 @@ BarWidget {
     id: button
     anchors.fill: parent
     bar: root.bar
-    text: "☁"
+    text: "\uf0c2"
+    slotSize: Style.bar.statusSlot
     active: !root.healthy
     dimmed: root.driveStatus === "checking" || root.photosStatus === "checking" || root.googleStatus === "checking"
     tooltipText: "Cloud"

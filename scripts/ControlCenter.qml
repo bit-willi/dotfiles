@@ -20,6 +20,8 @@ BarIconButton {
   signal refreshRequested()
 
   text: "\uf1de"
+  slotSize: Style.bar.statusSlot
+  fontSize: Style.font.caption
   tooltipText: "Controls"
   onPressed: function(button) {
     if (button === Qt.LeftButton) panelOpen = !panelOpen

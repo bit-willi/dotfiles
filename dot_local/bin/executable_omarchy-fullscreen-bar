@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hide Omarchy's top bar after the focused fullscreen window stays active."""
+"""Hide Omarchy's top bar when one window fills the focused workspace."""
 
 import json
 import os
@@ -19,7 +19,7 @@ def stop(_signum, _frame):
     running = False
 
 
-def fullscreen_window():
+def covering_window():
     try:
         result = subprocess.run(
             ["hyprctl", "activeworkspace", "-j"],
@@ -27,15 +27,46 @@ def fullscreen_window():
         )
         workspace = json.loads(result.stdout)
         if workspace.get("hasfullscreen") is True:
-            return (workspace.get("monitor"), workspace.get("id"), workspace.get("lastwindow"))
+            return (workspace.get("monitor"), workspace.get("id"), "fullscreen")
+        if workspace.get("windows") != 1:
+            return None
+
+        result = subprocess.run(
+            ["hyprctl", "activewindow", "-j"],
+            capture_output=True, text=True, timeout=2, check=True,
+        )
+        window = json.loads(result.stdout)
+        if (window.get("workspace", {}).get("id") == workspace.get("id")
+                and window.get("floating") is False
+                and window.get("address")):
+            return (workspace.get("monitor"), workspace.get("id"), window["address"])
     except (OSError, ValueError, subprocess.SubprocessError):
         pass
     return None
 
 
-def set_bar(action):
+def pointer_in_top_strip(height):
     try:
-        subprocess.run(["omarchy", "toggle", "bar", action],
+        position = json.loads(subprocess.run(
+            ["hyprctl", "cursorpos", "-j"],
+            capture_output=True, text=True, timeout=2, check=True,
+        ).stdout)
+        monitors = json.loads(subprocess.run(
+            ["hyprctl", "monitors", "-j"],
+            capture_output=True, text=True, timeout=2, check=True,
+        ).stdout)
+        x, y = position["x"], position["y"]
+        return any(m["x"] <= x < m["x"] + m["width"]
+                   and m["y"] <= y <= m["y"] + height for m in monitors)
+    except (OSError, ValueError, KeyError, subprocess.SubprocessError):
+        return False
+
+
+def set_bar(hidden):
+    try:
+        # Omarchy's on/off arguments enable/disable the internal bar-off flag.
+        flag_action = "on" if hidden else "off"
+        subprocess.run(["omarchy", "toggle", "bar", flag_action],
                        capture_output=True, timeout=5, check=True)
         return True
     except (OSError, subprocess.SubprocessError):
@@ -47,29 +78,45 @@ def main():
     since = None
     owned = False
     suppressed = False
+    revealed = False
     try:
         while running:
-            current = fullscreen_window()
+            current = covering_window()
             if current != active:
-                if owned and FLAG.exists():
-                    set_bar("on")
-                owned = False
-                suppressed = False
-                active = current
-                since = time.monotonic() if current else None
+                if owned and current and FLAG.exists():
+                    # Switching between covering windows should not flash the bar.
+                    active = current
+                else:
+                    if owned and FLAG.exists():
+                        set_bar(False)
+                    owned = False
+                    suppressed = False
+                    revealed = False
+                    active = current
+                    since = time.monotonic() if current else None
 
             if current and since is not None:
                 if owned and not FLAG.exists():
                     # The user showed the bar manually; wait for the next window.
                     owned = False
                     suppressed = True
-                if not owned and not suppressed and not FLAG.exists() and time.monotonic() - since >= DELAY:
-                    owned = set_bar("off")
+                if owned and pointer_in_top_strip(2):
+                    if set_bar(False):
+                        owned = False
+                        revealed = True
+                if revealed and not pointer_in_top_strip(30):
+                    revealed = False
+                    since = time.monotonic()
+                if not owned and not suppressed and not revealed and not FLAG.exists() and time.monotonic() - since >= DELAY:
+                    if pointer_in_top_strip(30):
+                        since = time.monotonic()
+                    else:
+                        owned = set_bar(True)
 
             time.sleep(0.5)
     finally:
         if owned and FLAG.exists():
-            set_bar("on")
+            set_bar(False)
 
 
 if __name__ == "__main__":

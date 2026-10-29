@@ -1,0 +1,12 @@
+[Unit]
+Description=Hide the Omarchy top bar after 30 seconds in fullscreen
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/omarchy-fullscreen-bar
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Hide Omarchy's top bar after the focused fullscreen window stays active."""
+
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import time
+
+
+DELAY = float(os.environ.get("OMARCHY_FULLSCREEN_BAR_DELAY", "30"))
+FLAG = Path.home() / ".local/state/omarchy/toggles/bar-off"
+running = True
+
+
+def stop(_signum, _frame):
+    global running
+    running = False
+
+
+def fullscreen_window():
+    try:
+        result = subprocess.run(
+            ["hyprctl", "activeworkspace", "-j"],
+            capture_output=True, text=True, timeout=2, check=True,
+        )
+        workspace = json.loads(result.stdout)
+        if workspace.get("hasfullscreen") is True:
+            return (workspace.get("monitor"), workspace.get("id"), workspace.get("lastwindow"))
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass
+    return None
+
+
+def set_bar(action):
+    try:
+        subprocess.run(["omarchy", "toggle", "bar", action],
+                       capture_output=True, timeout=5, check=True)
+        return True
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
+def main():
+    active = None
+    since = None
+    owned = False
+    suppressed = False
+    try:
+        while running:
+            current = fullscreen_window()
+            if current != active:
+                if owned and FLAG.exists():
+                    set_bar("on")
+                owned = False
+                suppressed = False
+                active = current
+                since = time.monotonic() if current else None
+
+            if current and since is not None:
+                if owned and not FLAG.exists():
+                    # The user showed the bar manually; wait for the next window.
+                    owned = False
+                    suppressed = True
+                if not owned and not suppressed and not FLAG.exists() and time.monotonic() - since >= DELAY:
+                    owned = set_bar("off")
+
+            time.sleep(0.5)
+    finally:
+        if owned and FLAG.exists():
+            set_bar("on")
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, stop)
+    signal.signal(signal.SIGTERM, stop)
+    main()

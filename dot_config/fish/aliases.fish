@@ -41,10 +41,10 @@ end
 if type -q eza
     alias ls='eza'
     alias l='eza'
-    alias ll='eza -l --icons'
+    alias ll='eza -l --icons=auto'
     alias lll='eza -l | less'
-    alias lla='eza -la --icons'
-    alias llt='eza -T --icons'
+    alias lla='eza -la --icons=auto'
+    alias llt='eza -T --icons=auto'
     alias llfu='eza -bghHliS --git'
 else
     alias l='ls -1A'         # Lists in one column, hidden files.

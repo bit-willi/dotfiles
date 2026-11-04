@@ -74,6 +74,11 @@ def set_bar(hidden):
 
 
 def main():
+    # A previous session may have ended while this helper owned bar-off.
+    # Its in-memory ownership is gone after reboot, so restore the bar first.
+    if FLAG.exists():
+        set_bar(False)
+
     active = None
     since = None
     owned = False

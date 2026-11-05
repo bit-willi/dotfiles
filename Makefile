@@ -40,8 +40,6 @@ install-deps:
 	sudo install -Dm0755 "$(CURDIR)/usr/local/libexec/enable-intel-turbo" /usr/local/libexec/enable-intel-turbo
 	sudo install -Dm0644 "$(CURDIR)/etc/systemd/system/enable-intel-turbo.service" /etc/systemd/system/enable-intel-turbo.service
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/easyeffects.service" "$$HOME/.config/systemd/user/easyeffects.service"
-	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/omarchy-fullscreen-bar.service" "$$HOME/.config/systemd/user/omarchy-fullscreen-bar.service"
-	install -Dm0755 "$(CURDIR)/dot_local/bin/executable_omarchy-fullscreen-bar" "$$HOME/.local/bin/omarchy-fullscreen-bar"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-google-drive.service" "$$HOME/.config/systemd/user/rclone-google-drive.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-drive.service" "$$HOME/.config/systemd/user/rclone-icloud-drive.service"
 	install -Dm0644 "$(CURDIR)/dot_config/systemd/user/rclone-icloud-photos.service" "$$HOME/.config/systemd/user/rclone-icloud-photos.service"
@@ -53,7 +51,6 @@ install-deps:
 	sudo systemctl restart keyd
 	systemctl --user daemon-reload
 	systemctl --user enable --now easyeffects.service
-	systemctl --user enable --now omarchy-fullscreen-bar.service
 	systemctl --user enable rclone-google-drive.service
 	systemctl --user enable rclone-icloud-drive.service
 	systemctl --user enable rclone-icloud-photos.service
@@ -133,7 +130,6 @@ apply diff:
 		"$(CURDIR)/scripts/ensure-tray-indicators"
 		"$(CURDIR)/scripts/ensure-flea-ui"
 		systemctl --user daemon-reload
-		systemctl --user enable --now omarchy-fullscreen-bar.service
 		"$(CURDIR)/scripts/ensure-icloud-widget"
 		"$(CURDIR)/scripts/ensure-google-drive"
 		"$(CURDIR)/scripts/ensure-icloud-drive"

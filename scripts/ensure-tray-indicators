@@ -13,7 +13,7 @@ fi
 
 # Keep the cloned tray current with Omarchy. Wrap the stock indicators so their
 # clicks work inside a user plugin, which has no access to first-party services.
-python3 - "$stock_dir/Tray.qml" "$plugin_dir/Tray.qml" <<'PY'
+if ! python3 - "$stock_dir/Tray.qml" "$plugin_dir/Tray.qml" <<'PY'
 from pathlib import Path
 import sys
 
@@ -34,7 +34,7 @@ changes = {
 expected = [1, 1, 1, 2, 2]
 for (old, new), count in zip(changes.items(), expected):
     if source.count(old) != count:
-        raise SystemExit(f"Omarchy tray layout changed: expected {count} matches for {old!r}")
+        raise SystemExit(1)
     source = source.replace(old, new)
 
 old = "readonly property int drawerCount: drawerItems.length"
@@ -45,7 +45,7 @@ assert source.count(old) == 1
 source = source.replace(old, "readonly property int drawerExtent: drawerItems.length * trayItemExtent + indicatorEntries.length * Style.bar.statusSlot")
 old = "  property bool expanded: false\n"
 assert source.count(old) == 1
-source = source.replace(old, old + '''  readonly property var indicatorEntries: ["Dictation", "ScreenRecording", "Reminder", "NightLight", "Dnd", "StayAwake"]
+source = source.replace(old, old + '''  readonly property var indicatorEntries: ["ScreenRecording", "Reminder", "NightLight", "Dnd", "StayAwake"]
   property bool drawerPinnedOpen: false
   readonly property bool revealInactiveIndicators: expanded
   signal refreshRequested()
@@ -76,6 +76,25 @@ source = source.replace(old, '''            Repeater {
 ''' + old)
 if not target.exists() or target.read_text() != source:
     target.write_text(source)
+PY
+then
+  if ! grep -Fq 'readonly property var indicatorEntries:' "$plugin_dir/Tray.qml"; then
+    echo "Omarchy changed its tray layout and no compatible local tray exists." >&2
+    exit 1
+  fi
+  echo "Omarchy changed its tray layout; keeping the existing local tray." >&2
+fi
+
+# Remove the indicator dropped by Omarchy from an already-installed tray.
+python3 - "$plugin_dir/Tray.qml" <<'PY'
+from pathlib import Path
+import sys
+
+target = Path(sys.argv[1])
+source = target.read_text()
+updated = source.replace('"Dictation", ', '')
+if updated != source:
+    target.write_text(updated)
 PY
 
 install -m0644 "$(dirname "$0")/TrayIndicator.qml" "$plugin_dir/TrayIndicator.qml"

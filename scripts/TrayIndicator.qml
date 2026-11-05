@@ -31,9 +31,6 @@ Item {
   function activate() {
     if (!bar) return
     switch (indicatorName) {
-    case "Dictation":
-      bar.run("omarchy-voxtype-config")
-      break
     case "ScreenRecording":
       if (!recordingProbe.running) recordingProbe.running = true
       break

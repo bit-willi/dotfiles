@@ -74,3 +74,18 @@ make apply
 
 Private SSH material is never stored in Git. The templates retrieve existing
 Bitwarden attachments during `chezmoi apply`.
+
+## Disk cleanup
+
+Run `disk-cleanup` to review disk and Btrfs usage. `disk-cleanup deep` also
+measures the Btrfs-exclusive size of large caches, which can differ from `du`
+because of compression and shared extents. `disk-cleanup clean` keeps two Pacman
+package versions, reduces old journals, and prunes dangling Docker images and
+build cache older than seven days. For more space, `disk-cleanup images` also
+removes unused Docker images older than seven days; local images may need to be
+rebuilt afterward. These commands leave Docker volumes, containers, Trash, and
+project files untouched.
+
+Snapper's existing hourly timer manages root snapshots. A routine Btrfs balance
+is not needed for these cleanups; review `btrfs filesystem usage /` if free space
+does not increase after deleting data.

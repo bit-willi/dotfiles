@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: disk-cleanup [report|deep|clean|images]
+
+  report  Show disk/Btrfs usage and reclaimable package/Docker space (default).
+  deep    Also measure Btrfs-exclusive space in the largest caches (slow).
+  clean   Keep two Pacman package versions; vacuum old journals and dangling
+          Docker images/build cache older than seven days.
+  images  Run clean, then remove all unused Docker images older than seven days.
+
+Docker volumes, containers, Trash, and application data are never removed.
+Run clean/images in an interactive terminal so sudo can prompt if needed.
+EOF
+}
+
+report() {
+  df -h /
+  if [[ "$(findmnt -no FSTYPE /)" == btrfs ]]; then
+    printf '\nBtrfs allocation:\n'
+    btrfs filesystem usage / 2>&1
+  fi
+  printf '\nLocal caches and Trash:\n'
+  for path in /var/cache/pacman/pkg "$HOME/.cache" "$HOME/.local/share/docker" \
+    "$HOME/.config/pos-studio-desktop/execution-jails" "$HOME/.local/share/Trash"; do
+    if [[ -d "$path" ]]; then
+      du -sh -- "$path" 2>/dev/null || true
+    fi
+  done
+  printf '\nPacman candidates (two versions retained):\n'
+  paccache -d -k2
+  printf '\nJournals:\n'
+  journalctl --disk-usage
+  if systemctl is-active --quiet snapper-cleanup.timer; then
+    printf '\nSnapper root snapshot cleanup timer: active\n'
+  fi
+  if docker info >/dev/null 2>&1; then
+    printf '\nDocker (reclaimable volumes are shown for review only):\n'
+    docker system df
+  fi
+}
+
+deep() {
+  report
+  if [[ "$(findmnt -no FSTYPE /)" != btrfs ]]; then
+    return
+  fi
+  printf '\nBtrfs data referenced/exclusive by user caches:\n'
+  btrfs filesystem du -s "$HOME/.cache" "$HOME/.local/share/docker" \
+    "$HOME/.config/pos-studio-desktop/execution-jails"
+}
+
+clean() {
+  if [[ ! -t 0 ]]; then
+    echo 'Run cleanup in an interactive terminal for the sudo password prompt.' >&2
+    exit 2
+  fi
+
+  omarchy update pkg prune
+  sudo journalctl --vacuum-size=500M
+  if docker info >/dev/null 2>&1; then
+    docker image prune -f --filter until=168h
+    docker builder prune -f --filter until=168h
+  fi
+}
+
+case "${1:-report}" in
+  report) report ;;
+  deep) deep ;;
+  clean) clean; report ;;
+  images)
+    clean
+    if docker info >/dev/null 2>&1; then
+      docker image prune -a -f --filter until=168h
+    fi
+    report
+    ;;
+  -h|--help|help) usage ;;
+  *) usage >&2; exit 2 ;;
+esac

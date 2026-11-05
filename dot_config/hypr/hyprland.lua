@@ -9,7 +9,6 @@ require("default.hypr.omarchy")
 -- Personal overrides load after Omarchy defaults, so package updates can
 -- improve the defaults without rewriting these settings.
 require("hypr.monitors")
-require("hypr.workspaces")
 require("hypr.input")
 require("hypr.bindings")
 require("hypr.looknfeel")

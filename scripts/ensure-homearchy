@@ -93,9 +93,9 @@ def configure_engine() -> tuple[Path, str]:
         '      "grid_rows = 2\\n" +\n'
         '      "keys = \\"uijk\\"\\n\\n" +\n'
         '      "[recursive_grid.hotkeys]\\n" +\n'
-        '      "\\\"m\\\" = [\\\"action left_click\\\", \\"idle\\\"]\\n" +\n'
-        '      "\\\",\\\" = [\\\"action middle_click\\\", \\"idle\\\"]\\n" +\n'
-        '      "\\\".\\\" = [\\\"action right_click\\\", \\"idle\\\"]\\n\\n" +\n'
+        '      "\\\"f\\\" = [\\\"action left_click\\\", \\"idle\\\"]\\n" +\n'
+        '      "\\\"d\\\" = [\\\"action middle_click\\\", \\"idle\\\"]\\n" +\n'
+        '      "\\\"w\\\" = [\\\"action right_click\\\", \\"idle\\\"]\\n\\n" +\n'
     )
     updated = updated[:start] + managed_recursive_grid + updated[end:]
 
